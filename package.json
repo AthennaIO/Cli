@@ -1,12 +1,12 @@
 {
-  "name": "@athenna/template",
+  "name": "@athenna/cli",
   "version": "1.0.0",
   "description": "",
   "license": "MIT",
-  "author": "João Lenon <lenon@athenna.io>",
-  "repository": "https://github.com/AthennaIO/Template.git",
-  "bugs": "https://github.com/AthennaIO/Template/issues",
-  "homepage": "https://github.com/AthennaIO/Template#readme",
+  "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
+  "repository": "https://github.com/AthennaIO/Cli.git",
+  "bugs": "https://github.com/AthennaIO/Cli/issues",
+  "homepage": "https://github.com/AthennaIO/Cli#readme",
   "scripts": {
     "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o .",
     "test": "npm run lint:fix && cross-env NODE_TS=true cross-env NODE_ENV=testing jest --verbose",
@@ -16,7 +16,9 @@
   "keywords": [
     "nodejs",
     "athenna",
-    "typescript"
+    "typescript",
+    "cli",
+    "cmd-interface"
   ],
   "devDependencies": {
     "@types/jest": "27.0.1",
