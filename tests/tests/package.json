@@ -1,37 +1,21 @@
 {
-  "name": "@athenna/cli",
+  "name": "@athenna/scaffold",
   "version": "1.0.0",
-  "description": "",
-  "license": "MIT",
-  "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
-  "repository": "https://github.com/AthennaIO/Cli.git",
-  "bugs": "https://github.com/AthennaIO/Cli/issues",
-  "homepage": "https://github.com/AthennaIO/Cli#readme",
+  "description": "The Athenna scaffold project used by 'athenna new project' command to create your project",
   "scripts": {
-    "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o .",
-    "test": "npm run lint:fix && cross-env NODE_TS=true cross-env NODE_ENV=testing jest --verbose",
-    "test:debug": "npm run lint:fix && cross-env NODE_TS=true cross-env NODE_ENV=testing cross-env DEBUG=api:* jest --verbose",
-    "lint:fix": "eslint \"{src,tests}/**/*.ts\" --fix"
-  },
-  "keywords": [
-    "nodejs",
-    "athenna",
-    "typescript",
-    "cli",
-    "cmd-interface"
-  ],
-  "bin": {
-    "athenna": "index.js"
+    "build": "rimraf dist && tsc",
+    "start": "npm run build && TS_NODE_BASEURL=./dist node -r tsconfig-paths/register dist/bootstrap/main.js",
+    "start:dev": "nodemon --quiet --ignore tests storage node_modules --watch '.' --exec 'ts-node -r tsconfig-paths/register bootstrap/main.ts' -e ts",
+    "test": "npm run lint:fix && jest --verbose",
+    "test:debug": "DEBUG=api:* && npm run test",
+    "lint:fix": "eslint \"{app,bootstrap,config,database,providers,routes,storage,tests}/**/*.ts\" --fix"
   },
   "devDependencies": {
-    "@types/chalk": "^2.2.0",
-    "@types/commander": "^2.12.2",
     "@types/jest": "27.0.1",
     "@types/node": "14.17.0",
     "@typescript-eslint/eslint-plugin": "4.31.0",
     "@typescript-eslint/parser": "4.31.0",
     "commitizen": "4.2.4",
-    "cross-env": "7.0.3",
     "cz-conventional-changelog": "3.3.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
@@ -45,11 +29,13 @@
     "husky": "3.0.9",
     "jest": "27.1.0",
     "lint-staged": "9.4.3",
+    "mongodb-memory-server": "8.4.2",
+    "nodemon": "2.0.15",
     "prettier": "2.0.5",
     "ts-jest": "27.0.5",
     "ts-loader": "9.2.3",
     "ts-node": "10.0.0",
-    "tsconfig-paths": "3.9.0",
+    "tsconfig-paths": "3.14.1",
     "typescript": "4.3.5"
   },
   "lint-staged": {
@@ -82,7 +68,7 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "coverageDirectory": "./coverage",
+    "coverageDirectory": "./tests/Coverage",
     "preset": "ts-jest",
     "testEnvironment": "node"
   },
@@ -129,6 +115,7 @@
       "dot-notation": "off",
       "camelcase": "off",
       "no-undef": "off",
+      "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-var-requires": "off",
       "no-useless-constructor": "off",
       "@typescript-eslint/no-useless-constructor": "off",
@@ -145,30 +132,20 @@
       ]
     }
   },
-  "files": [
-    "config/*.js",
-    "config/*.d.ts",
-    "config/**/*.js",
-    "config/**/*.d.ts",
-    "src/*.js",
-    "src/*.d.ts",
-    "src/**/*.js",
-    "src/**/*.d.ts",
-    "*.js",
-    "*.d.ts"
-  ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
   "dependencies": {
+    "@athenna/config": "1.0.5",
+    "@athenna/core": "1.1.1",
+    "@athenna/http": "1.1.0",
+    "@athenna/ioc": "1.0.8",
+    "@athenna/logger": "1.0.6",
     "@secjs/utils": "1.8.0",
-    "chalk": "4.1.1",
-    "commander": "9.1.0",
-    "figlet": "1.5.2",
-    "inquirer": "8.2.2",
     "reflect-metadata": "0.1.13",
-    "tscpaths": "0.0.9"
+    "rimraf": "3.0.2",
+    "source-map-support": "0.5.21"
   }
 }

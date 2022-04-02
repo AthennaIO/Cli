@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * @athenna/cli
  *
@@ -7,4 +9,6 @@
  * file that was distributed with this source code.
  */
 
-// export * from './src'
+import { Cli } from './src/Cli'
+
+new Cli().main().catch()

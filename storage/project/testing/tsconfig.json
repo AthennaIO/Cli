@@ -1,0 +1,6 @@
+{
+  "extends": "./node_modules/@athenna/core/_tsconfig",
+  "compilerOptions": {},
+  "include": ["*.ts", "**/*.ts"],
+  "exclude": ["node_modules", "build", "dist", "tests"]
+}
