@@ -20,7 +20,7 @@ describe('\n NewTest', () => {
     expect(existsSync(Path.pwd('test/config'))).toBeTruthy()
     expect(existsSync(Path.pwd('test/providers'))).toBeTruthy()
     expect(existsSync(Path.pwd('test/node_modules'))).toBeTruthy()
-  }, 20000)
+  }, 60000)
 
   afterEach(async () => {
     await Folder.safeRemove('test')
