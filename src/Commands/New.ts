@@ -60,7 +60,9 @@ export class New {
     const cloneCommand = `git clone ${this.repositoryUrl} ${projectPath}`
     const runNpmInstallCommand = `${cdCommand} && npm install --silent`
     const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env`
-    const moveProjectCommand = `${cdCommand} && mv ${projectPath} ${concretePath}`
+    const moveProjectCommand = `${cdCommand} && ${
+      sep === '/' ? 'mv' : 'move'
+    } ${projectPath} ${concretePath}`
 
     await this.runCommand(
       cloneCommand,
