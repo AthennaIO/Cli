@@ -29,9 +29,11 @@ export class Cli {
 
     this.program
       .command('new:project')
-      .argument('<project-name>', 'Your project name')
+      .argument('<name>', 'Your project name')
+      .option('-t, --type <type>', 'Current types available: http', 'http')
       .description('Scaffold a new Athenna project')
       .action(newCommand.project.bind(newCommand))
+      .createHelp()
 
     await this.program.parseAsync(process.argv)
   }

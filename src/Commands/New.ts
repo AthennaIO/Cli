@@ -10,9 +10,9 @@
 import ora from 'ora'
 import chalk from 'chalk'
 import Table from 'cli-table'
-import { resolve, sep } from 'path'
 import { existsSync } from 'fs'
 import { promisify } from 'util'
+import { resolve, sep } from 'path'
 import { Logger } from '../Utils/Logger'
 import { Folder, Path } from '@secjs/utils'
 import { NodeExecException } from '../Exceptions/NodeExecException'
@@ -37,11 +37,25 @@ export class New {
     this.repositoryUrl = 'https://github.com/AthennaIO/Scaffold.git'
   }
 
-  async project(projectName): Promise<void> {
-    this.logger.success.bold.log('[ RUNNING TASKS ]\n')
-
+  async project(projectName: string, options: any): Promise<void> {
     await Folder.safeRemove(Path.storage())
     await new Folder(Path.storage()).create()
+
+    if (!this[options.type]) {
+      console.log(
+        `${chalk.bold.red('[ error ]')} The project type "${
+          options.type
+        }" doesnt exist. Try running "athenna new:project --help" to se the available project types`,
+      )
+
+      return
+    }
+
+    await this[options.type](projectName)
+  }
+
+  async http(projectName: string) {
+    this.logger.success.bold.log('[ GENERATING HTTP SERVER ]\n')
 
     const projectPath = Path.storage(`project/${projectName}`)
     const concretePath = `${this.clientFolder}${sep}${projectName}`
