@@ -10,7 +10,7 @@
 import ora from 'ora'
 import chalk from 'chalk'
 import Table from 'cli-table'
-import { resolve } from 'path'
+import { resolve, sep } from 'path'
 import { existsSync } from 'fs'
 import { promisify } from 'util'
 import { Logger } from '../Utils/Logger'
@@ -44,7 +44,7 @@ export class New {
     await new Folder(Path.storage()).create()
 
     const projectPath = Path.storage(`project/${projectName}`)
-    const concretePath = `${this.clientFolder}/${projectName}`
+    const concretePath = `${this.clientFolder}${sep}${projectName}`
 
     if (existsSync(concretePath)) {
       console.log(

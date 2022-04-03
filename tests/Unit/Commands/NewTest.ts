@@ -15,9 +15,11 @@ describe('\n NewTest', () => {
   it('should be able to create a new project', async () => {
     await new New().project('test')
 
+    expect(existsSync(Path.pwd('test/.env'))).toBeTruthy()
     expect(existsSync(Path.pwd('test/app'))).toBeTruthy()
     expect(existsSync(Path.pwd('test/config'))).toBeTruthy()
     expect(existsSync(Path.pwd('test/providers'))).toBeTruthy()
+    expect(existsSync(Path.pwd('test/node_modules'))).toBeTruthy()
   }, 20000)
 
   afterEach(async () => {
