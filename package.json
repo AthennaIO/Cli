@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
@@ -149,10 +149,10 @@
     }
   },
   "files": [
-    "config/*.js",
-    "config/*.d.ts",
-    "config/**/*.js",
-    "config/**/*.d.ts",
+    "templates/*.js",
+    "templates/*.d.ts",
+    "templates/**/*.js",
+    "templates/**/*.d.ts",
     "src/*.js",
     "src/*.d.ts",
     "src/**/*.js",
