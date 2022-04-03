@@ -109,9 +109,6 @@ export class New {
 
       spinner.succeed(log)
     } catch (err) {
-      console.log(err.name)
-      console.log(err.message)
-      console.log(err.stack)
       spinner.fail(log)
 
       throw new NodeExecException(command)
