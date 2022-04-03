@@ -11,6 +11,7 @@ import figlet from 'figlet'
 import { Command } from 'commander'
 import { New } from './Commands/New'
 import { version } from '../package.json'
+import chalkRainbow from 'chalk-rainbow'
 
 export class Cli {
   private program: Command
@@ -18,7 +19,7 @@ export class Cli {
   public constructor() {
     this.program = new Command()
 
-    console.log(figlet.textSync('Athenna'))
+    console.log(chalkRainbow(figlet.textSync('Athenna')))
 
     this.program.version(`v${version}`, '-v, --version')
   }
@@ -27,8 +28,9 @@ export class Cli {
     const newCommand = new New()
 
     this.program
-      .command('new')
+      .command('new:project')
       .argument('<project-name>', 'Your project name')
+      .description('Scaffold a new Athenna project')
       .action(newCommand.project.bind(newCommand))
 
     await this.program.parseAsync(process.argv)
