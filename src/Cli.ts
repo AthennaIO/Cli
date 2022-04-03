@@ -28,7 +28,7 @@ export class Cli {
     const newCommand = new New()
 
     this.program
-      .command('new:project')
+      .command('new')
       .argument('<name>', 'Your project name')
       .option('-t, --type <type>', 'Current types available: http', 'http')
       .description('Scaffold a new Athenna project')
