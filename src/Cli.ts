@@ -45,6 +45,7 @@ export class Cli {
       .option('-t, --type <type>', 'Current types available: http', 'http')
       .description('Scaffold a new Athenna project')
       .action(newCommand.project.bind(newCommand))
+      .showHelpAfterError()
       .createHelp()
 
     this.program
@@ -59,6 +60,7 @@ export class Cli {
         'Make a new controller file inside app/Http/Controllers directory',
       )
       .action(makeCommand.controller.bind(makeCommand))
+      .showHelpAfterError()
       .createHelp()
 
     await this.program.parseAsync(process.argv)

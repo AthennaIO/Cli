@@ -8,24 +8,28 @@
  */
 
 import ejs from 'ejs'
-import { Logger } from '../Utils/Logger'
-import { File, Folder, Path, String } from '@secjs/utils'
-import { CtxLogger } from '../Utils/CtxLogger'
-import { existsSync } from 'fs'
+import chalk from 'chalk'
+
 import { parse } from 'path'
+import { existsSync } from 'fs'
+import { Logger } from '@athenna/logger'
+import { File, Folder, Path, String } from '@secjs/utils'
 
 export class Make {
+  private readonly logger: Logger
   private readonly clientFolder: string
   private readonly templatesFolder: Folder
 
   public constructor(clientFolder: string) {
     this.clientFolder = clientFolder
 
+    this.logger = new Logger()
+
     this.templatesFolder = new Folder(Path.pwd('templates')).loadSync()
   }
 
   async controller(name: string, options: any): Promise<void> {
-    new Logger().success.bold.log('[ MAKING CONTROLLER ]\n')
+    console.log(chalk.bold.green('[ MAKING CONTROLLER ]\n'))
 
     if (name.includes('Controller') || name.includes('Controllers')) {
       name = name.split('Controller')[0]
@@ -34,7 +38,7 @@ export class Make {
     const template = this.getTemplate('__name__Controller', options)
 
     if (!template) {
-      CtxLogger.error(
+      this.logger.error(
         `Template for extension ({yellow} "${options.extension}") has not been found.`,
       )
 
@@ -47,7 +51,7 @@ export class Make {
     const content = this.normalizeTemplate(name, template.getContentSync())
 
     if (existsSync(path)) {
-      CtxLogger.error(
+      this.logger.error(
         `The controller ({yellow} "${
           parse(path).name
         }") already exists. Try using another name.`,
@@ -58,7 +62,7 @@ export class Make {
 
     const controller = await new File(path, content).create()
 
-    CtxLogger.success(
+    this.logger.success(
       `Controller ({yellow} "${controller.name}") successfully created.`,
     )
   }

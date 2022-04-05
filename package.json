@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
@@ -150,6 +150,10 @@
     }
   },
   "files": [
+    "config/*.js",
+    "config/*.d.ts",
+    "config/**/*.js",
+    "config/**/*.d.ts",
     "templates/*.js",
     "templates/*.d.ts",
     "templates/**/*.js",
@@ -167,6 +171,7 @@
     }
   },
   "dependencies": {
+    "@athenna/logger": "1.0.9",
     "@secjs/utils": "1.8.0",
     "chalk": "4.1.1",
     "chalk-rainbow": "1.0.0",
