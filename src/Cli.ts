@@ -12,12 +12,23 @@ import { Command } from 'commander'
 import { New } from './Commands/New'
 import { version } from '../package.json'
 import chalkRainbow from 'chalk-rainbow'
+import { Make } from './Commands/Make'
+import { resolve } from 'path'
 
 export class Cli {
+  private clientFolder: string
   private program: Command
 
   public constructor() {
+    this.clientFolder = process.cwd()
+
     this.program = new Command()
+
+    /**
+     * Change all process.cwd commands to return the
+     * root path where @athenna/cli is stored
+     */
+    process.chdir(resolve(__dirname, '..'))
 
     console.log(chalkRainbow(figlet.textSync('Athenna')))
 
@@ -25,7 +36,8 @@ export class Cli {
   }
 
   async main() {
-    const newCommand = new New()
+    const newCommand = new New(this.clientFolder)
+    const makeCommand = new Make(this.clientFolder)
 
     this.program
       .command('new')
@@ -33,6 +45,20 @@ export class Cli {
       .option('-t, --type <type>', 'Current types available: http', 'http')
       .description('Scaffold a new Athenna project')
       .action(newCommand.project.bind(newCommand))
+      .createHelp()
+
+    this.program
+      .command('make:controller')
+      .argument('<name>', 'Your controller name')
+      .option(
+        '-e, --extension <extension>',
+        'Current extension available: ts, js',
+        'ts',
+      )
+      .description(
+        'Make a new controller file inside app/Http/Controllers directory',
+      )
+      .action(makeCommand.controller.bind(makeCommand))
       .createHelp()
 
     await this.program.parseAsync(process.argv)

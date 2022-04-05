@@ -12,7 +12,7 @@ import chalk from 'chalk'
 import Table from 'cli-table'
 import { existsSync } from 'fs'
 import { promisify } from 'util'
-import { resolve, sep } from 'path'
+import { sep } from 'path'
 import { Logger } from '../Utils/Logger'
 import { Folder, Path } from '@secjs/utils'
 import { NodeExecException } from '../Exceptions/NodeExecException'
@@ -24,15 +24,10 @@ export class New {
   private readonly clientFolder: string
   private readonly repositoryUrl: string
 
-  public constructor() {
-    this.clientFolder = process.cwd()
-    this.logger = new Logger()
+  public constructor(clientFolder: string) {
+    this.clientFolder = clientFolder
 
-    /**
-     * Change all process.cwd commands to return the
-     * root path where @athenna/cli is stored
-     */
-    process.chdir(resolve(__dirname, '..', '..'))
+    this.logger = new Logger()
 
     this.repositoryUrl = 'https://github.com/AthennaIO/Scaffold.git'
   }

@@ -1,0 +1,62 @@
+import { ContextContract } from '@athenna/http'
+import { Container } from 'providers/Container'
+
+export class <%= namePascal %>Controller {
+    /**
+    * Use the constructor to resolve any dependency of the Ioc container
+    *
+    * @param container
+    * @return <%= namePascal %>Controller
+    */
+    constructor(_container) {}
+
+    /**
+    * Index method
+    *
+    * @param ctx: ContextContract
+    * @return any[]
+    */
+    async index({ response }) {
+      return response.status(200).send([{}])
+    }
+
+    /**
+    * Store method
+    *
+    * @param ctx: ContextContract
+    * @return any
+    */
+    async store({ response }) {
+      return response.status(201).send({})
+    }
+
+    /**
+    * Show method
+    *
+    * @param ctx: ContextContract
+    * @return any
+    */
+    async show({ response }) {
+      return response.status(200).send({})
+    }
+
+    /**
+    * Update method
+    *
+    * @param ctx: ContextContract
+    * @return any
+    */
+    async update({ response, params }) {
+      return response.status(200).send({ id: params.id })
+    }
+
+    /**
+    * Delete method
+    *
+    * @param ctx: ContextContract
+    * @return void
+    */
+    async delete({ response }) {
+      return response.status(204)
+    }
+}
