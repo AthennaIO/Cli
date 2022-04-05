@@ -8,12 +8,12 @@
  */
 
 import figlet from 'figlet'
+import { resolve } from 'path'
 import { Command } from 'commander'
 import { New } from './Commands/New'
-import { version } from '../package.json'
-import chalkRainbow from 'chalk-rainbow'
 import { Make } from './Commands/Make'
-import { resolve } from 'path'
+import chalkRainbow from 'chalk-rainbow'
+import { version } from '../package.json'
 
 export class Cli {
   private clientFolder: string

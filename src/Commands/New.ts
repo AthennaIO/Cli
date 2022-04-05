@@ -9,25 +9,23 @@
 
 import ora from 'ora'
 import chalk from 'chalk'
+import { sep } from 'path'
 import Table from 'cli-table'
 import { existsSync } from 'fs'
 import { promisify } from 'util'
-import { sep } from 'path'
 import { Logger } from '../Utils/Logger'
 import { Folder, Path } from '@secjs/utils'
+import { CtxLogger } from '../Utils/CtxLogger'
 import { NodeExecException } from '../Exceptions/NodeExecException'
 
 const exec = promisify(require('child_process').exec)
 
 export class New {
-  private readonly logger: Logger
   private readonly clientFolder: string
   private readonly repositoryUrl: string
 
   public constructor(clientFolder: string) {
     this.clientFolder = clientFolder
-
-    this.logger = new Logger()
 
     this.repositoryUrl = 'https://github.com/AthennaIO/Scaffold.git'
   }
@@ -37,10 +35,8 @@ export class New {
     await new Folder(Path.storage()).create()
 
     if (!this[options.type]) {
-      console.log(
-        `${chalk.bold.red('[ error ]')} The project type "${
-          options.type
-        }" doesnt exist. Try running "athenna new:project --help" to se the available project types`,
+      CtxLogger.error(
+        `The project type ({yellow} "${options.type}") doesnt exist. Try running ({yellow} "athenna new:project --help") to se the available project types`,
       )
 
       return
@@ -50,16 +46,14 @@ export class New {
   }
 
   async http(projectName: string) {
-    this.logger.success.bold.log('[ GENERATING HTTP SERVER ]\n')
+    new Logger().success.bold.log('[ GENERATING HTTP SERVER ]\n')
 
     const projectPath = Path.storage(`project/${projectName}`)
     const concretePath = `${this.clientFolder}${sep}${projectName}`
 
     if (existsSync(concretePath)) {
-      console.log(
-        `${chalk.bold.red(
-          '[ error ]',
-        )} The folder ${projectName} already exists. Try another project name`,
+      CtxLogger.error(
+        `The directory ({yellow} "${projectName}") already exists. Try another project name`,
       )
 
       return
@@ -84,11 +78,7 @@ export class New {
     await this.runCommand(runNpmInstallCommand, 'Installing dependencies')
     await this.runCommand(moveProjectCommand, 'Moving project to your path')
 
-    console.log(
-      `\n${chalk.bold.green(
-        '[ success ]',
-      )} Project created at ${projectName} folder`,
-    )
+    CtxLogger.success(`Project created at ({yellow} "${projectName}") folder`)
 
     const table = new Table()
 

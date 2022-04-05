@@ -8,6 +8,7 @@
  */
 
 import chalk from 'chalk'
+import { Is } from '@secjs/utils'
 
 export class Logger {
   private chalk: any
@@ -53,6 +54,35 @@ export class Logger {
   }
 
   log(content: any) {
+    if (Is.String(content)) {
+      const matches = content.match(/\({(.*?)} (.*?)\)/g)
+
+      if (matches) {
+        matches.forEach(match => {
+          const color = match
+            .split(' ')[0]
+            .replace('(', '')
+            .replace('{', '')
+            .replace('}', '')
+
+          if (!this.chalk[color]) {
+            throw new Error(`Color ${color} does not exist`)
+          }
+
+          const message = match
+            .replace(`({${color}} `, '')
+            .replace(')', '')
+            .replace('}', '')
+
+          const replacedMatch = match
+            .replace(`({${color}} `, '')
+            .replace(`${message})`, this.chalk[color](message))
+
+          content = content.replace(match, replacedMatch)
+        })
+      }
+    }
+
     console.log(this.chalk(content))
     this.chalk = chalk
   }

@@ -8,25 +8,24 @@
  */
 
 import ejs from 'ejs'
-import chalk from 'chalk'
 import { Logger } from '../Utils/Logger'
 import { File, Folder, Path, String } from '@secjs/utils'
+import { CtxLogger } from '../Utils/CtxLogger'
+import { existsSync } from 'fs'
+import { parse } from 'path'
 
 export class Make {
-  private readonly logger: Logger
   private readonly clientFolder: string
   private readonly templatesFolder: Folder
 
   public constructor(clientFolder: string) {
     this.clientFolder = clientFolder
 
-    this.logger = new Logger()
-
     this.templatesFolder = new Folder(Path.pwd('templates')).loadSync()
   }
 
   async controller(name: string, options: any): Promise<void> {
-    this.logger.success.bold.log('[ MAKING CONTROLLER ]\n')
+    new Logger().success.bold.log('[ MAKING CONTROLLER ]\n')
 
     if (name.includes('Controller') || name.includes('Controllers')) {
       name = name.split('Controller')[0]
@@ -35,8 +34,11 @@ export class Make {
     const template = this.getTemplate('__name__Controller', options)
 
     if (!template) {
-      // TODO Log error instead of throw
-      throw new Error('File not found')
+      CtxLogger.error(
+        `Template for extension ({yellow} "${options.extension}") has not been found`,
+      )
+
+      return
     }
 
     // TODO Resolve the path always looking to his project root
@@ -44,12 +46,20 @@ export class Make {
     const path = this.getConcretePath(name, template.base)
     const content = this.normalizeTemplate(name, template.getContentSync())
 
-    const concreteController = await new File(path, content).create()
+    if (existsSync(path)) {
+      CtxLogger.error(
+        `The controller ({yellow} "${
+          parse(path).name
+        }") already exists. Try using another name`,
+      )
 
-    console.log(
-      `\n${chalk.bold.green('[ success ]')} Controller ${
-        concreteController.name
-      } successfully created inside app/Http/Controllers`,
+      return
+    }
+
+    const controller = await new File(path, content).create()
+
+    CtxLogger.success(
+      `Controller ({yellow} "${controller.name}") successfully created.`,
     )
   }
 
