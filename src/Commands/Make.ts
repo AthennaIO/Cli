@@ -59,7 +59,7 @@ export class Make {
     const controller = await new File(path, content).create()
 
     CtxLogger.success(
-      `Controller ({yellow} "${controller.name}") successfully created.`,
+      `Controller ({yellow,italic} "${controller.name}") successfully created.`,
     )
   }
 

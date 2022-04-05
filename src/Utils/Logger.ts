@@ -55,31 +55,25 @@ export class Logger {
 
   log(content: any) {
     if (Is.String(content)) {
-      const matches = content.match(/\({(.*?)} (.*?)\)/g)
+      const matches = content.match(/\({(.*?)} (.*?)\)/)
 
       if (matches) {
-        matches.forEach(match => {
-          const color = match
-            .split(' ')[0]
-            .replace('(', '')
-            .replace('{', '')
-            .replace('}', '')
+        const chalkMethodsString = matches[1].replace(/\s/g, '')
+        const chalkMethodsArray = chalkMethodsString.split(',')
+        const message = matches[2]
 
-          if (!this.chalk[color]) {
-            throw new Error(`Color ${color} does not exist`)
-          }
+        let chalk = this.chalk
 
-          const message = match
-            .replace(`({${color}} `, '')
-            .replace(')', '')
-            .replace('}', '')
+        chalkMethodsArray.forEach(chalkMethod => {
+          if (!chalk[chalkMethod]) return
 
-          const replacedMatch = match
-            .replace(`({${color}} `, '')
-            .replace(`${message})`, this.chalk[color](message))
-
-          content = content.replace(match, replacedMatch)
+          chalk = chalk[chalkMethod]
         })
+
+        content = content
+          .replace(`({${matches[1]}} `, '')
+          .replace(`({${matches[1]}}`, '')
+          .replace(`${matches[2]})`, chalk(message))
       }
     }
 
