@@ -36,7 +36,7 @@ export class New {
 
     if (!this[options.type]) {
       CtxLogger.error(
-        `The project type ({yellow} "${options.type}") doesnt exist. Try running ({yellow} "athenna new:project --help") to se the available project types`,
+        `The project type ({yellow} "${options.type}") doesnt exist. Try running ({yellow} "athenna new:project --help") to se the available project types.`,
       )
 
       return
@@ -53,7 +53,7 @@ export class New {
 
     if (existsSync(concretePath)) {
       CtxLogger.error(
-        `The directory ({yellow} "${projectName}") already exists. Try another project name`,
+        `The directory ({yellow} "${projectName}") already exists. Try another project name.`,
       )
 
       return
@@ -78,7 +78,7 @@ export class New {
     await this.runCommand(runNpmInstallCommand, 'Installing dependencies')
     await this.runCommand(moveProjectCommand, 'Moving project to your path')
 
-    CtxLogger.success(`Project created at ({yellow} "${projectName}") folder`)
+    CtxLogger.success(`Project created at ({yellow} "${projectName}") folder.`)
 
     const table = new Table()
 

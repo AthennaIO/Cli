@@ -35,7 +35,7 @@ export class Make {
 
     if (!template) {
       CtxLogger.error(
-        `Template for extension ({yellow} "${options.extension}") has not been found`,
+        `Template for extension ({yellow} "${options.extension}") has not been found.`,
       )
 
       return
@@ -50,7 +50,7 @@ export class Make {
       CtxLogger.error(
         `The controller ({yellow} "${
           parse(path).name
-        }") already exists. Try using another name`,
+        }") already exists. Try using another name.`,
       )
 
       return
