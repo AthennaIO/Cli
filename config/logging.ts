@@ -1,3 +1,5 @@
+import { Color } from '@athenna/logger'
+
 export default {
   /*
   |--------------------------------------------------------------------------
@@ -31,6 +33,7 @@ export default {
       streamType: 'stdout',
       formatterConfig: {
         level: 'INFO',
+        chalk: Color.cyan,
       },
     },
   },

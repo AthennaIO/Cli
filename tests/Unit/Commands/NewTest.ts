@@ -13,7 +13,7 @@ import { New } from '../../../src/Commands/New'
 
 describe('\n NewTest', () => {
   it('should be able to create a new http project', async () => {
-    await new New().project('test', { type: 'http' })
+    await new New(Path.pwd()).project('test', { type: 'http' })
 
     expect(existsSync(Path.pwd('test/.env'))).toBeTruthy()
     expect(existsSync(Path.pwd('test/app'))).toBeTruthy()
