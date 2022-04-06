@@ -1,0 +1,32 @@
+import { ServiceProvider } from '@athenna/ioc'
+
+export class <%= namePascal %>Provider extends ServiceProvider {
+    /**
+    * All the container bindings that should be registered.
+    */
+    public bindings = {}
+
+    /**
+    * All the container instances that should be registered.
+    */
+    public instances = {}
+
+    /**
+    * All the container singletons that should be registered.
+    */
+    public singletons = {}
+
+    /**
+    * Register any application services.
+    *
+    * @return void
+    */
+    public register() {}
+
+    /**
+    * Bootstrap any application services.
+    *
+    * @return void
+    */
+    public boot() {}
+}

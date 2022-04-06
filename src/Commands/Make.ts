@@ -73,6 +73,7 @@ export class Make {
     }
   }
 
+  // TODO Add middleware to namedMiddlewares object of HttpKernel
   async middleware(name: string, options: any): Promise<void> {
     console.log(chalk.bold.green('[ MAKING MIDDLEWARE ]\n'))
 

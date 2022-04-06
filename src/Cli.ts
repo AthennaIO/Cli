@@ -8,11 +8,12 @@
  */
 
 import figlet from 'figlet'
+import chalkRainbow from 'chalk-rainbow'
+
 import { resolve } from 'path'
 import { Command } from 'commander'
 import { New } from './Commands/New'
 import { Make } from './Commands/Make'
-import chalkRainbow from 'chalk-rainbow'
 import { version } from '../package.json'
 
 export class Cli {
