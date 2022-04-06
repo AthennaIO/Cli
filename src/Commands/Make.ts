@@ -13,6 +13,7 @@ import chalk from 'chalk'
 import { parse } from 'path'
 import { existsSync } from 'fs'
 import { Logger } from '@athenna/logger'
+import { runCommand } from '../Utils/runCommand'
 import { File, Folder, Path, String } from '@secjs/utils'
 
 export class Make {
@@ -47,7 +48,8 @@ export class Make {
 
     // TODO Resolve the path always looking to his project root
     // TODO Maybe find for the package.json file in getConcretePath
-    const path = this.getConcretePath(name, template.base)
+    const normalizedName = this.normalizeName(name, template.base)
+    const path = this.getConcretePath(`app/Http/Controllers/${normalizedName}`)
     const content = this.normalizeTemplate(name, template.getContentSync())
 
     if (existsSync(path)) {
@@ -65,6 +67,69 @@ export class Make {
     this.logger.success(
       `Controller ({yellow} "${controller.name}") successfully created.`,
     )
+
+    if (options.lint) {
+      await this.runEslintOnFile('Controller', controller.path)
+    }
+  }
+
+  async middleware(name: string, options: any): Promise<void> {
+    console.log(chalk.bold.green('[ MAKING MIDDLEWARE ]\n'))
+
+    if (name.includes('Middleware') || name.includes('Middlewares')) {
+      name = name.split('Middleware')[0]
+    }
+
+    const template = this.getTemplate('__name__Middleware', options)
+
+    if (!template) {
+      this.logger.error(
+        `Template for extension ({yellow} "${options.extension}") has not been found.`,
+      )
+
+      return
+    }
+
+    // TODO Resolve the path always looking to his project root
+    // TODO Maybe find for the package.json file in getConcretePath
+    const normalizedName = this.normalizeName(name, template.base)
+    const path = this.getConcretePath(`app/Http/Middlewares/${normalizedName}`)
+    const content = this.normalizeTemplate(name, template.getContentSync())
+
+    if (existsSync(path)) {
+      this.logger.error(
+        `The middleware ({yellow} "${
+          parse(path).name
+        }") already exists. Try using another name.`,
+      )
+
+      return
+    }
+
+    const middleware = await new File(path, content).create()
+
+    this.logger.success(
+      `Middleware ({yellow} "${middleware.name}") successfully created.`,
+    )
+
+    if (options.lint) {
+      await this.runEslintOnFile('Middleware', middleware.path)
+    }
+  }
+
+  private async runEslintOnFile(resource: string, filePath: string) {
+    const { name } = parse(filePath)
+
+    try {
+      await runCommand(`npm run eslint ${filePath} -- --fix --quiet`)
+      this.logger.success(
+        `${resource} ({yellow} "${name}") successfully linted.`,
+      )
+    } catch (error) {
+      this.logger.error(
+        `Failed to lint ${resource} ({yellow} "${name}"). Please check your eslint configurations.`,
+      )
+    }
   }
 
   private getTemplate(templateName: string, options: any): File {
@@ -73,10 +138,8 @@ export class Make {
     return this.templatesFolder.files.find(f => f.base === templateName) as File
   }
 
-  private getConcretePath(name: string, baseTemplateName: string) {
-    const normalizedName = this.normalizeName(name, baseTemplateName)
-
-    return `${this.clientFolder}/app/Http/Controllers/${normalizedName}`
+  private getConcretePath(normalizedPath: string) {
+    return `${this.clientFolder}/${normalizedPath}`
   }
 
   private normalizeName(name: string, baseTemplateName: string): string {

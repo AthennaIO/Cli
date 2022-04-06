@@ -56,10 +56,27 @@ export class Cli {
         'Current extension available: ts, js',
         'ts',
       )
+      .option('--no-lint', 'Do not run eslint in the controller')
       .description(
         'Make a new controller file inside app/Http/Controllers directory',
       )
       .action(makeCommand.controller.bind(makeCommand))
+      .showHelpAfterError()
+      .createHelp()
+
+    this.program
+      .command('make:middleware')
+      .argument('<name>', 'Your middleware name')
+      .option(
+        '-e, --extension <extension>',
+        'Current extension available: ts, js',
+        'ts',
+      )
+      .option('--no-lint', 'Do not run eslint in the middleware', false)
+      .description(
+        'Make a new middleware file inside app/Http/Middlewares directory',
+      )
+      .action(makeCommand.middleware.bind(makeCommand))
       .showHelpAfterError()
       .createHelp()
 

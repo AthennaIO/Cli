@@ -12,7 +12,8 @@
     "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o .",
     "test": "npm run lint:fix && cross-env NODE_TS=true cross-env NODE_ENV=testing jest --verbose",
     "test:debug": "npm run lint:fix && cross-env NODE_TS=true cross-env NODE_ENV=testing cross-env DEBUG=api:* jest --verbose",
-    "lint:fix": "eslint \"{src,tests}/**/*.ts\" --fix"
+    "eslint": "eslint",
+    "lint:fix": "npm run eslint \"{src,tests}/**/!(*.d)*.ts\" --fix"
   },
   "keywords": [
     "nodejs",
@@ -133,6 +134,7 @@
       "dot-notation": "off",
       "camelcase": "off",
       "no-undef": "off",
+      "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-var-requires": "off",
       "no-useless-constructor": "off",
       "@typescript-eslint/no-useless-constructor": "off",

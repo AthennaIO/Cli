@@ -12,10 +12,16 @@ import { Folder, Path } from '@secjs/utils'
 import { Make } from '../../../src/Commands/Make'
 
 describe('\n MakeTest', () => {
-  it('should be able to create a new http project', async () => {
+  it('should be able to create a controller file', async () => {
     await new Make(Path.storage()).controller('TestControllers', { extension: 'ts' })
 
     expect(existsSync(Path.storage('app/Http/Controllers/TestController.ts'))).toBeTruthy()
+  }, 60000)
+
+  it('should be able to create a middleware file', async () => {
+    await new Make(Path.storage()).middleware('TestMiddlewares', { extension: 'ts' })
+
+    expect(existsSync(Path.storage('app/Http/Middlewares/TestMiddleware.ts'))).toBeTruthy()
   }, 60000)
 
   afterEach(async () => {

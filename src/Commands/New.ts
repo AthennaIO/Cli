@@ -7,18 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import ora from 'ora'
 import chalk from 'chalk'
 import Table from 'cli-table'
 
 import { sep } from 'path'
 import { existsSync } from 'fs'
-import { promisify } from 'util'
 import { Logger } from '@athenna/logger'
 import { Folder, Path } from '@secjs/utils'
-import { NodeExecException } from '../Exceptions/NodeExecException'
-
-const exec = promisify(require('child_process').exec)
+import { runCommand } from '../Utils/runCommand'
 
 export class New {
   private readonly logger: Logger
@@ -68,18 +64,18 @@ export class New {
     const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env`
     const moveProjectCommand = `mv ${projectPath} ${concretePath}`
 
-    await this.runCommand(
+    await runCommand(
       cloneCommand,
       `Cloning scaffold project from ${this.repositoryUrl}`,
     )
 
-    await this.runCommand(
+    await runCommand(
       rmGitAndCopyEnv,
       'Removing defaults and creating .env file from .env.example',
     )
 
-    await this.runCommand(runNpmInstallCommand, 'Installing dependencies')
-    await this.runCommand(moveProjectCommand, 'Moving project to your path')
+    await runCommand(runNpmInstallCommand, 'Installing dependencies')
+    await runCommand(moveProjectCommand, 'Moving project to your path')
 
     console.log('\n')
     this.logger.success(
@@ -98,25 +94,5 @@ export class New {
     )
 
     console.log(`\n${table.toString()}`)
-  }
-
-  private async runCommand(command: string, log?: string) {
-    const spinner = ora(log)
-
-    if (log) {
-      spinner.color = 'yellow'
-
-      spinner.start()
-    }
-
-    try {
-      await exec(command)
-
-      spinner.succeed(log)
-    } catch (err) {
-      spinner.fail(log)
-
-      throw new NodeExecException(command)
-    }
   }
 }

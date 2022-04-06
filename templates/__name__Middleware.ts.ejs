@@ -1,0 +1,50 @@
+import {
+  HandleContextContract,
+  InterceptContextContract,
+  TerminateContextContract,
+  MiddlewareContract,
+} from '@athenna/http'
+
+import { Container } from 'providers/Container'
+
+export class <%= namePascal %>Middleware implements MiddlewareContract {
+    /**
+    * Use the constructor to resolve any dependency of the Ioc container
+    *
+    * @param container
+    * @return <%= namePascal %>Middleware
+    */
+    constructor(_container: Container) {}
+
+    /**
+    * Handle method is executed before the request gets in your controller.
+    *
+    * @param ctx
+    * @return any
+    */
+    async handle({ next }: HandleContextContract) {
+      next()
+    }
+
+    /**
+    * Intercept method is executed before the response has been sent.
+    *
+    * @param ctx
+    * @return any
+    */
+    async intercept({ body }: InterceptContextContract) {
+      body.intercepted = true
+
+      return body
+    }
+
+    /**
+    * Terminate method is executed after the response has been sent.
+    *
+    * @param ctx
+    * @return any
+    */
+    async terminate({ next }: TerminateContextContract) {
+      next()
+    }
+}
