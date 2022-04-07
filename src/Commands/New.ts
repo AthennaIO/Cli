@@ -59,14 +59,14 @@ export class New {
     }
 
     const cdCommand = `cd ${projectPath}`
-    const cloneCommand = `git clone ${this.repositoryUrl} ${projectPath}`
+    const cloneCommand = `git clone --branch http ${this.repositoryUrl} ${projectPath}`
     const runNpmInstallCommand = `${cdCommand} && npm install --silent`
     const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env`
     const moveProjectCommand = `mv ${projectPath} ${concretePath}`
 
     await runCommand(
       cloneCommand,
-      `Cloning scaffold project from ${this.repositoryUrl}`,
+      `Cloning scaffold project from ${this.repositoryUrl} in branch http`,
     )
 
     await runCommand(

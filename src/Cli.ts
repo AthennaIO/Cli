@@ -54,7 +54,7 @@ export class Cli {
       .argument('<name>', 'Your controller name')
       .option(
         '-e, --extension <extension>',
-        'Current extension available: ts, js',
+        'Current extension available: ts',
         'ts',
       )
       .option('--no-lint', 'Do not run eslint in the controller')
@@ -70,7 +70,7 @@ export class Cli {
       .argument('<name>', 'Your middleware name')
       .option(
         '-e, --extension <extension>',
-        'Current extension available: ts, js',
+        'Current extension available: ts',
         'ts',
       )
       .option('--no-lint', 'Do not run eslint in the middleware', false)
