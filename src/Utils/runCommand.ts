@@ -9,9 +9,10 @@
 
 import ora from 'ora'
 import { promisify } from 'util'
+import { exec as ChildProcessExec } from 'child_process'
 import { NodeExecException } from '../Exceptions/NodeExecException'
 
-const exec = promisify(require('child_process').exec)
+const exec = promisify(ChildProcessExec)
 
 export async function runCommand(command: string, log?: string) {
   const spinner = ora(log)

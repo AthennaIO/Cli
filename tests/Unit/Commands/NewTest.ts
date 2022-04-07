@@ -8,10 +8,14 @@
  */
 
 import { existsSync } from 'fs'
-import { Folder, Path } from '@secjs/utils'
+import { Config, Folder, Path } from '@secjs/utils'
 import { New } from '../../../src/Commands/New'
 
 describe('\n NewTest', () => {
+  beforeAll(async () => {
+    await new Config().safeLoad(Path.config('logging'))
+  })
+
   it('should be able to create a new http project', async () => {
     await new New(Path.pwd()).project('test', { type: 'http' })
 

@@ -15,6 +15,7 @@ import { Command } from 'commander'
 import { New } from './Commands/New'
 import { Make } from './Commands/Make'
 import { version } from '../package.json'
+import { Config, Path } from '@secjs/utils'
 
 export class Cli {
   private clientFolder: string
@@ -37,6 +38,8 @@ export class Cli {
   }
 
   async main() {
+    await new Config().safeLoad(Path.config())
+
     const newCommand = new New(this.clientFolder)
     const makeCommand = new Make(this.clientFolder)
 

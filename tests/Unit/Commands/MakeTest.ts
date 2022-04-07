@@ -8,10 +8,14 @@
  */
 
 import { existsSync } from 'fs'
-import { Folder, Path } from '@secjs/utils'
+import { Config, Folder, Path } from '@secjs/utils'
 import { Make } from '../../../src/Commands/Make'
 
 describe('\n MakeTest', () => {
+  beforeAll(async () => {
+    await new Config().safeLoad(Path.config('logging'))
+  })
+
   it('should be able to create a controller file', async () => {
     await new Make(Path.storage()).controller('TestControllers', { extension: 'ts' })
 
