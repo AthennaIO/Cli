@@ -173,8 +173,8 @@
     }
   },
   "dependencies": {
-    "@athenna/logger": "1.1.2",
-    "@secjs/utils": "1.8.2",
+    "@athenna/logger": "1.1.4",
+    "@secjs/utils": "1.8.3",
     "chalk": "4.1.1",
     "chalk-rainbow": "1.0.0",
     "cli-table": "0.3.11",
