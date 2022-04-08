@@ -61,7 +61,7 @@ export class New {
     const cdCommand = `cd ${projectPath}`
     const cloneCommand = `git clone --branch http ${this.repositoryUrl} ${projectPath}`
     const runNpmInstallCommand = `${cdCommand} && npm install --silent`
-    const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env`
+    const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env && cp .env.example .env.test`
     const moveProjectCommand = `mv ${projectPath} ${concretePath}`
 
     await runCommand(
@@ -71,7 +71,7 @@ export class New {
 
     await runCommand(
       rmGitAndCopyEnv,
-      'Removing defaults and creating .env file from .env.example',
+      'Removing defaults and creating .env/.env.test files from .env.example',
     )
 
     await runCommand(runNpmInstallCommand, 'Installing dependencies')
