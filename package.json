@@ -12,8 +12,7 @@
     "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o .",
     "test": "npm run lint:fix && cross-env NODE_TS=true cross-env NODE_ENV=testing jest --verbose",
     "test:debug": "npm run lint:fix && cross-env NODE_TS=true cross-env NODE_ENV=testing cross-env DEBUG=api:* jest --verbose",
-    "eslint": "eslint",
-    "lint:fix": "npm run eslint \"{src,tests}/**/!(*.d)*.ts\" --fix"
+    "lint:fix": "eslint \"{src,tests}/**/!(*.d)*.ts\" --fix"
   },
   "keywords": [
     "nodejs",
