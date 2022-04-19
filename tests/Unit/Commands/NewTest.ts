@@ -8,8 +8,8 @@
  */
 
 import { existsSync } from 'fs'
+import { New } from 'src/Commands/New'
 import { Config, Folder, Path } from '@secjs/utils'
-import { New } from '../../../src/Commands/New'
 
 describe('\n NewTest', () => {
   beforeAll(async () => {

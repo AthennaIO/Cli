@@ -1,6 +1,6 @@
 # Cli ⌨️
 
-> Template for new projects
+> Athenna CLI to create new projects and install components.
 
 [![Git Hubfollowers](https://img.shields.io/github/followers/athennaio.svg?style=social&label=Follow&maxAge=2592000)](https://github.com/athennaio?tab=followers)
 [![GitHub stars](https://img.shields.io/github/stars/athennaio/cli.svg?style=social&label=Star&maxAge=2592000)](https://github.com/athennaio/cli/stargazers/)

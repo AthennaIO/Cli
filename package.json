@@ -1,7 +1,7 @@
 {
   "name": "@athenna/cli",
   "version": "1.0.2",
-  "description": "",
+  "description": "Athenna CLI to create new projects and install components.",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
   "repository": "https://github.com/AthennaIO/Cli.git",
@@ -156,10 +156,6 @@
     "config/*.d.ts",
     "config/**/*.js",
     "config/**/*.d.ts",
-    "templates/*.js",
-    "templates/*.d.ts",
-    "templates/**/*.js",
-    "templates/**/*.d.ts",
     "src/*.js",
     "src/*.d.ts",
     "src/**/*.js",
@@ -173,7 +169,7 @@
     }
   },
   "dependencies": {
-    "@athenna/logger": "1.1.7",
+    "@athenna/logger": "1.1.8",
     "@secjs/utils": "1.8.3",
     "chalk": "4.1.1",
     "chalk-rainbow": "1.0.0",

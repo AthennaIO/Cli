@@ -13,7 +13,6 @@ import chalkRainbow from 'chalk-rainbow'
 import { resolve } from 'path'
 import { Command } from 'commander'
 import { New } from './Commands/New'
-import { Make } from './Commands/Make'
 import { version } from '../package.json'
 import { Config, Path } from '@secjs/utils'
 
@@ -38,10 +37,9 @@ export class Cli {
   }
 
   async main() {
-    await new Config().safeLoad(Path.config())
+    await new Config().safeLoad(Path.config('logging'))
 
     const newCommand = new New(this.clientFolder)
-    const makeCommand = new Make(this.clientFolder)
 
     this.program
       .command('new')
@@ -49,38 +47,6 @@ export class Cli {
       .option('-t, --type <type>', 'Current types available: http', 'http')
       .description('Scaffold a new Athenna project')
       .action(newCommand.project.bind(newCommand))
-      .showHelpAfterError()
-      .createHelp()
-
-    this.program
-      .command('make:controller')
-      .argument('<name>', 'Your controller name')
-      .option(
-        '-e, --extension <extension>',
-        'Current extension available: ts',
-        'ts',
-      )
-      .option('--no-lint', 'Do not run eslint in the controller')
-      .description(
-        'Make a new controller file inside app/Http/Controllers directory',
-      )
-      .action(makeCommand.controller.bind(makeCommand))
-      .showHelpAfterError()
-      .createHelp()
-
-    this.program
-      .command('make:middleware')
-      .argument('<name>', 'Your middleware name')
-      .option(
-        '-e, --extension <extension>',
-        'Current extension available: ts',
-        'ts',
-      )
-      .option('--no-lint', 'Do not run eslint in the middleware', false)
-      .description(
-        'Make a new middleware file inside app/Http/Middlewares directory',
-      )
-      .action(makeCommand.middleware.bind(makeCommand))
       .showHelpAfterError()
       .createHelp()
 
