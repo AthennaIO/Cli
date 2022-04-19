@@ -8,16 +8,28 @@
  */
 
 import figlet from 'figlet'
+import chalkRainbow from 'chalk-rainbow'
+
+import { resolve } from 'path'
 import { Command } from 'commander'
 import { New } from './Commands/New'
 import { version } from '../package.json'
-import chalkRainbow from 'chalk-rainbow'
+import { Config, Path } from '@secjs/utils'
 
 export class Cli {
+  private clientFolder: string
   private program: Command
 
   public constructor() {
+    this.clientFolder = process.cwd()
+
     this.program = new Command()
+
+    /**
+     * Change all process.cwd commands to return the
+     * root path where @athenna/cli is stored
+     */
+    process.chdir(resolve(__dirname, '..'))
 
     console.log(chalkRainbow(figlet.textSync('Athenna')))
 
@@ -25,7 +37,9 @@ export class Cli {
   }
 
   async main() {
-    const newCommand = new New()
+    await new Config().safeLoad(Path.config('logging'))
+
+    const newCommand = new New(this.clientFolder)
 
     this.program
       .command('new')
@@ -33,6 +47,7 @@ export class Cli {
       .option('-t, --type <type>', 'Current types available: http', 'http')
       .description('Scaffold a new Athenna project')
       .action(newCommand.project.bind(newCommand))
+      .showHelpAfterError()
       .createHelp()
 
     await this.program.parseAsync(process.argv)

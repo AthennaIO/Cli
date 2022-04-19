@@ -1,7 +1,7 @@
 {
   "name": "@athenna/cli",
-  "version": "1.0.1",
-  "description": "",
+  "version": "1.0.2",
+  "description": "Athenna CLI to create new projects and install components.",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
   "repository": "https://github.com/AthennaIO/Cli.git",
@@ -12,7 +12,7 @@
     "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o .",
     "test": "npm run lint:fix && cross-env NODE_TS=true cross-env NODE_ENV=testing jest --verbose",
     "test:debug": "npm run lint:fix && cross-env NODE_TS=true cross-env NODE_ENV=testing cross-env DEBUG=api:* jest --verbose",
-    "lint:fix": "eslint \"{src,tests}/**/*.ts\" --fix"
+    "lint:fix": "eslint \"{src,tests}/**/!(*.d)*.ts\" --fix"
   },
   "keywords": [
     "nodejs",
@@ -28,6 +28,7 @@
     "@types/chalk": "2.2.0",
     "@types/cli-table": "0.3.0",
     "@types/commander": "2.12.2",
+    "@types/ejs": "3.1.0",
     "@types/jest": "27.0.1",
     "@types/node": "14.17.0",
     "@types/ora": "3.2.0",
@@ -132,6 +133,7 @@
       "dot-notation": "off",
       "camelcase": "off",
       "no-undef": "off",
+      "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/no-var-requires": "off",
       "no-useless-constructor": "off",
       "@typescript-eslint/no-useless-constructor": "off",
@@ -149,10 +151,10 @@
     }
   },
   "files": [
-    "templates/*.js",
-    "templates/*.d.ts",
-    "templates/**/*.js",
-    "templates/**/*.d.ts",
+    "config/*.js",
+    "config/*.d.ts",
+    "config/**/*.js",
+    "config/**/*.d.ts",
     "src/*.js",
     "src/*.d.ts",
     "src/**/*.js",
@@ -166,11 +168,13 @@
     }
   },
   "dependencies": {
-    "@secjs/utils": "1.8.0",
+    "@athenna/logger": "1.1.8",
+    "@secjs/utils": "1.8.3",
     "chalk": "4.1.1",
     "chalk-rainbow": "1.0.0",
     "cli-table": "0.3.11",
     "commander": "9.1.0",
+    "ejs": "3.1.6",
     "figlet": "1.5.2",
     "inquirer": "8.2.2",
     "ora": "5.4.1",

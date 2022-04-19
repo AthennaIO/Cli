@@ -7,32 +7,24 @@
  * file that was distributed with this source code.
  */
 
-import ora from 'ora'
 import chalk from 'chalk'
 import Table from 'cli-table'
-import { existsSync } from 'fs'
-import { promisify } from 'util'
-import { resolve, sep } from 'path'
-import { Logger } from '../Utils/Logger'
-import { Folder, Path } from '@secjs/utils'
-import { NodeExecException } from '../Exceptions/NodeExecException'
 
-const exec = promisify(require('child_process').exec)
+import { sep } from 'path'
+import { existsSync } from 'fs'
+import { Logger } from '@athenna/logger'
+import { Folder, Path } from '@secjs/utils'
+import { runCommand } from '../Utils/runCommand'
 
 export class New {
   private readonly logger: Logger
   private readonly clientFolder: string
   private readonly repositoryUrl: string
 
-  public constructor() {
-    this.clientFolder = process.cwd()
-    this.logger = new Logger()
+  public constructor(clientFolder: string) {
+    this.clientFolder = clientFolder
 
-    /**
-     * Change all process.cwd commands to return the
-     * root path where @athenna/cli is stored
-     */
-    process.chdir(resolve(__dirname, '..', '..'))
+    this.logger = new Logger()
 
     this.repositoryUrl = 'https://github.com/AthennaIO/Scaffold.git'
   }
@@ -42,10 +34,8 @@ export class New {
     await new Folder(Path.storage()).create()
 
     if (!this[options.type]) {
-      console.log(
-        `${chalk.bold.red('[ error ]')} The project type "${
-          options.type
-        }" doesnt exist. Try running "athenna new:project --help" to se the available project types`,
+      this.logger.error(
+        `The project type ({yellow} "${options.type}") doesnt exist. Try running ({yellow} "athenna new:project --help") to se the available project types.`,
       )
 
       return
@@ -55,44 +45,41 @@ export class New {
   }
 
   async http(projectName: string) {
-    this.logger.success.bold.log('[ GENERATING HTTP SERVER ]\n')
+    console.log(chalk.bold.green('[ GENERATING HTTP SERVER ]\n'))
 
     const projectPath = Path.storage(`project/${projectName}`)
     const concretePath = `${this.clientFolder}${sep}${projectName}`
 
     if (existsSync(concretePath)) {
-      console.log(
-        `${chalk.bold.red(
-          '[ error ]',
-        )} The folder ${projectName} already exists. Try another project name`,
+      this.logger.error(
+        `The directory ({yellow} "${projectName}") already exists. Try another project name.`,
       )
 
       return
     }
 
     const cdCommand = `cd ${projectPath}`
-    const cloneCommand = `git clone ${this.repositoryUrl} ${projectPath}`
+    const cloneCommand = `git clone --branch http ${this.repositoryUrl} ${projectPath}`
     const runNpmInstallCommand = `${cdCommand} && npm install --silent`
-    const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env`
+    const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env && cp .env.example .env.test`
     const moveProjectCommand = `mv ${projectPath} ${concretePath}`
 
-    await this.runCommand(
+    await runCommand(
       cloneCommand,
-      `Cloning scaffold project from ${this.repositoryUrl}`,
+      `Cloning scaffold project from ${this.repositoryUrl} in branch http`,
     )
 
-    await this.runCommand(
+    await runCommand(
       rmGitAndCopyEnv,
-      'Removing defaults and creating .env file from .env.example',
+      'Removing defaults and creating .env/.env.test files from .env.example',
     )
 
-    await this.runCommand(runNpmInstallCommand, 'Installing dependencies')
-    await this.runCommand(moveProjectCommand, 'Moving project to your path')
+    await runCommand(runNpmInstallCommand, 'Installing dependencies')
+    await runCommand(moveProjectCommand, 'Moving project to your path')
 
-    console.log(
-      `\n${chalk.bold.green(
-        '[ success ]',
-      )} Project created at ${projectName} folder`,
+    console.log('\n')
+    this.logger.success(
+      `Project created at ({yellow} "${projectName}") folder.`,
     )
 
     const table = new Table()
@@ -107,25 +94,5 @@ export class New {
     )
 
     console.log(`\n${table.toString()}`)
-  }
-
-  private async runCommand(command: string, log?: string) {
-    const spinner = ora(log)
-
-    if (log) {
-      spinner.color = 'yellow'
-
-      spinner.start()
-    }
-
-    try {
-      await exec(command)
-
-      spinner.succeed(log)
-    } catch (err) {
-      spinner.fail(log)
-
-      throw new NodeExecException(command)
-    }
   }
 }
