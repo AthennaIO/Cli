@@ -31,7 +31,7 @@ export class Cli {
      */
     process.chdir(resolve(__dirname, '..'))
 
-    console.log(chalkRainbow(figlet.textSync('Athenna')))
+    process.stdout.write(chalkRainbow(figlet.textSync('Athenna')) + '\n' + '\n')
 
     this.program.version(`v${version}`, '-v, --version')
   }
@@ -44,7 +44,7 @@ export class Cli {
     this.program
       .command('new')
       .argument('<name>', 'Your project name')
-      .option('-t, --type <type>', 'Current types available: http', 'http')
+      .option('-t, --type <type>', 'Current types available: http, cli', 'http')
       .description('Scaffold a new Athenna project')
       .action(newCommand.project.bind(newCommand))
       .showHelpAfterError()
