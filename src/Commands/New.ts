@@ -95,4 +95,56 @@ export class New {
 
     console.log(`\n${table.toString()}`)
   }
+
+  async cli(projectName: string) {
+    console.log(chalk.bold.green('[ GENERATING CLI ]\n'))
+
+    const projectPath = Path.storage(`project/${projectName}`)
+    const concretePath = `${this.clientFolder}${sep}${projectName}`
+
+    if (existsSync(concretePath)) {
+      this.logger.error(
+        `The directory ({yellow} "${projectName}") already exists. Try another project name.`,
+      )
+
+      return
+    }
+
+    const cdCommand = `cd ${projectPath}`
+    const cloneCommand = `git clone --branch cli ${this.repositoryUrl} ${projectPath}`
+    const runNpmInstallCommand = `${cdCommand} && npm install --silent`
+    const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env && cp .env.example .env.test`
+    const moveProjectCommand = `mv ${projectPath} ${concretePath}`
+
+    await runCommand(
+      cloneCommand,
+      `Cloning scaffold project from ${this.repositoryUrl} in branch cli`,
+    )
+
+    await runCommand(
+      rmGitAndCopyEnv,
+      'Removing defaults and creating .env/.env.test files from .env.example',
+    )
+
+    await runCommand(runNpmInstallCommand, 'Installing dependencies')
+    await runCommand(moveProjectCommand, 'Moving project to your path')
+
+    console.log('\n')
+    this.logger.success(
+      `Project created at ({yellow} "${projectName}") folder.`,
+    )
+
+    const table = new Table()
+
+    const arrow = chalk.bold.green('❯')
+
+    table.push(
+      ['    Run following commands to get started'],
+      [
+        `    ${arrow} cd ${projectName}\n    ${arrow} npm run test\n    ${arrow} npm run artisan\n    ${arrow} npm run artisan:dev -- --help`,
+      ],
+    )
+
+    console.log(`\n${table.toString()}`)
+  }
 }
