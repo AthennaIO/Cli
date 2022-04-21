@@ -141,7 +141,7 @@ export class New {
     table.push(
       ['    Run following commands to get started'],
       [
-        `    ${arrow} cd ${projectName}\n    ${arrow} npm run test\n    ${arrow} npm run artisan\n    ${arrow} npm run artisan:dev -- --help`,
+        `    ${arrow} cd ${projectName}\n    ${arrow} npm run test\n    ${arrow} npm run start\n    ${arrow} npm run start:dev -- --help`,
       ],
     )
 

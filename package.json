@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Athenna CLI to create new projects and install components.",
   "license": "MIT",
   "author": "Victor Tesoura Júnior <txsoura@athenna.io>",
