@@ -1,5 +1,3 @@
-import { Color } from '@athenna/logger'
-
 export default {
   /*
   |--------------------------------------------------------------------------
@@ -12,7 +10,7 @@ export default {
   |
   */
 
-  default: 'cli',
+  default: 'console',
 
   /*
   |--------------------------------------------------------------------------
@@ -21,22 +19,13 @@ export default {
   |
   | Here you may configure the log channels for your application.
   |
-  | Available Drivers:
-  |   "console", "debug", "discord", "file", "null", "pino", "slack", "telegram".
-  | Available Formatters:
-  |   "cli", "simple", "nest", "json", "request", "message", "pino-pretty(only for pino driver)".
-  |
   */
 
   channels: {
-    cli: {
+    console: {
       driver: 'console',
       formatter: 'cli',
       streamType: 'stdout',
-      formatterConfig: {
-        level: 'INFO',
-        chalk: Color.cyan,
-      },
     },
   },
 }

@@ -10,48 +10,84 @@
 import chalk from 'chalk'
 import Table from 'cli-table'
 
-import { sep } from 'path'
-import { existsSync } from 'fs'
+import { sep } from 'node:path'
 import { Logger } from '@athenna/logger'
 import { Folder, Path } from '@secjs/utils'
-import { runCommand } from '../Utils/runCommand'
+
+import { CliHelper } from '#src/Helpers/CliHelper'
 
 export class New {
-  private readonly logger: Logger
-  private readonly clientFolder: string
-  private readonly repositoryUrl: string
+  /**
+   * The logger instance.
+   *
+   * @type {Logger}
+   */
+  #logger
 
-  public constructor(clientFolder: string) {
-    this.clientFolder = clientFolder
+  /**
+   * The path where the cli were called.
+   *
+   * @type {string}
+   */
+  #callPath
 
-    this.logger = new Logger()
+  /**
+   * The repository url to clone the project.
+   *
+   * @type {string}
+   */
+  #repositoryUrl
 
-    this.repositoryUrl = 'https://github.com/AthennaIO/Scaffold.git'
+  /**
+   * Creates a new instance of New.
+   *
+   * @param {string} callPath
+   */
+  constructor(callPath) {
+    this.#callPath = callPath
+
+    this.#logger = new Logger()
+
+    this.#repositoryUrl = 'https://github.com/AthennaIO/Scaffold.git'
   }
 
-  async project(projectName: string, options: any): Promise<void> {
-    await Folder.safeRemove(Path.storage())
-    await new Folder(Path.storage()).create()
+  /**
+   * The new:project command handler.
+   *
+   * @param {string} projectName
+   * @param {any} options
+   * @return {Promise<void>}
+   */
+  async project(projectName, options) {
+    await new Folder(Path.storage()).load()
 
     if (!this[options.type]) {
-      this.logger.error(
-        `The project type ({yellow} "${options.type}") doesnt exist. Try running ({yellow} "athenna new:project --help") to se the available project types.`,
+      this.#logger.error(
+        `The project type ({yellow} "${options.type}") doesnt exist. Try running ({yellow} "athenna new:project --help") to see the available project types.`,
       )
 
       return
     }
 
     await this[options.type](projectName)
+
+    await Folder.safeRemove(Path.storage())
   }
 
-  async http(projectName: string) {
+  /**
+   * The new:project -t http command handler.
+   *
+   * @param {string} projectName
+   * @return {Promise<void>}
+   */
+  async http(projectName) {
     console.log(chalk.bold.green('[ GENERATING HTTP SERVER ]\n'))
 
     const projectPath = Path.storage(`project/${projectName}`)
-    const concretePath = `${this.clientFolder}${sep}${projectName}`
+    const concretePath = `${this.#callPath}${sep}${projectName}`
 
-    if (existsSync(concretePath)) {
-      this.logger.error(
+    if (await Folder.exists(concretePath)) {
+      this.#logger.error(
         `The directory ({yellow} "${projectName}") already exists. Try another project name.`,
       )
 
@@ -59,26 +95,31 @@ export class New {
     }
 
     const cdCommand = `cd ${projectPath}`
-    const cloneCommand = `git clone --branch http ${this.repositoryUrl} ${projectPath}`
+    const cloneCommand = `git clone --branch http ${
+      this.#repositoryUrl
+    } ${projectPath}`
     const runNpmInstallCommand = `${cdCommand} && npm install --silent`
     const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env && cp .env.example .env.test`
     const moveProjectCommand = `mv ${projectPath} ${concretePath}`
 
-    await runCommand(
+    await CliHelper.runCommand(
       cloneCommand,
-      `Cloning scaffold project from ${this.repositoryUrl} in branch http`,
+      `Cloning scaffold project from ${this.#repositoryUrl} in branch http`,
     )
 
-    await runCommand(
+    await CliHelper.runCommand(
       rmGitAndCopyEnv,
       'Removing defaults and creating .env/.env.test files from .env.example',
     )
 
-    await runCommand(runNpmInstallCommand, 'Installing dependencies')
-    await runCommand(moveProjectCommand, 'Moving project to your path')
+    await CliHelper.runCommand(runNpmInstallCommand, 'Installing dependencies')
+    await CliHelper.runCommand(
+      moveProjectCommand,
+      'Moving project to your path',
+    )
 
     console.log('\n')
-    this.logger.success(
+    this.#logger.success(
       `Project created at ({yellow} "${projectName}") folder.`,
     )
 
@@ -96,14 +137,20 @@ export class New {
     console.log(`\n${table.toString()}`)
   }
 
-  async cli(projectName: string) {
+  /**
+   * The new:project -t cli command handler.
+   *
+   * @param {string} projectName
+   * @return {Promise<void>}
+   */
+  async cli(projectName) {
     console.log(chalk.bold.green('[ GENERATING CLI ]\n'))
 
     const projectPath = Path.storage(`project/${projectName}`)
-    const concretePath = `${this.clientFolder}${sep}${projectName}`
+    const concretePath = `${this.#callPath}${sep}${projectName}`
 
-    if (existsSync(concretePath)) {
-      this.logger.error(
+    if (await Folder.exists(concretePath)) {
+      this.#logger.error(
         `The directory ({yellow} "${projectName}") already exists. Try another project name.`,
       )
 
@@ -111,26 +158,31 @@ export class New {
     }
 
     const cdCommand = `cd ${projectPath}`
-    const cloneCommand = `git clone --branch cli ${this.repositoryUrl} ${projectPath}`
+    const cloneCommand = `git clone --branch cli ${
+      this.#repositoryUrl
+    } ${projectPath}`
     const runNpmInstallCommand = `${cdCommand} && npm install --silent`
     const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env && cp .env.example .env.test`
     const moveProjectCommand = `mv ${projectPath} ${concretePath}`
 
-    await runCommand(
+    await CliHelper.runCommand(
       cloneCommand,
-      `Cloning scaffold project from ${this.repositoryUrl} in branch cli`,
+      `Cloning scaffold project from ${this.#repositoryUrl} in branch cli`,
     )
 
-    await runCommand(
+    await CliHelper.runCommand(
       rmGitAndCopyEnv,
       'Removing defaults and creating .env/.env.test files from .env.example',
     )
 
-    await runCommand(runNpmInstallCommand, 'Installing dependencies')
-    await runCommand(moveProjectCommand, 'Moving project to your path')
+    await CliHelper.runCommand(runNpmInstallCommand, 'Installing dependencies')
+    await CliHelper.runCommand(
+      moveProjectCommand,
+      'Moving project to your path',
+    )
 
     console.log('\n')
-    this.logger.success(
+    this.#logger.success(
       `Project created at ({yellow} "${projectName}") folder.`,
     )
 
