@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /**
  * @athenna/cli
  *
@@ -11,10 +13,13 @@ import figlet from 'figlet'
 import chalkRainbow from 'chalk-rainbow'
 
 import { Command } from 'commander'
-import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { resolve, dirname } from 'node:path'
 import { Config, File, Path } from '@secjs/utils'
 
 import { New } from '#src/Commands/New'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export class Cli {
   /**
@@ -61,6 +66,7 @@ export class Cli {
    * @return {Promise<void>}
    */
   async main() {
+    console.log('hello')
     await new Config().safeLoad(Path.config('logging.js'))
 
     const newCommand = new New(this.#callPath)

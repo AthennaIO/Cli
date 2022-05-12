@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Athenna CLI to create new projects and install components.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -34,9 +34,6 @@
   "type": "module",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
-  "exports": {
-    ".": "./src/index.js"
-  },
   "imports": {
     "#src/*": "./src/*.js",
     "#tests/*": "./tests/*.js"
