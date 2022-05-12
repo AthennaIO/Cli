@@ -81,3 +81,5 @@ export class Cli {
     await this.#commander.parseAsync(process.argv)
   }
 }
+
+new Cli().main()
