@@ -66,7 +66,6 @@ export class Cli {
    * @return {Promise<void>}
    */
   async main() {
-    console.log('hello')
     await new Config().safeLoad(Path.config('logging.js'))
 
     const newCommand = new New(this.#callPath)
