@@ -76,7 +76,7 @@ export class Cli {
       .argument('<name>', 'Your project name.')
       .option(
         '-t, --type <type>',
-        'Current types available: http, cli.',
+        'Current types available: http, cli and slim.',
         'http',
       )
       .action(newCommand.project.bind(newCommand))
