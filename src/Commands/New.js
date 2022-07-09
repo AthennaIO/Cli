@@ -130,7 +130,7 @@ export class New {
     table.push(
       ['    Run following commands to get started'],
       [
-        `    ${arrow} cd ${projectName}\n    ${arrow} npm run test\n    ${arrow} npm run start\n    ${arrow} npm run start:dev`,
+        `    ${arrow} cd ${projectName}\n    ${arrow} npm test\n    ${arrow} npm start\n    ${arrow} npm run start:dev`,
       ],
     )
 
@@ -193,7 +193,7 @@ export class New {
     table.push(
       ['    Run following commands to get started'],
       [
-        `    ${arrow} cd ${projectName}\n    ${arrow} npm run test\n    ${arrow} npm run start\n -- --help`,
+        `    ${arrow} cd ${projectName}\n    ${arrow} npm test\n    ${arrow} npm start -- --help\n`,
       ],
     )
 
@@ -230,7 +230,7 @@ export class New {
 
     await CliHelper.runCommand(
       cloneCommand,
-      `Cloning scaffold project from ${this.#repositoryUrl} in branch cli`,
+      `Cloning scaffold project from ${this.#repositoryUrl} in branch slim`,
     )
 
     await CliHelper.runCommand(
@@ -256,7 +256,7 @@ export class New {
     table.push(
       ['    Run following commands to get started'],
       [
-        `    ${arrow} cd ${projectName}\n    ${arrow} npm run start\n -- --help`,
+        `    ${arrow} cd ${projectName}\n    ${arrow} npm start -- --help\n`,
       ],
     )
 
