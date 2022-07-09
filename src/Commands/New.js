@@ -193,7 +193,70 @@ export class New {
     table.push(
       ['    Run following commands to get started'],
       [
-        `    ${arrow} cd ${projectName}\n    ${arrow} npm run test\n    ${arrow} npm run start\n    ${arrow} npm run start:dev -- --help`,
+        `    ${arrow} cd ${projectName}\n    ${arrow} npm run test\n    ${arrow} npm run start\n -- --help`,
+      ],
+    )
+
+    console.log(`\n${table.toString()}`)
+  }
+
+  /**
+   * The new:project -t slim command handler.
+   *
+   * @param {string} projectName
+   * @return {Promise<void>}
+   */
+  async slim(projectName) {
+    console.log(chalk.bold.green('[ GENERATING SLIM ]\n'))
+
+    const projectPath = Path.storage(`project/${projectName}`)
+    const concretePath = `${this.#callPath}${sep}${projectName}`
+
+    if (await Folder.exists(concretePath)) {
+      this.#logger.error(
+        `The directory ({yellow} "${projectName}") already exists. Try another project name.`,
+      )
+
+      return
+    }
+
+    const cdCommand = `cd ${projectPath}`
+    const cloneCommand = `git clone --branch slim ${
+      this.#repositoryUrl
+    } ${projectPath}`
+    const runNpmInstallCommand = `${cdCommand} && npm install --silent`
+    const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env`
+    const moveProjectCommand = `mv ${projectPath} ${concretePath}`
+
+    await CliHelper.runCommand(
+      cloneCommand,
+      `Cloning scaffold project from ${this.#repositoryUrl} in branch cli`,
+    )
+
+    await CliHelper.runCommand(
+      rmGitAndCopyEnv,
+      'Removing defaults and creating .env file from .env.example',
+    )
+
+    await CliHelper.runCommand(runNpmInstallCommand, 'Installing dependencies')
+    await CliHelper.runCommand(
+      moveProjectCommand,
+      'Moving project to your path',
+    )
+
+    console.log('\n')
+    this.#logger.success(
+      `Project created at ({yellow} "${projectName}") folder.`,
+    )
+
+    const table = new Table()
+
+    const arrow = chalk.bold.green('❯')
+
+    table.push(
+      ['    Run following commands to get started'],
+      [
+        `    ${arrow} cd ${projectName}\n    ${arrow} npm run start\n -- --help`,
       ],
     )
 
