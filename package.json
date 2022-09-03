@@ -44,9 +44,8 @@
     "@athenna/core": "1.7.8",
     "@athenna/ioc": "1.2.3",
     "@athenna/logger": "1.2.8",
-    "@athenna/test": "1.0.8",
+    "@athenna/test": "1.0.9",
     "@secjs/utils": "1.9.7",
-    "@japa/runner": "2.0.7",
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
