@@ -1,0 +1,184 @@
+import chalk from 'chalk'
+import figlet from 'figlet'
+import chalkRainbow from 'chalk-rainbow'
+
+import { sep, isAbsolute, basename } from 'node:path'
+
+import { Command } from '@athenna/artisan'
+import { Folder, Path } from '@secjs/utils'
+import { NotEmptyFolderException } from '#app/Exceptions/NotEmptyFolderException'
+import { NotFoundProjectTypeException } from '#app/Exceptions/NotFoundProjectTypeException'
+
+export class NewCommand extends Command {
+  /**
+   * The name and signature of the console command.
+   */
+  get signature() {
+    return 'new <projectName>'
+  }
+
+  /**
+   * The console command description.
+   */
+  get description() {
+    return 'Scaffold a new Athenna project.'
+  }
+
+  /**
+   * The repository url to clone the project.
+   *
+   * @type {string}
+   */
+  get url() {
+    return 'https://github.com/AthennaIO/Scaffold.git'
+  }
+
+  /**
+   * Set additional flags in the commander instance.
+   * This method is executed when registering your command.
+   *
+   * @param {import('@athenna/artisan').Commander} commander
+   * @return {import('@athenna/artisan').Commander}
+   */
+  addFlags(commander) {
+    return commander.option(
+      '-t, --type <type>',
+      'Current types available: http, cli and slim.',
+      'http',
+    )
+  }
+
+  /**
+   * Execute the console command.
+   *
+   * @param {string} projectName
+   * @param {any} options
+   * @return {Promise<void>}
+   */
+  async handle(projectName, options) {
+    const appNameFigletColorized = chalkRainbow(figlet.textSync('Artisan'))
+
+    process.stdout.write(appNameFigletColorized + '\n' + '\n')
+
+    await new Folder(Path.storage()).load()
+
+    if (!this[options.type]) {
+      throw new NotFoundProjectTypeException(options.type)
+    }
+
+    await this[options.type](projectName)
+
+    await Folder.safeRemove(Path.storage())
+  }
+
+  /**
+   * The new:project -t http command handler.
+   *
+   * @param {string} projectName
+   * @return {Promise<void>}
+   */
+  async http(projectName) {
+    this.simpleLog(
+      `[ GENERATING HTTP SERVER ]\n`,
+      'rmNewLineStart',
+      'bold',
+      'green',
+    )
+
+    await this.cloneByBranch('http', projectName)
+
+    const arrow = chalk.bold.green('❯')
+
+    this.logTable(
+      {},
+      ['    Run following commands to get started'],
+      [
+        `    ${arrow} cd ${projectName}\n    ${arrow} npm test\n    ${arrow} npm start\n    ${arrow} npm run start:dev`,
+      ],
+    )
+  }
+
+  /**
+   * The new:project -t cli command handler.
+   *
+   * @param {string} projectName
+   * @return {Promise<void>}
+   */
+  async cli(projectName) {
+    this.simpleLog(`[ GENERATING CLI ]\n`, 'rmNewLineStart', 'bold', 'green')
+
+    await this.cloneByBranch('cli', projectName)
+
+    const arrow = chalk.bold.green('❯')
+
+    this.logTable(
+      {},
+      ['    Run following commands to get started'],
+      [
+        `    ${arrow} cd ${projectName}\n    ${arrow} npm test\n    ${arrow} npm start -- --help`,
+      ],
+    )
+  }
+
+  /**
+   * The new:project -t slim command handler.
+   *
+   * @param {string} projectName
+   * @return {Promise<void>}
+   */
+  async slim(projectName) {
+    this.simpleLog(`[ GENERATING SLIM ]\n`, 'rmNewLineStart', 'bold', 'green')
+
+    await this.cloneByBranch('slim', projectName)
+
+    const arrow = chalk.bold.green('❯')
+
+    this.logTable(
+      {},
+      ['    Run following commands to get started'],
+      [`    ${arrow} cd ${projectName}\n    ${arrow} npm start -- --help`],
+    )
+  }
+
+  /**
+   * Clone the project by branch.
+   *
+   * @param branch {string}
+   * @param projectName {string}
+   * @return {Promise<void>}
+   */
+  async cloneByBranch(branch, projectName) {
+    let projectPath = Path.storage(`project/${projectName}`)
+    let concretePath = `${Env('CALL_PATH')}${sep}${projectName}`
+
+    if (isAbsolute(projectName)) {
+      projectPath = Path.storage(`project/${basename(projectName)}`)
+      concretePath = projectName
+    }
+
+    if (await Folder.exists(concretePath)) {
+      throw new NotEmptyFolderException(concretePath)
+    }
+
+    const cdCommand = `cd ${projectPath}`
+    const cloneCommand = `git clone --branch ${branch} ${this.url} ${projectPath}`
+    const runNpmInstallCommand = `${cdCommand} && npm install --silent`
+    const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env && cp .env.example .env.test`
+    const moveProjectCommand = `mv ${projectPath} ${concretePath}`
+
+    await this.execCommand(
+      cloneCommand,
+      `Cloning scaffold project from ${this.url} in branch ${branch}`,
+    )
+    await this.execCommand(
+      rmGitAndCopyEnv,
+      'Removing defaults and creating .env/.env.test files from .env.example',
+    )
+    await this.execCommand(runNpmInstallCommand, 'Installing dependencies')
+    await this.execCommand(moveProjectCommand, 'Moving project to your path')
+
+    console.log()
+
+    this.success(`Project created at ({yellow} "${projectName}") folder.`)
+  }
+}

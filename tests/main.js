@@ -1,5 +1,5 @@
 /**
- * @athenna/cli
+ * @athenna/scaffold
  *
  * (c) João Lenon <lenon@athenna.io>
  *
@@ -7,8 +7,8 @@
  * file that was distributed with this source code.
  */
 
-import { pathToFileURL } from 'url'
 import { assert } from '@japa/assert'
+import { TestSuite } from '@athenna/test'
 import { specReporter } from '@japa/spec-reporter'
 import { runFailedTests } from '@japa/run-failed-tests'
 import { processCliArgs, configure, run } from '@japa/runner'
@@ -28,12 +28,23 @@ import { processCliArgs, configure, run } from '@japa/runner'
 */
 
 configure({
-  ...processCliArgs(process.argv.slice(2)),
+  ...processCliArgs(TestSuite.getArgs()),
   ...{
-    files: ['tests/**/*Test.js'],
+    suites: [
+      {
+        name: 'E2E',
+        files: ['tests/E2E/**/*Test.js', 'tests/E2E/**/*TestFn.js'],
+        configure: suite => TestSuite.cliEnd2EndSuite(suite),
+      },
+      {
+        name: 'Unit',
+        files: ['tests/Unit/**/*Test.js', 'tests/Unit/**/*TestFn.js'],
+        configure: suite => TestSuite.unitSuite(suite),
+      },
+    ],
     plugins: [assert(), runFailedTests()],
     reporters: [specReporter()],
-    importer: filePath => import(pathToFileURL(filePath).href),
+    importer: filePath => TestSuite.importer(filePath),
   },
 })
 
