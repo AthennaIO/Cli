@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Athenna CLI to create new projects and install components.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -21,12 +21,6 @@
     "test:coverage": "c8 npm run --silent test",
     "lint:fix": "eslint \"{app,bootstrap,config,database,providers,routes,storage,tests}/**/*.js\" --fix"
   },
-  "files": [
-    "bootstrap/*.js",
-    "bootstrap/*.d.ts",
-    "bootstrap/**/*.js",
-    "bootstrap/**/*.d.ts"
-  ],
   "type": "module",
   "main": "./bootstrap/main.js",
   "types": "./bootstrap/main.d.ts",
@@ -161,5 +155,39 @@
       "prettier/prettier": "error",
       "no-useless-constructor": "off"
     }
-  }
+  },
+  "files": [
+    "app/*.js",
+    "app/*.d.ts",
+    "app/**/*.js",
+    "app/**/*.d.ts",
+    "bootstrap/*.js",
+    "bootstrap/*.d.ts",
+    "bootstrap/**/*.js",
+    "bootstrap/**/*.d.ts",
+    "config/*.js",
+    "config/*.d.ts",
+    "config/**/*.js",
+    "config/**/*.d.ts",
+    "database/*.js",
+    "database/*.d.ts",
+    "database/**/*.js",
+    "database/**/*.d.ts",
+    "lang/*.js",
+    "lang/*.d.ts",
+    "lang/**/*.js",
+    "lang/**/*.d.ts",
+    "providers/*.js",
+    "providers/*.d.ts",
+    "providers/**/*.js",
+    "providers/**/*.d.ts",
+    "routes/*.js",
+    "routes/*.d.ts",
+    "routes/**/*.js",
+    "routes/**/*.d.ts",
+    "storage/*.js",
+    "storage/*.d.ts",
+    "storage/**/*.js",
+    "storage/**/*.d.ts"
+  ]
 }
