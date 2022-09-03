@@ -1,54 +1,58 @@
 {
   "name": "@athenna/cli",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Athenna CLI to create new projects and install components.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
-  "bugs": "https://github.com/AthennaIO/Cli/issues",
-  "repository": "https://github.com/AthennaIO/Cli.git",
-  "homepage": "https://github.com/AthennaIO/Cli#readme",
+  "bugs": "https://github.com/AthennaIO/Scaffold/issues",
+  "repository": "https://github.com/AthennaIO/Scaffold.git",
+  "homepage": "https://github.com/AthennaIO/Scaffold#readme",
   "keywords": [
     "esm",
-    "cli",
-    "athenna",
-    "commander"
+    "athenna"
   ],
   "bin": {
-    "athenna": "./src/index.js"
+    "athenna": "./bootstrap/main.js"
   },
   "scripts": {
-    "lint:fix": "eslint \"{src,tests}/**/*.js\" --fix",
-    "test": "npm run --silent lint:fix && node ./tests/index.js",
+    "start": "node bootstrap/main.js",
+    "test": "npm run --silent lint:fix && node artisan test",
     "test:debug": "cross-env DEBUG=api:* && npm run --silent test",
     "test:coverage": "c8 npm run --silent test",
-    "gen:types": "tsc src/*.js --declaration --allowJs --emitDeclarationOnly --out src/index.js"
+    "lint:fix": "eslint \"{app,bootstrap,config,database,providers,routes,storage,tests}/**/*.js\" --fix"
   },
   "files": [
-    "config/*.js",
-    "config/**/*.js",
-    "src/*.js",
-    "src/*.d.ts",
-    "src/**/*.js",
-    "src/**/*.d.ts"
+    "bootstrap/*.js",
+    "bootstrap/*.d.ts",
+    "bootstrap/**/*.js",
+    "bootstrap/**/*.d.ts"
   ],
   "type": "module",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "main": "./bootstrap/main.js",
+  "types": "./bootstrap/main.d.ts",
+  "exports": {
+    ".": "./bootstrap/main.js"
+  },
   "imports": {
-    "#src/*": "./src/*.js",
+    "#app/*": "./app/*.js",
+    "#bootstrap/*": "./bootstrap/*.js",
+    "#config/*": "./config/*.js",
+    "#database/*": "./database/*.js",
+    "#lang/*": "./lang/*.js",
+    "#providers/*": "./providers/*.js",
+    "#routes/*": "./routes/*.js",
+    "#storage/*": "./storage/*.js",
     "#tests/*": "./tests/*.js"
   },
   "dependencies": {
-    "@athenna/logger": "1.1.9",
-    "@secjs/utils": "1.9.3",
-    "chalk": "4.1.1",
-    "chalk-rainbow": "1.0.0",
-    "cli-table": "0.3.11",
-    "commander": "9.1.0",
-    "ejs": "3.1.6",
-    "figlet": "1.5.2",
-    "inquirer": "8.2.2",
-    "ora": "5.4.1"
+    "@athenna/artisan": "1.3.9",
+    "@athenna/config": "1.1.3",
+    "@athenna/core": "1.7.8",
+    "@athenna/ioc": "1.2.3",
+    "@athenna/logger": "1.2.8",
+    "@athenna/test": "1.0.8",
+    "@secjs/utils": "1.9.7",
+    "source-map-support": "0.5.21"
   },
   "devDependencies": {
     "@japa/assert": "1.3.4",
@@ -69,6 +73,7 @@
     "husky": "3.0.9",
     "lint-staged": "12.4.1",
     "minimist": "1.2.6",
+    "nodemon": "2.0.16",
     "prettier": "2.6.2",
     "rimraf": "3.0.2",
     "typescript": "4.6.4"
@@ -76,7 +81,7 @@
   "c8": {
     "all": true,
     "include": [
-      "src/**/*.js"
+      "app/**/*.js"
     ],
     "reporter": [
       "text-summary",
@@ -84,10 +89,10 @@
     ],
     "report-dir": "./tests/Coverage",
     "check-coverage": true,
-    "statements": "50",
-    "branches": "50",
-    "functions": "50",
-    "lines": "50"
+    "statements": "70",
+    "branches": "70",
+    "functions": "70",
+    "lines": "70"
   },
   "husky": {
     "hooks": {
@@ -129,6 +134,11 @@
     "env": {
       "es2021": true,
       "node": true
+    },
+    "globals": {
+      "ioc": true,
+      "Env": true,
+      "Config": true
     },
     "plugins": [
       "prettier"

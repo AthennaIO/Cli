@@ -120,7 +120,7 @@ out
 
 # Environment variables file
 .env
-.env.testing
+.env.test
 .env.production
 
 # MacOS folder mapper file
