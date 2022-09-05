@@ -13,7 +13,7 @@ async function main() {
   const application = await new Ignite().fire()
   const artisan = await application.bootArtisan()
 
-  await artisan.main('Athenna')
+  await artisan.main()
 }
 
 main().catch()

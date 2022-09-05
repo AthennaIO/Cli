@@ -1,11 +1,10 @@
 import chalk from 'chalk'
-import figlet from 'figlet'
-import chalkRainbow from 'chalk-rainbow'
 
 import { sep, isAbsolute, basename } from 'node:path'
 
 import { Command } from '@athenna/artisan'
 import { Folder, Path } from '@secjs/utils'
+
 import { NotEmptyFolderException } from '#app/Exceptions/NotEmptyFolderException'
 import { NotFoundProjectTypeException } from '#app/Exceptions/NotFoundProjectTypeException'
 
@@ -56,9 +55,7 @@ export class NewCommand extends Command {
    * @return {Promise<void>}
    */
   async handle(projectName, options) {
-    const appNameFigletColorized = chalkRainbow(figlet.textSync('Artisan'))
-
-    process.stdout.write(appNameFigletColorized + '\n' + '\n')
+    this.log(this.createRainbow('Athenna'))
 
     await new Folder(Path.storage()).load()
 
@@ -78,23 +75,20 @@ export class NewCommand extends Command {
    * @return {Promise<void>}
    */
   async http(projectName) {
-    this.simpleLog(
-      `[ GENERATING HTTP SERVER ]\n`,
-      'rmNewLineStart',
-      'bold',
-      'green',
-    )
+    this.title('GENERATING HTTP SERVER\n', 'bold', 'green')
 
     await this.cloneByBranch('http', projectName)
 
     const arrow = chalk.bold.green('❯')
 
-    this.logTable(
-      {},
-      ['    Run following commands to get started'],
-      [
-        `    ${arrow} cd ${projectName}\n    ${arrow} npm test\n    ${arrow} npm start\n    ${arrow} npm run start:dev`,
-      ],
+    this.log(
+      this.createTable(
+        {},
+        ['    Run following commands to get started'],
+        [
+          `    ${arrow} cd ${projectName}\n    ${arrow} npm test\n    ${arrow} npm start\n    ${arrow} npm run start:dev`,
+        ],
+      ),
     )
   }
 
@@ -105,18 +99,20 @@ export class NewCommand extends Command {
    * @return {Promise<void>}
    */
   async cli(projectName) {
-    this.simpleLog(`[ GENERATING CLI ]\n`, 'rmNewLineStart', 'bold', 'green')
+    this.title('GENERATING CLI\n', 'bold', 'green')
 
     await this.cloneByBranch('cli', projectName)
 
     const arrow = chalk.bold.green('❯')
 
-    this.logTable(
-      {},
-      ['    Run following commands to get started'],
-      [
-        `    ${arrow} cd ${projectName}\n    ${arrow} npm test\n    ${arrow} npm start -- --help`,
-      ],
+    this.log(
+      this.createTable(
+        {},
+        ['    Run following commands to get started'],
+        [
+          `    ${arrow} cd ${projectName}\n    ${arrow} npm test\n    ${arrow} npm start -- --help`,
+        ],
+      ),
     )
   }
 
@@ -127,16 +123,18 @@ export class NewCommand extends Command {
    * @return {Promise<void>}
    */
   async slim(projectName) {
-    this.simpleLog(`[ GENERATING SLIM ]\n`, 'rmNewLineStart', 'bold', 'green')
+    this.title('GENERATING SLIM\n', 'bold', 'green')
 
     await this.cloneByBranch('slim', projectName)
 
     const arrow = chalk.bold.green('❯')
 
-    this.logTable(
-      {},
-      ['    Run following commands to get started'],
-      [`    ${arrow} cd ${projectName}\n    ${arrow} npm start -- --help`],
+    this.log(
+      this.createTable(
+        {},
+        ['    Run following commands to get started'],
+        [`    ${arrow} cd ${projectName}\n    ${arrow} npm start -- --help`],
+      ),
     )
   }
 

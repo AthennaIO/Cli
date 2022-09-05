@@ -1,7 +1,7 @@
 {
-  "name": "@athenna/cli",
-  "version": "1.1.6",
-  "description": "Athenna CLI to create new projects and install components.",
+  "name": "@athenna/scaffold",
+  "version": "1.0.0",
+  "description": "The Athenna scaffold project used by 'athenna new project' command to create your project.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
   "bugs": "https://github.com/AthennaIO/Scaffold/issues",
@@ -11,14 +11,8 @@
     "esm",
     "athenna"
   ],
-  "bin": {
-    "athenna": "./bootstrap/main.js"
-  },
   "scripts": {
     "start": "node bootstrap/main.js",
-    "test": "npm run --silent lint:fix && node artisan test",
-    "test:debug": "cross-env DEBUG=api:* && npm run --silent test",
-    "test:coverage": "c8 npm run --silent test",
     "lint:fix": "eslint \"{app,bootstrap,config,database,providers,routes,storage,tests}/**/*.js\" --fix"
   },
   "type": "module",
@@ -44,14 +38,10 @@
     "@athenna/core": "1.8.3",
     "@athenna/ioc": "1.2.3",
     "@athenna/logger": "1.2.8",
-    "@athenna/test": "1.1.6",
     "@secjs/utils": "1.9.7",
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@japa/run-failed-tests": "1.0.7",
-    "@japa/spec-reporter": "1.1.12",
-    "c8": "7.11.2",
     "commitizen": "4.2.4",
     "cross-env": "7.0.3",
     "cz-conventional-changelog": "3.3.0",
@@ -65,25 +55,10 @@
     "husky": "3.0.9",
     "lint-staged": "12.4.1",
     "minimist": "1.2.6",
+    "nodemon": "2.0.16",
     "prettier": "2.6.2",
     "rimraf": "3.0.2",
     "typescript": "4.6.4"
-  },
-  "c8": {
-    "all": true,
-    "include": [
-      "app/**/*.js"
-    ],
-    "reporter": [
-      "text-summary",
-      "html"
-    ],
-    "report-dir": "./tests/Coverage",
-    "check-coverage": true,
-    "statements": "70",
-    "branches": "70",
-    "functions": "70",
-    "lines": "70"
   },
   "husky": {
     "hooks": {
@@ -170,10 +145,6 @@
     "database/*.d.ts",
     "database/**/*.js",
     "database/**/*.d.ts",
-    "lang/*.js",
-    "lang/*.d.ts",
-    "lang/**/*.js",
-    "lang/**/*.d.ts",
     "providers/*.js",
     "providers/*.d.ts",
     "providers/**/*.js",
@@ -182,9 +153,11 @@
     "routes/*.d.ts",
     "routes/**/*.js",
     "routes/**/*.d.ts",
-    "storage/*.js",
-    "storage/*.d.ts",
-    "storage/**/*.js",
-    "storage/**/*.d.ts"
+    "lang/*",
+    "lang/**/*",
+    "storage/*",
+    "storage/**/*",
+    "resources/*",
+    "resources/**/*"
   ]
 }

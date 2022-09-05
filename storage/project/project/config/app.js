@@ -14,7 +14,7 @@ export default {
   |
   */
 
-  environment: process.env.NODE_ENV || 'local',
+  environment: process.env.NODE_ENV || 'production',
 
   /*
   |--------------------------------------------------------------------------
@@ -144,7 +144,6 @@ export default {
     import('@athenna/core/providers/ServiceProvider'),
     import('@athenna/core/providers/RepositoryProvider'),
     import('@athenna/artisan/providers/ArtisanProvider'),
-    import('#providers/AppServiceProvider'),
   ],
 
   /*

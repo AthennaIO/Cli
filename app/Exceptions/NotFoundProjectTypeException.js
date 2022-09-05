@@ -20,13 +20,8 @@ export class NotFoundProjectTypeException extends Exception {
    * @param {string} type
    */
   constructor(type) {
-    const message = `The project type ({yellow} "${type}") doesnt exist.`
+    const message = `The project type ({yellow} "${type}") doesnt exist. Try running "athenna new --help" to see the available project types.`
 
-    super(
-      message,
-      500,
-      'E_NOT_FOUND_PROJECT_TYPE_ERROR',
-      `Try running "athenna new --help" to see the available project types.`,
-    )
+    super(message, 500, 'E_SIMPLE_CLI')
   }
 }
