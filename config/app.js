@@ -142,6 +142,7 @@ export default {
   providers: [
     import('@athenna/logger/providers/LoggerProvider'),
     import('@athenna/core/providers/ServiceProvider'),
+    import('@athenna/core/providers/RepositoryProvider'),
     import('@athenna/artisan/providers/ArtisanProvider'),
     import('#providers/AppServiceProvider'),
   ],
