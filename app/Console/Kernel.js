@@ -9,19 +9,19 @@ export class Kernel extends ConsoleKernel {
    * @return {any[]}
    */
   get commands() {
-    const internalCommands = []
-
-    if (Env('NODE_ENV') !== 'production') {
-      internalCommands.push(
-        ...ArtisanLoader.loadCommands(),
-        ...TestCommandsLoader.loadCommands(),
-      )
-    }
+    const internalCommands = [
+      ...TestCommandsLoader.loadCommands(),
+      ...ArtisanLoader.loadCommands(),
+    ]
 
     const appCommands = new Folder(Path.console('Commands'))
       .loadSync()
       .getFilesByPattern('**/*.js', true)
       .map(command => import(command.href))
+
+    if (Env('NODE_ENV') === 'production') {
+      return appCommands
+    }
 
     return [...internalCommands, ...appCommands]
   }
