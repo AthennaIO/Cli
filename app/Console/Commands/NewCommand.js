@@ -57,6 +57,7 @@ export class NewCommand extends Command {
   async handle(projectName, options) {
     this.log(this.createRainbow('Athenna'))
 
+    await Folder.safeRemove(Path.storage())
     await new Folder(Path.storage()).load()
 
     if (!this[options.type]) {
