@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Athenna CLI to create new projects and install components.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -170,10 +170,6 @@
     "database/*.d.ts",
     "database/**/*.js",
     "database/**/*.d.ts",
-    "lang/*.js",
-    "lang/*.d.ts",
-    "lang/**/*.js",
-    "lang/**/*.d.ts",
     "providers/*.js",
     "providers/*.d.ts",
     "providers/**/*.js",
@@ -182,13 +178,11 @@
     "routes/*.d.ts",
     "routes/**/*.js",
     "routes/**/*.d.ts",
-    "storage/*.js",
-    "storage/*.d.ts",
-    "storage/**/*.js",
-    "storage/**/*.d.ts",
-    "resources/*.js",
-    "resources/*.d.ts",
-    "resources/**/*.js",
-    "resources/**/*.d.ts"
+    "lang/*",
+    "lang/**/*",
+    "storage/*",
+    "storage/**/*",
+    "resources/*",
+    "resources/**/*"
   ]
 }
