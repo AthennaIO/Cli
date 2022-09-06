@@ -32,7 +32,11 @@ export class InstallTestCommand extends Command {
    * @return {import('@athenna/artisan').Commander}
    */
   addFlags(commander) {
-    return commander
+    return commander.option(
+      '--no-lint',
+      'Do not run eslint in the command.',
+      true,
+    )
   }
 
   /**
@@ -53,6 +57,11 @@ export class InstallTestCommand extends Command {
     await this.addDatabaseProviderToAppConfig(projectPath)
     await this.addDatabaseCommandsToKernel(projectPath)
     await this.addEnvVarsToEnvFile(projectPath)
+    await this.createDockerComposeFile(projectPath)
+
+    if (options.lint) {
+      await this.lintProject(projectPath)
+    }
 
     console.log()
 
@@ -191,6 +200,57 @@ export class InstallTestCommand extends Command {
       await (await new File(envFilePath).load()).append(envVars)
       await (await new File(envTestFilePath).load()).append(envVars)
       await (await new File(envExampleFilePath).load()).append(envVars)
+
+      if (message) spinner.succeed(message)
+    } catch (err) {
+      if (message) spinner.fail(message)
+
+      throw err
+    }
+  }
+
+  async createDockerComposeFile(projectPath) {
+    const dockerComposeFile = `${projectPath}/docker-compose.yml`
+    const message = 'Creating docker-compose.yml file in project'
+
+    const spinner = this.createSpinner(message)
+
+    if (message) {
+      spinner.color = 'yellow'
+
+      spinner.start()
+    }
+
+    try {
+      await new File(
+        Path.resources('scaffolds/databaseComponent/docker-compose.yml'),
+      )
+        .loadSync()
+        .copy(dockerComposeFile)
+
+      if (message) spinner.succeed(message)
+    } catch (err) {
+      if (message) spinner.fail(message)
+
+      throw err
+    }
+  }
+
+  async lintProject(projectPath) {
+    const message = 'Linting project'
+
+    const spinner = this.createSpinner(message)
+
+    if (message) {
+      spinner.color = 'yellow'
+
+      spinner.start()
+    }
+
+    try {
+      await this.execCommand(
+        `cd ${projectPath} && npm run lint:fix --silent -- --quiet`,
+      )
 
       if (message) spinner.succeed(message)
     } catch (err) {
