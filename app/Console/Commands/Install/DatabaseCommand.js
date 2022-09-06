@@ -52,6 +52,7 @@ export class InstallTestCommand extends Command {
     await this.createDatabaseConfigFile(projectPath)
     await this.addDatabaseProviderToAppConfig(projectPath)
     await this.addDatabaseCommandsToKernel(projectPath)
+    await this.addEnvVarsToEnvFile(projectPath)
 
     console.log()
 
@@ -152,6 +153,44 @@ export class InstallTestCommand extends Command {
         'templates',
         '...DatabaseCommandsLoader.loadTemplates()',
       )
+
+      if (message) spinner.succeed(message)
+    } catch (err) {
+      if (message) spinner.fail(message)
+
+      throw err
+    }
+  }
+
+  async addEnvVarsToEnvFile(projectPath) {
+    const envFilePath = `${projectPath}/.env`
+    const envTestFilePath = `${projectPath}/.env.test`
+    const envExampleFilePath = `${projectPath}/.env.example`
+    const message =
+      'Registering env variables in .env, .env.test and .env.example files.'
+
+    const spinner = this.createSpinner(message)
+
+    if (message) {
+      spinner.color = 'yellow'
+
+      spinner.start()
+    }
+
+    const envVars =
+      '\nDB_CONNECTION=postgres\n' +
+      'DB_HOST=127.0.0.1\n' +
+      'DB_PORT=(5432)\n' +
+      'DB_DATABASE=database\n' +
+      'DB_USERNAME=root\n' +
+      'DB_PASSWORD=root\n' +
+      'DB_SYNCHRONIZE=(false)\n' +
+      'DB_AUTO_CONNECT=(true)\n'
+
+    try {
+      await (await new File(envFilePath).load()).append(envVars)
+      await (await new File(envTestFilePath).load()).append(envVars)
+      await (await new File(envExampleFilePath).load()).append(envVars)
 
       if (message) spinner.succeed(message)
     } catch (err) {

@@ -74,9 +74,7 @@
     "include": [
       "app/**/*.js"
     ],
-    "exclude": [
-      "app/Console/Commands/Install/*.js"
-    ],
+    "exclude": [],
     "reporter": [
       "text-summary",
       "html"
