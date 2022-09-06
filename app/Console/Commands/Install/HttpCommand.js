@@ -63,7 +63,7 @@ export class InstallTestCommand extends Command {
 
   async installHttpPackage(projectPath) {
     const cdCommand = `cd ${projectPath}`
-    const npmInstallCommand = `${cdCommand} && npm install @athenna/http`
+    const npmInstallCommand = `${cdCommand} && npm install @athenna/http --production=false`
 
     await this.execCommand(
       npmInstallCommand,
