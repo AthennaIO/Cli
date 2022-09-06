@@ -21,7 +21,7 @@ export class InstallDatabaseCommandTest extends Test {
 
     process.env.CALL_PATH = Path.pwd('projectDb')
 
-    await Artisan.call('install:database')
+    await Artisan.call('install:database --no-lint')
 
     const packageJson = await new File(Path.pwd('projectDb/package.json')).load()
 
