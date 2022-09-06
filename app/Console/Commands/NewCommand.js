@@ -161,7 +161,7 @@ export class NewCommand extends Command {
 
     const cloneCommand = `git clone --branch ${branch} ${this.url} ${projectPath}`
     const moveProjectCommand = `mv ${projectPath} ${concretePath}`
-    const runNpmInstallCommand = `cd ${concretePath} && npm install --silent`
+    const runNpmInstallCommand = `cd ${concretePath} && npm install --silent --production=false`
     const rmGitAndCopyEnv = `cd ${concretePath} && rm -rf .git && rm -rf .github && cp .env.example .env && cp .env.example .env.test`
 
     await this.execCommand(
