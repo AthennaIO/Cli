@@ -20,7 +20,7 @@ export class NotEmptyFolderException extends Exception {
    * @param {string} projectName
    */
   constructor(projectName) {
-    const message = `The directory ({yellow} "${projectName}") already exists. Try another project name or delete "${projectName}" folder.`
+    const message = `The directory ({yellow} "${projectName}") already exists. Try another project name or delete ({yellow} "${projectName}") folder.`
 
     super(message, 500, 'E_SIMPLE_CLI')
   }

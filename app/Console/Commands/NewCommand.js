@@ -159,22 +159,21 @@ export class NewCommand extends Command {
       throw new NotEmptyFolderException(concretePath)
     }
 
-    const cdCommand = `cd ${projectPath}`
     const cloneCommand = `git clone --branch ${branch} ${this.url} ${projectPath}`
-    const runNpmInstallCommand = `${cdCommand} && npm install --silent`
-    const rmGitAndCopyEnv = `${cdCommand} && rm -rf .git && rm -rf .github && cp .env.example .env && cp .env.example .env.test`
     const moveProjectCommand = `mv ${projectPath} ${concretePath}`
+    const runNpmInstallCommand = `cd ${concretePath} && npm install --silent`
+    const rmGitAndCopyEnv = `cd ${concretePath} && rm -rf .git && rm -rf .github && cp .env.example .env && cp .env.example .env.test`
 
     await this.execCommand(
       cloneCommand,
       `Cloning scaffold project from ${this.url} in branch ${branch}`,
     )
+    await this.execCommand(moveProjectCommand, 'Moving project to your path')
+    await this.execCommand(runNpmInstallCommand, 'Installing dependencies')
     await this.execCommand(
       rmGitAndCopyEnv,
       'Removing defaults and creating .env/.env.test files from .env.example',
     )
-    await this.execCommand(runNpmInstallCommand, 'Installing dependencies')
-    await this.execCommand(moveProjectCommand, 'Moving project to your path')
 
     console.log()
 

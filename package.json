@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "description": "Athenna CLI to create new projects and install components.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -73,6 +73,9 @@
     "all": true,
     "include": [
       "app/**/*.js"
+    ],
+    "exclude": [
+      "app/Console/Commands/Install/*.js"
     ],
     "reporter": [
       "text-summary",

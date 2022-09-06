@@ -49,4 +49,19 @@ export class NewCommandTest extends Test {
 
     assert.isTrue(await Folder.exists(Path.pwd('projectHttp/app')))
   }
+
+  /**
+   * @param {import('@athenna/test').HttpTestContext} ctx
+   */
+  async shouldThrowNotEmptyFolderException({ assert }) {
+    await Artisan.call('new projectDefault --type slim')
+    await Artisan.call('new projectDefault --type slim')
+  }
+
+  /**
+   * @param {import('@athenna/test').HttpTestContext} ctx
+   */
+  async shouldThrowNotFoundProjectTypeException({ assert }) {
+    await Artisan.call('new projectDefault --type not-found')
+  }
 }
