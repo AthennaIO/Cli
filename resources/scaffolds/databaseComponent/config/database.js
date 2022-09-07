@@ -35,7 +35,7 @@ export default {
       password: Env('DB_PASSWORD', 'root'),
       logging: ['error', 'warn'],
       entities: await DatabaseLoader.loadEntities('mysql'),
-      migrations: [Path.stubs('database/migrations/**/*.js')],
+      migrations: [Path.migrations('**/*.js')],
       synchronize: Env('DB_SYNCHRONIZE', false),
     },
 
@@ -48,7 +48,7 @@ export default {
       password: Env('DB_PASSWORD', 'root'),
       logging: ['error', 'warn'],
       entities: await DatabaseLoader.loadEntities('postgres'),
-      migrations: [Path.stubs('database/migrations/**/*.js')],
+      migrations: [Path.migrations('**/*.js')],
       synchronize: Env('DB_SYNCHRONIZE', false),
     },
   },
