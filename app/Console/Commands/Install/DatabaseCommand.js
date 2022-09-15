@@ -1,5 +1,6 @@
 import { File, Path } from '@secjs/utils'
 import { Command, FilePropertiesHelper } from '@athenna/artisan'
+import { NotFoundDatabaseException } from '#app/Exceptions/NotFoundDatabaseException'
 
 export class InstallTestCommand extends Command {
   /**
@@ -32,11 +33,13 @@ export class InstallTestCommand extends Command {
    * @return {import('@athenna/artisan').Commander}
    */
   addFlags(commander) {
-    return commander.option(
-      '--no-lint',
-      'Do not run eslint in the command.',
-      true,
-    )
+    return commander
+      .option('--no-lint', 'Do not run eslint in the command.', true)
+      .option(
+        '--db <db>',
+        'Set the database to be configured in project. Current databases available: mysql and postgres.',
+        'postgres',
+      )
   }
 
   /**
@@ -50,14 +53,21 @@ export class InstallTestCommand extends Command {
 
     this.title('INSTALLING DATABASE COMPONENT\n', 'bold', 'green')
 
+    const availableDatabases = ['mysql', 'postgres']
+
+    if (!availableDatabases.includes(options.db)) {
+      throw new NotFoundDatabaseException(options.db)
+    }
+
     const projectPath = `${Env('CALL_PATH')}`
 
-    await this.installDatabasePackage(projectPath)
-    await this.createDatabaseConfigFile(projectPath)
+    await this.installDatabasePackage(projectPath, options.db)
+    await this.installAthennaDBPackage(projectPath)
+    await this.createDatabaseConfigFile(projectPath, options.db)
     await this.addDatabaseProviderToAppConfig(projectPath)
     await this.addDatabaseCommandsToKernel(projectPath)
-    await this.addEnvVarsToEnvFile(projectPath)
-    await this.createDockerComposeFile(projectPath)
+    await this.addEnvVarsToEnvFile(projectPath, options.db)
+    await this.createDockerComposeFile(projectPath, options.db)
 
     if (options.lint) {
       await this.lintProject(projectPath)
@@ -68,7 +78,22 @@ export class InstallTestCommand extends Command {
     this.success('Athenna database component successfully installed.')
   }
 
-  async installDatabasePackage(projectPath) {
+  async installDatabasePackage(projectPath, db) {
+    const dictionary = {
+      mysql: 'mysql2',
+      postgres: 'pg',
+    }
+
+    const cdCommand = `cd ${projectPath}`
+    const npmInstallCommand = `${cdCommand} && npm install ${dictionary[db]} --production=false`
+
+    await this.execCommand(
+      npmInstallCommand,
+      `Installing ${dictionary[db]} package in your project`,
+    )
+  }
+
+  async installAthennaDBPackage(projectPath) {
     const cdCommand = `cd ${projectPath}`
     const npmInstallCommand = `${cdCommand} && npm install @athenna/database --production=false`
 
@@ -78,7 +103,7 @@ export class InstallTestCommand extends Command {
     )
   }
 
-  async createDatabaseConfigFile(projectPath) {
+  async createDatabaseConfigFile(projectPath, db) {
     const databaseConfigFile = `${projectPath}/config/database.js`
     const message = 'Creating config/database.js file in project'
 
@@ -92,7 +117,7 @@ export class InstallTestCommand extends Command {
 
     try {
       await new File(
-        Path.resources('scaffolds/databaseComponent/config/database.js'),
+        Path.resources(`scaffolds/databaseComponent/${db}/config/database.js`),
       )
         .loadSync()
         .copy(databaseConfigFile)
@@ -171,7 +196,7 @@ export class InstallTestCommand extends Command {
     }
   }
 
-  async addEnvVarsToEnvFile(projectPath) {
+  async addEnvVarsToEnvFile(projectPath, db) {
     const envFilePath = `${projectPath}/.env`
     const envTestFilePath = `${projectPath}/.env.test`
     const envExampleFilePath = `${projectPath}/.env.example`
@@ -186,10 +211,15 @@ export class InstallTestCommand extends Command {
       spinner.start()
     }
 
+    const dbPort = {
+      mysql: '(3306)',
+      postgres: '(5432)',
+    }
+
     const envVars =
-      '\nDB_CONNECTION=postgres\n' +
+      `\nDB_CONNECTION=${db}\n` +
       'DB_HOST=127.0.0.1\n' +
-      'DB_PORT=(5432)\n' +
+      `DB_PORT=${dbPort[db]}\n` +
       'DB_DATABASE=database\n' +
       'DB_USERNAME=root\n' +
       'DB_PASSWORD=root\n' +
@@ -209,7 +239,7 @@ export class InstallTestCommand extends Command {
     }
   }
 
-  async createDockerComposeFile(projectPath) {
+  async createDockerComposeFile(projectPath, db) {
     const dockerComposeFile = `${projectPath}/docker-compose.yml`
     const message = 'Creating docker-compose.yml file in project'
 
@@ -223,7 +253,7 @@ export class InstallTestCommand extends Command {
 
     try {
       await new File(
-        Path.resources('scaffolds/databaseComponent/docker-compose.yml'),
+        Path.resources(`scaffolds/databaseComponent/${db}/docker-compose.yml`),
       )
         .loadSync()
         .copy(dockerComposeFile)

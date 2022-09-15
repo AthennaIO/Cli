@@ -21,10 +21,19 @@ export class InstallDatabaseCommandTest extends Test {
 
     process.env.CALL_PATH = Path.pwd('projectDb')
 
-    await Artisan.call('install:database --no-lint')
+    await Artisan.call('install:database --db=postgres --no-lint')
 
     const packageJson = await new File(Path.pwd('projectDb/package.json')).load()
 
     assert.isTrue(packageJson.getContentSync().includes('@athenna/database'))
+  }
+
+  /**
+   * @param {import('@athenna/test').HttpTestContext} ctx
+   */
+  async shouldThrowAnExceptionWhenDbDoesNotSupportTheDbChosen({ assert }) {
+    const { stderr } = await Artisan.callInChild('install:database --db not-found --no-lint')
+
+    assert.isTrue(stderr.includes('The database not-found is not supported by @athenna/database.'))
   }
 }
