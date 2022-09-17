@@ -173,19 +173,19 @@ export class InstallTestCommand extends Command {
       const consoleKernel = await new File(kernelPath).load()
 
       await consoleKernel.prepend(
-        "import { DatabaseCommandsLoader } from '@athenna/database'\n",
+        "import { DatabaseLoader } from '@athenna/database'\n",
       )
 
       await FilePropertiesHelper.addContentToArrayProperty(
         kernelPath,
         'const internalCommands = ',
-        '...DatabaseCommandsLoader.loadCommands()',
+        '...DatabaseLoader.loadCommands()',
       )
 
       await FilePropertiesHelper.addContentToArrayGetter(
         kernelPath,
         'templates',
-        '...DatabaseCommandsLoader.loadTemplates()',
+        '...DatabaseLoader.loadTemplates()',
       )
 
       if (message) spinner.succeed(message)
@@ -223,7 +223,7 @@ export class InstallTestCommand extends Command {
       'DB_DATABASE=database\n' +
       'DB_USERNAME=root\n' +
       'DB_PASSWORD=root\n' +
-      'DB_SYNCHRONIZE=(false)\n' +
+      'DB_SYNCHRONIZE=(true)\n' +
       'DB_AUTO_CONNECT=(true)\n'
 
     try {
