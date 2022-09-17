@@ -1,5 +1,6 @@
+import { CoreLoader } from '@athenna/core'
+import { TestLoader } from '@athenna/test'
 import { Path, Folder } from '@secjs/utils'
-import { TestCommandsLoader } from '@athenna/test'
 import { ArtisanLoader, ConsoleKernel } from '@athenna/artisan'
 
 export class Kernel extends ConsoleKernel {
@@ -10,7 +11,8 @@ export class Kernel extends ConsoleKernel {
    */
   get commands() {
     const internalCommands = [
-      ...TestCommandsLoader.loadCommands(),
+      ...CoreLoader.loadCommands(),
+      ...TestLoader.loadCommands(),
       ...ArtisanLoader.loadCommands(),
     ]
 
@@ -32,9 +34,6 @@ export class Kernel extends ConsoleKernel {
    * @return {any[]}
    */
   get templates() {
-    return [
-      ...TestCommandsLoader.loadTemplates(),
-      ...ArtisanLoader.loadTemplates(),
-    ]
+    return [...TestLoader.loadTemplates(), ...ArtisanLoader.loadTemplates()]
   }
 }
