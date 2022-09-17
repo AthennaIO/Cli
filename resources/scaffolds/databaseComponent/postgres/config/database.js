@@ -36,7 +36,7 @@ export default {
       logging: ['error', 'warn'],
       entities: await DatabaseLoader.loadEntities('mysql'),
       migrations: [Path.migrations('**/*.js')],
-      synchronize: Env('DB_SYNCHRONIZE', false),
+      synchronize: Env('DB_SYNCHRONIZE', true),
     },
 
     postgres: {
@@ -49,7 +49,7 @@ export default {
       logging: ['error', 'warn'],
       entities: await DatabaseLoader.loadEntities('postgres'),
       migrations: [Path.migrations('**/*.js')],
-      synchronize: Env('DB_SYNCHRONIZE', false),
+      synchronize: Env('DB_SYNCHRONIZE', true),
     },
   },
 
