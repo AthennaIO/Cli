@@ -221,6 +221,7 @@ export class InstallTestCommand extends Command {
       'DB_HOST=127.0.0.1\n' +
       `DB_PORT=${dbPort[db]}\n` +
       'DB_DATABASE=database\n' +
+      'DB_DEBUG=false\n' +
       'DB_USERNAME=root\n' +
       'DB_PASSWORD=root\n' +
       'DB_AUTO_CONNECT=(true)\n'
