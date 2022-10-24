@@ -1,9 +1,9 @@
 import chalk from 'chalk'
 
-import { sep, isAbsolute, basename } from 'node:path'
+import { basename, isAbsolute, sep } from 'node:path'
 
 import { Command } from '@athenna/artisan'
-import { Folder, Path } from '@secjs/utils'
+import { Folder, Path } from '@athenna/common'
 
 import { NotEmptyFolderException } from '#app/Exceptions/NotEmptyFolderException'
 import { NotFoundProjectTypeException } from '#app/Exceptions/NotFoundProjectTypeException'

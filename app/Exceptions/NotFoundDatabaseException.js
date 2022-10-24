@@ -1,4 +1,4 @@
-import { Exception } from '@athenna/core'
+import { Exception } from '@athenna/common'
 
 /*
 |--------------------------------------------------------------------------

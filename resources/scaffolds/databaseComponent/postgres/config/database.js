@@ -1,6 +1,3 @@
-import { Path } from '@secjs/utils'
-import { DatabaseLoader } from '@athenna/database'
-
 export default {
   /*
   |--------------------------------------------------------------------------
@@ -33,10 +30,6 @@ export default {
       database: Env('DB_DATABASE', 'database'),
       username: Env('DB_USERNAME', 'root'),
       password: Env('DB_PASSWORD', 'root'),
-      logging: ['error', 'warn'],
-      entities: await DatabaseLoader.loadEntities('mysql'),
-      migrations: [Path.migrations('**/*.js')],
-      synchronize: Env('DB_SYNCHRONIZE', true),
     },
 
     postgres: {
@@ -46,10 +39,6 @@ export default {
       database: Env('DB_DATABASE', 'database'),
       username: Env('DB_USERNAME', 'root'),
       password: Env('DB_PASSWORD', 'root'),
-      logging: ['error', 'warn'],
-      entities: await DatabaseLoader.loadEntities('postgres'),
-      migrations: [Path.migrations('**/*.js')],
-      synchronize: Env('DB_SYNCHRONIZE', true),
     },
   },
 

@@ -1,6 +1,6 @@
 import { Test } from '@athenna/test'
 import { Artisan } from '@athenna/artisan'
-import { File, Folder, Path } from '@secjs/utils'
+import { File, Folder, Path } from '@athenna/common'
 
 export class InstallDatabaseCommandTest extends Test {
   get timeout() {

@@ -1,6 +1,6 @@
 import { Test } from '@athenna/test'
 import { Artisan } from '@athenna/artisan'
-import { Folder, Path } from '@secjs/utils'
+import { Folder, Path } from '@athenna/common'
 
 export class NewCommandTest extends Test {
   get timeout() {

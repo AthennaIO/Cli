@@ -1,4 +1,4 @@
-import { File, Path } from '@secjs/utils'
+import { File, Path } from '@athenna/common'
 import { Command, FilePropertiesHelper } from '@athenna/artisan'
 import { NotFoundDatabaseException } from '#app/Exceptions/NotFoundDatabaseException'
 
@@ -223,7 +223,6 @@ export class InstallTestCommand extends Command {
       'DB_DATABASE=database\n' +
       'DB_USERNAME=root\n' +
       'DB_PASSWORD=root\n' +
-      'DB_SYNCHRONIZE=(true)\n' +
       'DB_AUTO_CONNECT=(true)\n'
 
     try {
