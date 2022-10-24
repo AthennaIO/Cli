@@ -1,6 +1,6 @@
 import { CoreLoader } from '@athenna/core'
 import { TestLoader } from '@athenna/test'
-import { Path, Folder } from '@secjs/utils'
+import { Folder, Path } from '@athenna/common'
 import { ArtisanLoader, ConsoleKernel } from '@athenna/artisan'
 
 export class Kernel extends ConsoleKernel {

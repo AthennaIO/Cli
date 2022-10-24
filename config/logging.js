@@ -1,4 +1,4 @@
-import { Path } from '@secjs/utils'
+import { Path } from '@athenna/common'
 
 export default {
   /*

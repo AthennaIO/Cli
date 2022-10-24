@@ -1,4 +1,4 @@
-import { File } from '@secjs/utils'
+import { File } from '@athenna/common'
 
 const { name, version, description } = JSON.parse(
   new File('../package.json').getContentSync().toString(),
@@ -144,6 +144,7 @@ export default {
     import('@athenna/core/providers/ServiceProvider'),
     import('@athenna/core/providers/RepositoryProvider'),
     import('@athenna/artisan/providers/ArtisanProvider'),
+    import('@athenna/artisan/providers/TemplateProvider'),
     import('#providers/AppServiceProvider'),
   ],
 
