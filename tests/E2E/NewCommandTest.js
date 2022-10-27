@@ -9,7 +9,6 @@ export class NewCommandTest extends Test {
 
   async afterEach() {
     await Folder.safeRemove(Path.pwd('projectCli'))
-    await Folder.safeRemove(Path.pwd('projectSlim'))
     await Folder.safeRemove(Path.pwd('projectHttp'))
     await Folder.safeRemove(Path.pwd('projectDefault'))
   }
@@ -35,15 +34,6 @@ export class NewCommandTest extends Test {
   /**
    * @param {import('@athenna/test').HttpTestContext} ctx
    */
-  async shouldBeAbleToCreateAthennaSlimProject({ assert }) {
-    await Artisan.call(`new ${Path.pwd('projectSlim')} --type slim`)
-
-    assert.isTrue(await Folder.exists(Path.pwd('projectSlim/app')))
-  }
-
-  /**
-   * @param {import('@athenna/test').HttpTestContext} ctx
-   */
   async shouldBeAbleToCreateAthennaHttpProject({ assert }) {
     await Artisan.call(`new ${Path.pwd('projectHttp')} --type http`)
 
@@ -54,8 +44,8 @@ export class NewCommandTest extends Test {
    * @param {import('@athenna/test').HttpTestContext} ctx
    */
   async shouldThrowNotEmptyFolderException({ assert }) {
-    await Artisan.call('new projectDefault --type slim')
-    await Artisan.call('new projectDefault --type slim')
+    await Artisan.call('new projectDefault --type cli')
+    await Artisan.call('new projectDefault --type cli')
   }
 
   /**

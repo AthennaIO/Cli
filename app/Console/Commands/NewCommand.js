@@ -42,7 +42,7 @@ export class NewCommand extends Command {
   addFlags(commander) {
     return commander.option(
       '-t, --type <type>',
-      'Current types available: http, cli and slim.',
+      'Current types available: http and cli.',
       'http',
     )
   }
@@ -113,28 +113,6 @@ export class NewCommand extends Command {
         [
           `    ${arrow} cd ${projectName}\n    ${arrow} npm test\n    ${arrow} npm start -- --help`,
         ],
-      ),
-    )
-  }
-
-  /**
-   * The new:project -t slim command handler.
-   *
-   * @param {string} projectName
-   * @return {Promise<void>}
-   */
-  async slim(projectName) {
-    this.title('GENERATING SLIM\n', 'bold', 'green')
-
-    await this.cloneByBranch('slim', projectName)
-
-    const arrow = chalk.bold.green('❯')
-
-    this.log(
-      this.createTable(
-        {},
-        ['    Run following commands to get started'],
-        [`    ${arrow} cd ${projectName}\n    ${arrow} npm start -- --help`],
       ),
     )
   }
