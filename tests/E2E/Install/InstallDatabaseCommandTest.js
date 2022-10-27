@@ -15,7 +15,7 @@ export class InstallDatabaseCommandTest extends Test {
    * @param {import('@athenna/test').HttpTestContext} ctx
    */
   async shouldBeAbleToInstallDatabaseComponentInAthennaProject({ assert }) {
-    await Artisan.call('new projectDb --type slim')
+    await Artisan.call('new projectDb --type cli')
 
     assert.isTrue(await Folder.exists(Path.pwd('projectDb/app')))
 

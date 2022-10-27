@@ -1,4 +1,5 @@
 import { File } from '@athenna/common'
+import { ProviderHelper } from '@athenna/core'
 
 const { name, version, description } = JSON.parse(
   new File('../package.json').getContentSync().toString(),
@@ -121,13 +122,23 @@ export default {
   | Graceful shutdown callback
   |--------------------------------------------------------------------------
   |
-  | Default graceful shutdown callback configured to listen to SIGINT and
-  | SIGTERM events.
+  | Configure all the defaults graceful shutdown callbacks to listen to Node.js
+  | SIG events.
   |
   */
 
-  gracefulShutdownCb: async () => {},
+  gracefulShutdown: {
+    SIGINT: async () => {
+      await ProviderHelper.shutdownAll(false)
 
+      process.exit()
+    },
+    SIGTERM: async signal => {
+      await ProviderHelper.shutdownAll()
+
+      process.kill(process.pid, signal)
+    },
+  },
   /*
   |--------------------------------------------------------------------------
   | Application providers

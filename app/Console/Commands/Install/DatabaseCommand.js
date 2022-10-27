@@ -212,8 +212,8 @@ export class InstallTestCommand extends Command {
     }
 
     const dbPort = {
-      mysql: '(3306)',
-      postgres: '(5432)',
+      mysql: '3306',
+      postgres: '5432',
     }
 
     const envVars =
@@ -224,7 +224,7 @@ export class InstallTestCommand extends Command {
       'DB_DEBUG=false\n' +
       'DB_USERNAME=root\n' +
       'DB_PASSWORD=root\n' +
-      'DB_AUTO_CONNECT=(true)\n'
+      'DB_AUTO_CONNECT=true\n'
 
     try {
       await (await new File(envFilePath).load()).append(envVars)
