@@ -20,6 +20,8 @@ export default {
   | Of course, examples of configuring each database platform that is
   | supported by Athenna is shown below to make development simple.
   |
+  | Supported: "mysql", "postgres" and "mongo".
+  |
   */
 
   connections: {
@@ -41,6 +43,21 @@ export default {
       user: Env('DB_USERNAME', 'root'),
       password: Env('DB_PASSWORD', 'root'),
       database: Env('DB_DATABASE', 'database'),
+    },
+
+    mongo: {
+      driver: 'mongo',
+      protocol: 'mongodb',
+      host: Env('DB_HOST', '127.0.0.1'),
+      port: Env('DB_PORT', 27017),
+      user: Env('DB_USERNAME', 'root'),
+      password: Env('DB_PASSWORD', 'root'),
+      database: Env('DB_DATABASE', 'database'),
+      w: 'majority',
+      replicaSet: 'rs',
+      retryWrites: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     },
   },
 

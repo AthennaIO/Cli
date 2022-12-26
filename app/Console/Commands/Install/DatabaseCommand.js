@@ -2,15 +2,7 @@ import { File, Path } from '@athenna/common'
 import { Command, FilePropertiesHelper } from '@athenna/artisan'
 import { NotFoundDatabaseException } from '#app/Exceptions/NotFoundDatabaseException'
 
-export class InstallTestCommand extends Command {
-  /**
-   * Resolve any dependency of the service container
-   * inside the constructor.
-   */
-  constructor() {
-    super()
-  }
-
+export class InstallDatabaseCommand extends Command {
   /**
    * The name and signature of the console command.
    */
@@ -37,7 +29,7 @@ export class InstallTestCommand extends Command {
       .option('--no-lint', 'Do not run eslint in the command.', true)
       .option(
         '--db <db>',
-        'Set the database to be configured in project. Current databases available: mysql and postgres.',
+        'Set the database to be configured in project. Current databases available: mysql, mongo and postgres.',
         'postgres',
       )
   }
@@ -53,7 +45,7 @@ export class InstallTestCommand extends Command {
 
     this.title('INSTALLING DATABASE COMPONENT\n', 'bold', 'green')
 
-    const availableDatabases = ['mysql', 'postgres']
+    const availableDatabases = ['mysql', 'mongo', 'postgres']
 
     if (!availableDatabases.includes(options.db)) {
       throw new NotFoundDatabaseException(options.db)
@@ -82,6 +74,7 @@ export class InstallTestCommand extends Command {
     const dictionary = {
       mysql: 'mysql2',
       postgres: 'pg',
+      mongo: 'mongoose',
     }
 
     const cdCommand = `cd ${projectPath}`

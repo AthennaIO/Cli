@@ -7,6 +7,10 @@ export class InstallDatabaseCommandTest extends Test {
     return 100000
   }
 
+  async beforeAll() {
+    process.env.CALL_PATH = Path.pwd()
+  }
+
   async afterEach() {
     await Folder.safeRemove(Path.pwd('projectDb'))
   }
