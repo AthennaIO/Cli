@@ -9,7 +9,7 @@ export default {
   | you may use many connections at once using the Database library.
   |
   */
-  default: Env('DB_CONNECTION', 'mysql'),
+  default: Env('DB_CONNECTION', 'mongo'),
 
   /*
   |--------------------------------------------------------------------------
@@ -50,11 +50,9 @@ export default {
       protocol: 'mongodb',
       host: Env('DB_HOST', '127.0.0.1'),
       port: Env('DB_PORT', 27017),
-      user: Env('DB_USERNAME', 'root'),
-      password: Env('DB_PASSWORD', 'root'),
+      user: Env('DB_USERNAME'),
+      password: Env('DB_PASSWORD'),
       database: Env('DB_DATABASE', 'database'),
-      w: 'majority',
-      replicaSet: 'rs',
       retryWrites: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,

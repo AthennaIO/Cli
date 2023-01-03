@@ -33,7 +33,7 @@ export default {
     smtp: {
       driver: 'smtp',
       host: Env('MAIL_HOST', 'localhost'),
-      port: Env('MAIL_POST', 587),
+      port: Env('MAIL_PORT', 587),
       auth: {
         user: Env('MAIL_USERNAME'),
         pass: Env('MAIL_PASSWORD'),

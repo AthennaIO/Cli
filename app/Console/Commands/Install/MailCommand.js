@@ -136,6 +136,7 @@ export class InstallMailCommand extends Command {
     }
 
     const envVars =
+      '\nMAIL_MAILER=smtp\n' +
       'MAIL_HOST=127.0.0.1\n' +
       'MAIL_PORT=587\n' +
       'MAIL_USERNAME=\n' +
