@@ -72,8 +72,8 @@ export class InstallDatabaseCommand extends Command {
 
   async installDatabasePackage(projectPath, db) {
     const dictionary = {
-      mysql: 'mysql2',
-      postgres: 'pg',
+      mysql: 'knex mysql2',
+      postgres: 'knex pg',
       mongo: 'mongoose',
     }
 
@@ -207,7 +207,10 @@ export class InstallDatabaseCommand extends Command {
     const dbPort = {
       mysql: '3306',
       postgres: '5432',
+      mongo: '27017',
     }
+
+    const auth = db === 'mongo' ? '' : 'root'
 
     const envVars =
       `\nDB_CONNECTION=${db}\n` +
@@ -215,8 +218,8 @@ export class InstallDatabaseCommand extends Command {
       `DB_PORT=${dbPort[db]}\n` +
       'DB_DATABASE=database\n' +
       'DB_DEBUG=false\n' +
-      'DB_USERNAME=root\n' +
-      'DB_PASSWORD=root\n' +
+      `DB_USERNAME=${auth}\n` +
+      `DB_PASSWORD=${auth}\n` +
       'DB_AUTO_CONNECT=true\n'
 
     try {
