@@ -1,5 +1,5 @@
 /**
- * @athenna/scaffold
+ * @athenna/cli
  *
  * (c) João Lenon <lenon@athenna.io>
  *

@@ -69,8 +69,8 @@ export class InstallMailCommand extends Command {
   }
 
   async createMailConfigFile(projectPath) {
-    const mailConfigFile = `${projectPath}/config/mail.js`
-    const message = 'Creating config/mail.js file in project'
+    const mailConfigFile = `${projectPath}/config/mail.${Path.ext()}`
+    const message = `Creating config/mail.${Path.ext()} file in project`
 
     const spinner = this.createSpinner(message)
 
@@ -81,7 +81,9 @@ export class InstallMailCommand extends Command {
     }
 
     try {
-      await new File(Path.resources(`scaffolds/mailComponent/config/mail.js`))
+      await new File(
+        Path.resources(`scaffolds/mailComponent/config/mail.${Path.ext()}`),
+      )
         .loadSync()
         .copy(mailConfigFile)
 
@@ -94,8 +96,8 @@ export class InstallMailCommand extends Command {
   }
 
   async addMailProviderToAppConfig(projectPath) {
-    const appConfigPath = `${projectPath}/config/app.js`
-    const message = 'Registering MailProvider in config/app.js'
+    const appConfigPath = `${projectPath}/config/app.${Path.ext()}`
+    const message = `Registering MailProvider in config/app.${Path.ext()}`
 
     const spinner = this.createSpinner(message)
 

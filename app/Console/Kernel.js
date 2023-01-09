@@ -1,5 +1,4 @@
 import { CoreLoader } from '@athenna/core'
-import { TestLoader } from '@athenna/test'
 import { Folder, Path } from '@athenna/common'
 import { ArtisanLoader, ConsoleKernel } from '@athenna/artisan'
 
@@ -10,20 +9,27 @@ export class Kernel extends ConsoleKernel {
    * @return {any[]}
    */
   get commands() {
-    const internalCommands = [
-      ...CoreLoader.loadCommands(),
-      ...TestLoader.loadCommands(),
-      ...ArtisanLoader.loadCommands(),
-    ]
-
     const appCommands = new Folder(Path.console('Commands'))
       .loadSync()
-      .getFilesByPattern('**/*.js', true)
+      .getFilesByPattern(`**/*.${Path.ext()}`, true)
       .map(command => import(command.href))
 
     if (Env('NODE_ENV') === 'production') {
       return appCommands
     }
+
+    const internalCommands = [
+      ...CoreLoader.loadCommands(),
+      ...ArtisanLoader.loadCommands(),
+    ]
+
+    const testCommandsPath = Path.nodeModules('@athenna/test/src/Commands')
+    const testCommands = new Folder(testCommandsPath)
+      .loadSync()
+      .getFilesByPattern('**/*.js', true)
+      .map(command => import(command.href))
+
+    internalCommands.push(...testCommands)
 
     return [...internalCommands, ...appCommands]
   }
@@ -34,6 +40,15 @@ export class Kernel extends ConsoleKernel {
    * @return {any[]}
    */
   get templates() {
-    return [...TestLoader.loadTemplates(), ...ArtisanLoader.loadTemplates()]
+    if (Env('NODE_ENV') === 'production') {
+      return ArtisanLoader.loadTemplates()
+    }
+
+    const testTemplatesPath = Path.nodeModules('@athenna/test/templates')
+    const testTemplates = new Folder(testTemplatesPath)
+      .loadSync()
+      .getFilesByPattern('**/*.edge', true)
+
+    return [...testTemplates, ...ArtisanLoader.loadTemplates()]
   }
 }
