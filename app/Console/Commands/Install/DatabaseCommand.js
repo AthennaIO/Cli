@@ -97,8 +97,8 @@ export class InstallDatabaseCommand extends Command {
   }
 
   async createDatabaseConfigFile(projectPath, db) {
-    const databaseConfigFile = `${projectPath}/config/database.js`
-    const message = 'Creating config/database.js file in project'
+    const databaseConfigFile = `${projectPath}/config/database.${Path.ext()}`
+    const message = `Creating config/database.${Path.ext()} file in project`
 
     const spinner = this.createSpinner(message)
 
@@ -110,7 +110,9 @@ export class InstallDatabaseCommand extends Command {
 
     try {
       await new File(
-        Path.resources(`scaffolds/databaseComponent/${db}/config/database.js`),
+        Path.resources(
+          `scaffolds/databaseComponent/${db}/config/database.${Path.ext()}`,
+        ),
       )
         .loadSync()
         .copy(databaseConfigFile)
@@ -124,8 +126,8 @@ export class InstallDatabaseCommand extends Command {
   }
 
   async addDatabaseProviderToAppConfig(projectPath) {
-    const appConfigPath = `${projectPath}/config/app.js`
-    const message = 'Registering DatabaseProvider in config/app.js'
+    const appConfigPath = `${projectPath}/config/app.${Path.ext()}`
+    const message = `Registering DatabaseProvider in config/app.${Path.ext()}`
 
     const spinner = this.createSpinner(message)
 
@@ -151,8 +153,8 @@ export class InstallDatabaseCommand extends Command {
   }
 
   async addDatabaseCommandsToKernel(projectPath) {
-    const kernelPath = `${projectPath}/app/Console/Kernel.js`
-    const message = 'Registering commands and templates in Console/Kernel.js'
+    const kernelPath = `${projectPath}/app/Console/Kernel.${Path.ext()}`
+    const message = `Registering commands and templates in Console/Kernel.${Path.ext()}`
 
     const spinner = this.createSpinner(message)
 

@@ -29,7 +29,7 @@ export class NewCommand extends Command {
    * @type {string}
    */
   get url() {
-    return 'https://github.com/AthennaIO/Scaffold.git'
+    return 'https://github.com/AthennaIO/AthennaIO.git'
   }
 
   /**
