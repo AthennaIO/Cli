@@ -1,3 +1,12 @@
+/**
+ * @athenna/cli
+ *
+ * (c) João Lenon <lenon@athenna.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import { File } from '@athenna/common'
 import { ProviderHelper } from '@athenna/core'
 
@@ -129,8 +138,6 @@ export default {
 
   gracefulShutdown: {
     SIGINT: async () => {
-      await ProviderHelper.shutdownAll(false)
-
       process.exit()
     },
     SIGTERM: async signal => {
@@ -139,6 +146,38 @@ export default {
       process.kill(process.pid, signal)
     },
   },
+
+  /*
+  |--------------------------------------------------------------------------
+  | Trace Artisan commands
+  |--------------------------------------------------------------------------
+  |
+  | Trace artisan commands. If this value is true, Athenna will use the
+  | rTracer library to generate a unique uuid v1 for each command executed
+  | by Artisan.
+  |
+  */
+
+  traceArtisan: false,
+
+  /*
+  |--------------------------------------------------------------------------
+  | Protected Artisan commands
+  |--------------------------------------------------------------------------
+  |
+  | Protected commands are usually commands that will let the Node.js process
+  | running for some reason.
+  |
+  | For example: "node artisan repl"
+  |
+  | This command will bootstrap a REPL session. The Node.js process needs to
+  | stay running, so we cannot force shutdown the application after this command
+  | is executed.
+  |
+  */
+
+  protectedCommands: ['repl', 'test', 'serve'],
+
   /*
   |--------------------------------------------------------------------------
   | Application providers
@@ -156,7 +195,6 @@ export default {
     import('@athenna/core/providers/RepositoryProvider'),
     import('@athenna/artisan/providers/ArtisanProvider'),
     import('@athenna/artisan/providers/TemplateProvider'),
-    import('#providers/AppServiceProvider'),
   ],
 
   /*
