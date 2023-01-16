@@ -1,3 +1,12 @@
+/**
+ * @athenna/cli
+ *
+ * (c) João Lenon <lenon@athenna.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import { Path } from '@athenna/common'
 
 export default {
@@ -40,12 +49,14 @@ export default {
 
       formatter: 'simple',
     },
+
     console: {
       driver: 'console',
       level: 'trace',
 
       formatter: 'cli',
     },
+
     exception: {
       driver: 'console',
       level: 'trace',
@@ -53,6 +64,7 @@ export default {
 
       formatter: 'none',
     },
+
     request: {
       driver: 'console',
       level: 'trace',
@@ -62,9 +74,11 @@ export default {
         asJson: false,
       },
     },
+
     discard: {
       driver: 'null',
     },
+
     file: {
       driver: 'file',
       level: 'trace',
@@ -73,6 +87,7 @@ export default {
       formatter: 'simple',
       formatterConfig: {},
     },
+
     slack: {
       driver: 'slack',
       level: 'fatal',
@@ -81,6 +96,7 @@ export default {
       formatter: 'message',
       formatterConfig: {},
     },
+
     discord: {
       driver: 'discord',
       level: 'fatal',
@@ -90,6 +106,7 @@ export default {
       formatter: 'message',
       formatterConfig: {},
     },
+
     telegram: {
       driver: 'telegram',
       level: 'fatal',
