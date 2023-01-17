@@ -9,10 +9,8 @@
 
 import chalk from 'chalk'
 
-import { basename, isAbsolute, sep } from 'node:path'
-
 import { Command } from '@athenna/artisan'
-import { Folder, Path, File } from '@athenna/common'
+import { Path, File } from '@athenna/common'
 
 export class UpadateCommand extends Command {
   /**
