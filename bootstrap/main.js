@@ -11,6 +11,8 @@
 
 import { Ignite } from '@athenna/core'
 
+import { VersionUpdateHelper } from '#app/Helpers/VersionUpdateHelper'
+
 async function main() {
   process.env.NODE_ENV = 'production'
   process.env.CALL_PATH = process.cwd()
@@ -19,6 +21,8 @@ async function main() {
     bootLogs: false,
   })
   const artisan = await application.bootArtisan()
+
+  await VersionUpdateHelper.execute()
 
   await artisan.main('Athenna')
 }
