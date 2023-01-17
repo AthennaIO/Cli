@@ -81,9 +81,9 @@ export class InstallDatabaseCommand extends Command {
 
   async installDatabasePackage(projectPath, db) {
     const dictionary = {
-      mysql: 'knex mysql2',
-      postgres: 'knex pg',
-      mongo: 'mongoose',
+      mysql: 'knex and mysql2 packages',
+      postgres: 'knex and pg packages',
+      mongo: 'mongoose package',
     }
 
     const cdCommand = `cd ${projectPath}`
@@ -91,7 +91,7 @@ export class InstallDatabaseCommand extends Command {
 
     await this.execCommand(
       npmInstallCommand,
-      `Installing ${dictionary[db]} package in your project`,
+      `Installing ${dictionary[db]} in your project`,
     )
   }
 
@@ -180,15 +180,15 @@ export class InstallDatabaseCommand extends Command {
         "import { DatabaseLoader } from '@athenna/database'\n",
       )
 
-      await FilePropertiesHelper.addContentToArrayProperty(
+      await FilePropertiesHelper.addContentToArrayGetter(
         kernelPath,
-        'const internalCommands = ',
+        'internalCommands',
         '...DatabaseLoader.loadCommands()',
       )
 
       await FilePropertiesHelper.addContentToArrayGetter(
         kernelPath,
-        'templates',
+        'internalTemplates',
         '...DatabaseLoader.loadTemplates()',
       )
 
