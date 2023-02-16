@@ -43,7 +43,7 @@
   "dependencies": {
     "@athenna/artisan": "^3.0.0",
     "@athenna/common": "^3.0.0",
-    "@athenna/config": "^3.0.0",
+    "@athenna/config": "^3.1.0",
     "@athenna/core": "^3.0.0",
     "@athenna/ioc": "^3.0.0",
     "@athenna/logger": "^3.0.0",
