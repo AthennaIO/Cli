@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "Athenna CLI to create new projects and install components.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -47,6 +47,7 @@
     "@athenna/core": "^3.0.0",
     "@athenna/ioc": "^3.0.0",
     "@athenna/logger": "^3.0.0",
+    "cli-table": "^0.3.11",
     "cls-rtracer": "^2.6.2"
   },
   "devDependencies": {
