@@ -41,12 +41,12 @@
     "#tests/*": "./tests/*.js"
   },
   "dependencies": {
-    "@athenna/artisan": "^3.0.0",
-    "@athenna/common": "^3.0.0",
-    "@athenna/config": "^3.0.0",
-    "@athenna/core": "^3.0.0",
-    "@athenna/ioc": "^3.0.0",
-    "@athenna/logger": "^3.0.0",
+    "@athenna/artisan": "3.0.10",
+    "@athenna/common": "3.0.2",
+    "@athenna/config": "3.0.4",
+    "@athenna/core": "3.0.15",
+    "@athenna/ioc": "3.0.2",
+    "@athenna/logger": "3.0.9",
     "cli-table": "^0.3.11",
     "cls-rtracer": "^2.6.2"
   },
