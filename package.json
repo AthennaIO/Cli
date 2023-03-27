@@ -27,7 +27,7 @@
     ".athennarc.prod.json"
   ],
   "bin": {
-    "athenna": "./bin/main.js"
+    "athenna": "./bin/bin"
   },
   "scripts": {
     "start": "sh node artisan serve",

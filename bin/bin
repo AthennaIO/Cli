@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Get the absolute path to the script directory
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
+node --experimental-import-meta-resolve "$SCRIPT_DIR/main.js" "$@"
