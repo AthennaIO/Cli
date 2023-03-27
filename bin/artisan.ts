@@ -1,4 +1,4 @@
-#!/usr/bin/env node --experimental-import-meta-resolve
+#!/usr/bin/env -S node --experimental-import-meta-resolve
 
 import { Ignite } from '@athenna/core'
 
