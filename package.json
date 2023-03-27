@@ -22,7 +22,9 @@
     "src/*.js",
     "src/*.d.ts",
     "src/**/*.js",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    ".athennarc.json",
+    ".athennarc.prod.json"
   ],
   "bin": {
     "athenna": "./bin/main.js"

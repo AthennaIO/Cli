@@ -22,7 +22,7 @@ jobs:
         run: npm install
 
       - name: Compile code
-        run: sh scripts/build
+        run: sh node artisan build
 
       - name: Automatic GitHub Release
         uses: justincy/github-action-npm-release@2.0.1
