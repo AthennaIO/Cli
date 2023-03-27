@@ -33,16 +33,19 @@
     "template:customize": "@athenna/artisan/commands/TemplateCustomizeCommand",
     "serve": {
       "path": "@athenna/core/commands/ServeCommand",
-      "entrypoint": "#bin/main"
+      "entrypoint": "#bin/main",
+      "stayAlive": true
     },
     "test": {
       "path": "@athenna/core/commands/TestCommand",
       "entrypoint": "#bin/test",
-      "loadAllCommands": true
+      "loadAllCommands": true,
+      "stayAlive": true
     },
     "repl": {
       "path": "@athenna/core/commands/ReplCommand",
-      "entrypoint": "#bin/repl"
+      "entrypoint": "#bin/repl",
+      "stayAlive": true
     },
     "build": "@athenna/core/commands/BuildCommand",
     "new": "#src/commands/new.command"

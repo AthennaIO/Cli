@@ -8,7 +8,7 @@ export default class NewCommandTest extends BaseE2ETest {
   public async shouldBeAbleToCreateAHttpProject({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(true)
 
-    await Artisan.call('new project')
+    await Artisan.call('new project', false)
 
     assert.isTrue(ExitFaker.faker.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
@@ -23,7 +23,7 @@ export default class NewCommandTest extends BaseE2ETest {
   public async shouldBeAbleToCreateASlimHttpProject({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(false)
 
-    await Artisan.call('new project')
+    await Artisan.call('new project', false)
 
     assert.isTrue(ExitFaker.faker.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
@@ -38,7 +38,7 @@ export default class NewCommandTest extends BaseE2ETest {
   public async shouldBeAbleToCreateACliProject({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(true)
 
-    await Artisan.call('new project --type cli')
+    await Artisan.call('new project --type cli', false)
 
     assert.isTrue(ExitFaker.faker.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
@@ -53,7 +53,7 @@ export default class NewCommandTest extends BaseE2ETest {
   public async shouldBeAbleToCreateASlimCliProject({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(false)
 
-    await Artisan.call('new project --type cli')
+    await Artisan.call('new project --type cli', false)
 
     assert.isTrue(ExitFaker.faker.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
@@ -68,7 +68,7 @@ export default class NewCommandTest extends BaseE2ETest {
   public async shouldThrowAnExceptionWhenTheProjectTypeDoesNotExist({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(true)
 
-    await Artisan.call('new project --type not-found')
+    await Artisan.call('new project --type not-found', false)
 
     assert.isTrue(ExitFaker.faker.calledWith(1))
   }
@@ -77,8 +77,8 @@ export default class NewCommandTest extends BaseE2ETest {
   public async shouldThrowAnExceptionWhenTheProjectRootPathAlreadyExist({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(true)
 
-    await Artisan.call('new project')
-    await Artisan.call('new project')
+    await Artisan.call('new project', false)
+    await Artisan.call('new project', false)
 
     assert.isTrue(ExitFaker.faker.calledWith(1))
   }

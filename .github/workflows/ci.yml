@@ -46,7 +46,7 @@ jobs:
         run: sh node artisan build
 
       - name: Link the package and run the CLI
-        run: npm link . && athenna
+        run: node --version && npm link . && athenna
 
   windows:
     runs-on: windows-latest

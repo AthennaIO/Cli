@@ -47,10 +47,10 @@
     "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "@athenna/artisan": "^3.6.0",
+    "@athenna/artisan": "^3.7.0",
     "@athenna/common": "^3.5.0",
     "@athenna/config": "^3.3.0",
-    "@athenna/core": "^3.4.0",
+    "@athenna/core": "^3.5.0",
     "@athenna/ioc": "^3.2.0",
     "@athenna/logger": "^3.2.0",
     "@athenna/view": "^3.1.0",
@@ -96,14 +96,14 @@
   "c8": {
     "all": true,
     "include": [
-      "app/**/*.ts"
+      "src/**/*.ts"
     ],
     "exclude": [],
     "reporter": [
       "text-summary",
       "html"
     ],
-    "report-dir": "./tests/Coverage",
+    "report-dir": "./tests/coverage",
     "check-coverage": true
   },
   "prettier": {
