@@ -1,0 +1,59 @@
+{
+  "services": [],
+  "preloads": [],
+  "providers": [
+    "@athenna/core/providers/CoreProvider"
+  ],
+  "commands": {
+    "make:exception": {
+      "path": "@athenna/core/commands/MakeExceptionCommand",
+      "destination": "./src/exceptions"
+    },
+    "make:facade": {
+      "path": "@athenna/core/commands/MakeFacadeCommand",
+      "destination": "./src/providers/facades"
+    },
+    "make:provider": {
+      "path": "@athenna/core/commands/MakeProviderCommand",
+      "destination": "./src/providers"
+    },
+    "make:service": {
+      "path": "@athenna/core/commands/MakeServiceCommand",
+      "destination": "./src/services"
+    },
+    "make:test": {
+      "path": "@athenna/core/commands/MakeTestCommand",
+      "destination": "./tests"
+    },
+    "make:command": {
+      "path": "@athenna/artisan/commands/MakeCommandCommand",
+      "destination": "./src/commands"
+    },
+    "configure": "@athenna/artisan/commands/ConfigureCommand",
+    "template:customize": "@athenna/artisan/commands/TemplateCustomizeCommand",
+    "serve": {
+      "path": "@athenna/core/commands/ServeCommand",
+      "entrypoint": "#bin/main"
+    },
+    "test": {
+      "path": "@athenna/core/commands/TestCommand",
+      "entrypoint": "#bin/test",
+      "loadAllCommands": true
+    },
+    "repl": {
+      "path": "@athenna/core/commands/ReplCommand",
+      "entrypoint": "#bin/repl"
+    },
+    "build": "@athenna/core/commands/BuildCommand",
+    "new": "#src/commands/new.command"
+  },
+  "templates": {
+    "exception": "node_modules/@athenna/core/templates/exception.edge",
+    "facade": "node_modules/@athenna/core/templates/facade.edge",
+    "provider": "node_modules/@athenna/core/templates/provider.edge",
+    "service": "node_modules/@athenna/core/templates/service.edge",
+    "test": "node_modules/@athenna/core/templates/test.edge",
+    "testFn": "node_modules/@athenna/core/templates/testFn.edge",
+    "command": "node_modules/@athenna/artisan/templates/command.edge"
+  }
+}

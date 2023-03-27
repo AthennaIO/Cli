@@ -1,7 +1,7 @@
 {
   "name": "@athenna/cli",
-  "version": "3.0.7",
-  "description": "Athenna CLI to create new projects and install components.",
+  "version": "3.1.0",
+  "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
   "bugs": "https://github.com/AthennaIO/Cli/issues",
@@ -9,75 +9,92 @@
   "homepage": "https://github.com/AthennaIO/Cli#readme",
   "keywords": [
     "esm",
-    "athenna"
+    "cli",
+    "artisan",
+    "athenna",
+    "typescript"
+  ],
+  "files": [
+    "bin/*.js",
+    "bin/*.d.ts",
+    "bin/**/*.js",
+    "bin/**/*.d.ts",
+    "src/*.js",
+    "src/*.d.ts",
+    "src/**/*.js",
+    "src/**/*.d.ts"
   ],
   "bin": {
-    "athenna": "./bootstrap/main.js"
+    "athenna": "./bin/main.js"
   },
   "scripts": {
-    "start": "node bootstrap/main.js",
-    "test": "npm run --silent lint:fix && node artisan test",
-    "test:debug": "cross-env DEBUG=api:* && npm run --silent test",
+    "start": "sh node artisan serve",
+    "start:dev": "sh node --watch artisan serve",
+    "test": "npm run --silent lint:fix && sh node artisan test",
+    "test:debug": "npm run --silent lint:fix && sh node --inspect artisan test",
     "test:coverage": "c8 npm run --silent test",
-    "lint:fix": "eslint \"{app,bootstrap,config,database,providers,resources,routes,storage,tests}/**/*.js\" --fix"
+    "lint:fix": "eslint \"{app,bootstrap,config,database,providers,resources,routes,storage,tests}/**/*.ts\" --fix"
   },
   "type": "module",
-  "main": "./bootstrap/main.js",
-  "types": "./bootstrap/main.d.ts",
-  "exports": {
-    ".": "./bootstrap/main.js"
-  },
   "imports": {
-    "#app/*": "./app/*.js",
-    "#bootstrap/*": "./bootstrap/*.js",
-    "#config/*": "./config/*.js",
-    "#database/*": "./database/*.js",
-    "#lang/*": "./lang/*.js",
-    "#providers/*": "./providers/*.js",
-    "#facades/*": "./providers/facades/*.js",
-    "#resources/*": "./resources/*.js",
-    "#routes/*": "./routes/*.js",
-    "#storage/*": "./storage/*.js",
-    "#tests/*": "./tests/*.js"
+    "#bin/*": "./bin/*.js",
+    "#bin": "./bin/index.js",
+    "#src/*": "./src/*.js",
+    "#src": "./src/index.js",
+    "#tests/*": "./tests/*.js",
+    "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "@athenna/artisan": "3.0.10",
-    "@athenna/common": "3.0.2",
-    "@athenna/config": "3.0.4",
-    "@athenna/core": "3.0.15",
-    "@athenna/ioc": "3.0.2",
-    "@athenna/logger": "3.0.9",
-    "cli-table": "^0.3.11",
+    "@athenna/artisan": "^3.6.0",
+    "@athenna/common": "^3.5.0",
+    "@athenna/config": "^3.3.0",
+    "@athenna/core": "^3.4.0",
+    "@athenna/ioc": "^3.2.0",
+    "@athenna/logger": "^3.2.0",
+    "@athenna/view": "^3.1.0",
     "cls-rtracer": "^2.6.2"
   },
   "devDependencies": {
-    "@athenna/test": "^3.0.0",
-    "@japa/assert": "^1.3.4",
-    "@japa/run-failed-tests": "^1.0.7",
-    "@japa/runner": "^2.0.7",
-    "@japa/spec-reporter": "^1.1.12",
-    "c8": "^7.11.2",
-    "commitizen": "^4.2.5",
+    "@athenna/test": "^3.3.0",
+    "@japa/assert": "^1.3.6",
+    "@japa/run-failed-tests": "^1.1.0",
+    "@japa/runner": "^2.2.2",
+    "@japa/spec-reporter": "^1.3.2",
+    "@swc/core": "^1.3.27",
+    "@types/bytes": "^3.1.1",
+    "@types/callsite": "^1.0.31",
+    "@types/columnify": "^1.5.1",
+    "@types/debug": "^4.1.7",
+    "@types/figlet": "^1.5.5",
+    "@types/inquirer": "^9.0.3",
+    "@types/kind-of": "^6.0.0",
+    "@types/lodash": "^4.14.191",
+    "@types/ms": "^0.7.31",
+    "@types/pluralize": "^0.0.29",
+    "@types/sinon": "^10.0.13",
+    "@types/uuid": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "c8": "^7.12.0",
     "cross-env": "^7.0.3",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.14.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "husky": "^3.0.9",
-    "lint-staged": "^12.4.1",
-    "minimist": "^1.2.6",
-    "prettier": "^2.6.2",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.6.4"
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "minimist": "^1.2.7",
+    "prettier": "^2.8.7",
+    "reflect-metadata": "^0.1.13",
+    "sinon": "^15.0.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
   },
   "c8": {
     "all": true,
     "include": [
-      "app/**/*.js"
+      "app/**/*.ts"
     ],
     "exclude": [],
     "reporter": [
@@ -85,31 +102,7 @@
       "html"
     ],
     "report-dir": "./tests/Coverage",
-    "check-coverage": true,
-    "statements": "70",
-    "branches": "70",
-    "functions": "70",
-    "lines": "70"
-  },
-  "husky": {
-    "hooks": {
-      "prepare-commit-msg": "lint-staged && exec < /dev/tty && git cz --hook || true"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+    "check-coverage": true
   },
   "prettier": {
     "singleQuote": true,
@@ -127,6 +120,7 @@
       }
     ]
   },
+  "eslintIgnore": [],
   "eslintConfig": {
     "env": {
       "es2021": true,
@@ -135,60 +129,36 @@
     "globals": {
       "ioc": true,
       "Env": true,
+      "Path": true,
       "Config": true
     },
     "plugins": [
-      "prettier"
+      "prettier",
+      "@typescript-eslint"
     ],
     "extends": [
       "standard",
       "eslint:recommended",
-      "plugin:prettier/recommended"
+      "plugin:prettier/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:@typescript-eslint/eslint-recommended"
     ],
-    "ignorePatterns": [
-      "**/*.d.ts"
-    ],
-    "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
-    },
+    "parser": "@typescript-eslint/parser",
     "rules": {
       "camelcase": "off",
       "dot-notation": "off",
       "prettier/prettier": "error",
-      "no-useless-constructor": "off"
+      "no-useless-constructor": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-empty-function": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "caughtErrorsIgnorePattern": "^_"
+        }
+      ]
     }
-  },
-  "files": [
-    "app/*.js",
-    "app/*.d.ts",
-    "app/**/*.js",
-    "app/**/*.d.ts",
-    "bootstrap/*.js",
-    "bootstrap/*.d.ts",
-    "bootstrap/**/*.js",
-    "bootstrap/**/*.d.ts",
-    "config/*.js",
-    "config/*.d.ts",
-    "config/**/*.js",
-    "config/**/*.d.ts",
-    "database/*.js",
-    "database/*.d.ts",
-    "database/**/*.js",
-    "database/**/*.d.ts",
-    "providers/*.js",
-    "providers/*.d.ts",
-    "providers/**/*.js",
-    "providers/**/*.d.ts",
-    "routes/*.js",
-    "routes/*.d.ts",
-    "routes/**/*.js",
-    "routes/**/*.d.ts",
-    "lang/*",
-    "lang/**/*",
-    "storage/*",
-    "storage/**/*",
-    "resources/*",
-    "resources/**/*"
-  ]
+  }
 }
