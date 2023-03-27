@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - http
+      - develop
   pull_request:
     branches:
-      - http
+      - develop
 
 jobs:
   qodana:
