@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -54,7 +54,8 @@
     "@athenna/ioc": "^3.2.0",
     "@athenna/logger": "^3.2.0",
     "@athenna/view": "^3.1.0",
-    "cls-rtracer": "^2.6.2"
+    "cls-rtracer": "^2.6.2",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@athenna/test": "^3.3.0",
@@ -88,7 +89,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "minimist": "^1.2.7",
     "prettier": "^2.8.7",
-    "reflect-metadata": "^0.1.13",
     "sinon": "^15.0.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
