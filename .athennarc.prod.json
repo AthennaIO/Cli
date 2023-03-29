@@ -1,0 +1,10 @@
+{
+  "services": [],
+  "preloads": [],
+  "providers": [
+    "@athenna/core/providers/CoreProvider"
+  ],
+  "commands": {
+    "new": "#src/commands/new.command"
+  }
+}

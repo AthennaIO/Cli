@@ -2,9 +2,10 @@
 
 Athenna is a community driven project. You are free to contribute in any of the following ways.
 
-- [Coding style](#coding-style)
-- [Fix bugs by creating PR's](#fix-bugs-by-creating-prs)
-- [Report security issues](#report-security-issues)
+- [Contributing](#contributing)
+  - [Coding style](#coding-style)
+  - [Fix bugs by creating PR's](#fix-bugs-by-creating-prs)
+  - [Report security issues](#report-security-issues)
 
 ## Coding style
 
