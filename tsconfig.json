@@ -1,0 +1,36 @@
+{
+  "ts-node": {
+    "esm": true,
+    "swc": true
+  },
+  "compilerOptions": {
+    "strict": false,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "outDir": ".",
+    "module": "NodeNext",
+    "target": "ESNext",
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "nodenext",
+    "paths": {
+      "#app/*": ["./app/*.ts"],
+      "#bootstrap/*": ["./bootstrap/*.ts"],
+      "#config/*": ["./config/*.ts"],
+      "#database/*": ["./database/*.ts"],
+      "#lang/*": ["./lang/*.ts"],
+      "#providers/*": ["./providers/*.ts"],
+      "#facades/*": ["./facades/*.ts"],
+      "#resources/*": ["./resources/*.ts"],
+      "#routes/*": ["./routes/*.ts"],
+      "#storage/*": ["./storage/*.ts"],
+      "#tests/*": ["./tests/*.ts"]
+    }
+  },
+  "include": ["./**/*"],
+  "exclude": ["node_modules"]
+}
