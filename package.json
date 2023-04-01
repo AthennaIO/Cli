@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -27,7 +27,7 @@
     ".athennarc.prod.json"
   ],
   "bin": {
-    "athenna": "./bin/main.js"
+    "athenna": "./bin/.bin"
   },
   "scripts": {
     "start": "sh node artisan serve",

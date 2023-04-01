@@ -53,6 +53,7 @@ jobs:
     strategy:
       matrix:
         node-version:
+          - 16.13.1
           - 18.x
     steps:
       - uses: actions/checkout@v2
@@ -71,4 +72,5 @@ jobs:
         run: sh node artisan build
 
       - name: Link the package and run the CLI
+        shell: bash
         run: npm link . && athenna --version
