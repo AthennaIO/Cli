@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
+node --experimental-import-meta-resolve $SCRIPT_DIR/main.js
