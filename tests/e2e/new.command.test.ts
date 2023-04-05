@@ -7,6 +7,7 @@ export default class NewCommandTest extends BaseE2ETest {
   @Test()
   public async shouldBeAbleToCreateAHttpProject({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(true)
+    Prompt.prototype.list = () => Promise.resolve('REST API')
 
     await Artisan.call('new project', false)
 
@@ -22,6 +23,7 @@ export default class NewCommandTest extends BaseE2ETest {
   @Test()
   public async shouldBeAbleToCreateASlimHttpProject({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(false)
+    Prompt.prototype.list = () => Promise.resolve('REST API')
 
     await Artisan.call('new project', false)
 
@@ -37,8 +39,9 @@ export default class NewCommandTest extends BaseE2ETest {
   @Test()
   public async shouldBeAbleToCreateACliProject({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(true)
+    Prompt.prototype.list = () => Promise.resolve('CLI')
 
-    await Artisan.call('new project --type cli', false)
+    await Artisan.call('new project', false)
 
     assert.isTrue(ExitFaker.faker.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
@@ -52,8 +55,9 @@ export default class NewCommandTest extends BaseE2ETest {
   @Test()
   public async shouldBeAbleToCreateASlimCliProject({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(false)
+    Prompt.prototype.list = () => Promise.resolve('CLI')
 
-    await Artisan.call('new project --type cli', false)
+    await Artisan.call('new project', false)
 
     assert.isTrue(ExitFaker.faker.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
@@ -65,17 +69,9 @@ export default class NewCommandTest extends BaseE2ETest {
   }
 
   @Test()
-  public async shouldThrowAnExceptionWhenTheProjectTypeDoesNotExist({ assert }: TestContext) {
-    Prompt.prototype.confirm = () => Promise.resolve(true)
-
-    await Artisan.call('new project --type not-found', false)
-
-    assert.isTrue(ExitFaker.faker.calledWith(1))
-  }
-
-  @Test()
   public async shouldThrowAnExceptionWhenTheProjectRootPathAlreadyExist({ assert }: TestContext) {
     Prompt.prototype.confirm = () => Promise.resolve(true)
+    Prompt.prototype.list = () => Promise.resolve('REST API')
 
     await Artisan.call('new project', false)
     await Artisan.call('new project', false)

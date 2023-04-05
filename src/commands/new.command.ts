@@ -1,24 +1,15 @@
 import { Config } from '@athenna/config'
 import { Exec, File, Folder } from '@athenna/common'
 import { sep, basename, isAbsolute } from 'node:path'
-import { Argument, BaseCommand, Option } from '@athenna/artisan'
+import { Argument, BaseCommand } from '@athenna/artisan'
 import { NotEmptyFolderException } from '#src/exceptions/not.empty.folder.exception'
-import { NotFoundProjectTypeException } from '#src/exceptions/not.found.project.type.exception'
 
 export class NewCommand extends BaseCommand {
   @Argument({ required: true, description: 'Your project folder name.' })
   private name: string
 
-  @Option({
-    signature: '-t, --type [type]',
-    description:
-      'The type of the project. Currenty types available: http and cli.',
-    default: 'http',
-  })
-  private type: string
-
+  private branch: string
   private isLaravel: boolean
-  private readonly supported = ['http', 'cli']
   private readonly url = 'https://github.com/AthennaIO/AthennaIO.git'
   private readonly shellAlias = process.platform === 'win32' ? 'sh ' : './'
 
@@ -36,21 +27,37 @@ export class NewCommand extends BaseCommand {
     await Folder.safeRemove(Path.storage())
     await new Folder(Path.storage()).load()
 
+    const type = await this.prompt.list(
+      'What type of application do you wish to create?',
+      ['REST API', 'CLI'],
+    )
+
     this.isLaravel = await this.prompt.confirm(
       'Do you wish to create a Laravel project style?',
     )
 
-    if (!this.supported.includes(this.type)) {
-      throw new NotFoundProjectTypeException(this.type, this.supported)
+    this.branch = this.getApplicationBranch(type)
+
+    await this[this.branch.replace('-slim', '')]()
+  }
+
+  public getApplicationBranch(result: string) {
+    const map = {
+      CLI: 'cli',
+      'REST API': 'http',
     }
 
-    await this[this.type]()
+    if (this.isLaravel) {
+      return map[result]
+    }
+
+    return map[result].concat('-slim')
   }
 
   public async cli(): Promise<void> {
     this.logger.simple('\n({bold,green} [ GENERATING CLI ])\n')
 
-    await this.clone('cli')
+    await this.clone()
 
     this.logger
       .instruction()
@@ -63,7 +70,7 @@ export class NewCommand extends BaseCommand {
   public async http(): Promise<void> {
     this.logger.simple('\n({bold,green} [ GENERATING HTTP SERVER ])\n')
 
-    await this.clone('http')
+    await this.clone()
 
     this.logger
       .instruction()
@@ -74,11 +81,7 @@ export class NewCommand extends BaseCommand {
       .render()
   }
 
-  public async clone(branch: string): Promise<void> {
-    if (!this.isLaravel) {
-      branch = `${branch}-slim`
-    }
-
+  public async clone(): Promise<void> {
     let projectPath = Path.storage(`projects/${this.name}`)
     let concretePath = `${Config.get('rc.callPath')}${sep}${this.name}`
 
@@ -91,56 +94,61 @@ export class NewCommand extends BaseCommand {
       throw new NotEmptyFolderException(concretePath)
     }
 
-    const cloneCommand = `git clone --branch ${branch} ${this.url} ${projectPath}`
+    const cloneCommand = `git clone --branch ${this.branch} ${this.url} ${projectPath}`
     const moveProjectCommand = `mv ${projectPath} ${concretePath}`
     const runNpmInstallCommand = `cd ${concretePath} && npm install --silent --production=false`
 
-    await this.logger
-      .task()
-      .add(
-        `Clone scaffold project from ${this.paint.purple.bold(
-          this.url,
-        )} in branch ${this.paint.purple.bold(branch)}`,
-        async task => {
-          await Exec.command(cloneCommand)
-            .then(() => task.complete())
-            .catch(() => task.fail())
-        },
-      )
-      .add('Move project to your path', async task => {
-        await Exec.command(moveProjectCommand)
+    const task = this.logger.task()
+
+    task.add(
+      `Clone scaffold project from ${this.paint.purple.bold(
+        this.url,
+      )} in branch ${this.paint.purple.bold(this.branch)}`,
+      async task => {
+        await Exec.command(cloneCommand)
           .then(() => task.complete())
           .catch(() => task.fail())
+      },
+    )
+
+    task.add('Move project to your path', async task => {
+      await Exec.command(moveProjectCommand)
+        .then(() => task.complete())
+        .catch(() => task.fail())
+    })
+
+    task.add(
+      `Install dependencies using ${this.paint.yellow.bold('npm')}`,
+      async task => {
+        await Exec.command(runNpmInstallCommand)
+          .then(() => task.complete())
+          .catch(() => task.fail())
+      },
+    )
+
+    task.add('Remove unnecessary files', async task => {
+      await Folder.safeRemove(`${concretePath}/.git`)
+      await Folder.safeRemove(`${concretePath}/.github`)
+
+      await task.complete()
+    })
+
+    if (this.isLaravel) {
+      task.add(`Create ${this.paint.yellow.bold('.env')} files`, async task => {
+        const file = new File(`${concretePath}/.env.example`, '')
+
+        if (!file.fileExists) {
+          return task.complete()
+        }
+
+        await file.copy(`${concretePath}/.env`)
+        await file.copy(`${concretePath}/.env.test`)
+
+        await task.complete()
       })
-      .add(
-        `Install dependencies using ${this.paint.yellow.bold('npm')}`,
-        async task => {
-          await Exec.command(runNpmInstallCommand)
-            .then(() => task.complete())
-            .catch(() => task.fail())
-        },
-      )
-      .add(
-        `Remove unnecessary files and create ${this.paint.yellow.bold(
-          '.env',
-        )} files`,
-        async task => {
-          await Folder.safeRemove(`${concretePath}/.git`)
-          await Folder.safeRemove(`${concretePath}/.github`)
+    }
 
-          const file = new File(`${concretePath}/.env.example`, '')
-
-          if (!file.fileExists) {
-            return task.complete()
-          }
-
-          await file.copy(`${concretePath}/.env`)
-          await file.copy(`${concretePath}/.env.test`)
-
-          await task.complete()
-        },
-      )
-      .run()
+    await task.run()
 
     console.log()
 
