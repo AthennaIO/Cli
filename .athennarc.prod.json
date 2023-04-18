@@ -1,10 +1,26 @@
 {
-  "services": [],
-  "preloads": [],
   "providers": [
     "@athenna/core/providers/CoreProvider"
   ],
   "commands": {
     "new": "#src/commands/new.command"
+  },
+  "directories": {
+    "bootstrap": "bin",
+    "config": "src/config",
+    "routes": "src/routes",
+    "exceptions": "src/exceptions",
+    "providers": "src/providers",
+    "facades": "src/providers/facades",
+    "services": "src/services",
+    "commands": "src/commands",
+    "repositories": "src/repositories",
+    "tests": "tests",
+    "resources": "src/resources",
+    "views": "src/resources/views",
+    "locales": "src/resources/locales",
+    "database": "src/database",
+    "seeders": "src/database/seeders",
+    "migrations": "src/database/migrations"
   }
 }
