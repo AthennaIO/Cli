@@ -9,7 +9,7 @@ export class NewCommand extends BaseCommand {
   private name: string
 
   private branch: string
-  private isLaravel: boolean
+  private isSlim: boolean
   private readonly url = 'https://github.com/AthennaIO/AthennaIO.git'
   private readonly shellAlias = process.platform === 'win32' ? 'sh ' : './'
 
@@ -32,8 +32,8 @@ export class NewCommand extends BaseCommand {
       ['REST API', 'CLI'],
     )
 
-    this.isLaravel = await this.prompt.confirm(
-      'Do you wish to create a Laravel project style?',
+    this.isSlim = await this.prompt.confirm(
+      'Do you wish to create a slim project style?',
     )
 
     this.branch = this.getApplicationBranch(type)
@@ -47,11 +47,11 @@ export class NewCommand extends BaseCommand {
       'REST API': 'http',
     }
 
-    if (this.isLaravel) {
-      return map[result]
+    if (this.isSlim) {
+      return map[result].concat('-slim')
     }
 
-    return map[result].concat('-slim')
+    return map[result]
   }
 
   public async cli(): Promise<void> {
@@ -133,7 +133,7 @@ export class NewCommand extends BaseCommand {
       await task.complete()
     })
 
-    if (this.isLaravel) {
+    if (!this.isSlim) {
       task.add(`Create ${this.paint.yellow.bold('.env')} files`, async task => {
         const file = new File(`${concretePath}/.env.example`, '')
 
