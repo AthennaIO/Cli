@@ -36,7 +36,7 @@
     "test": "npm run --silent lint:fix && sh node artisan test",
     "test:debug": "npm run --silent lint:fix && cross-env NODE_DEBUG=athenna:* sh node --inspect artisan test",
     "test:coverage": "c8 npm run --silent test",
-    "lint:fix": "eslint \"{app,bootstrap,config,database,providers,resources,routes,storage,tests}/**/*.ts\" --fix"
+    "lint:fix": "eslint \"{src,bin,tests}/**/*.ts\" --fix"
   },
   "type": "module",
   "imports": {
