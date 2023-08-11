@@ -1,12 +1,12 @@
 import { File, Folder } from '@athenna/common'
 import { Prompt, Artisan } from '@athenna/artisan'
 import { BaseE2ETest } from '#tests/helpers/base.e2e.test'
-import { ExitFaker, Test, TestContext } from '@athenna/test'
+import { ExitFaker, Test, type Context } from '@athenna/test'
 
 export default class NewCommandTest extends BaseE2ETest {
   @Test()
-  public async shouldBeAbleToCreateAHttpProject({ assert }: TestContext) {
-    Prompt.prototype.confirm = () => Promise.resolve(true)
+  public async shouldBeAbleToCreateAHttpProject({ assert }: Context) {
+    Prompt.prototype.confirm = () => Promise.resolve(false)
     Prompt.prototype.list = () => Promise.resolve('REST API')
 
     await Artisan.call('new project', false)
@@ -21,8 +21,8 @@ export default class NewCommandTest extends BaseE2ETest {
   }
 
   @Test()
-  public async shouldBeAbleToCreateASlimHttpProject({ assert }: TestContext) {
-    Prompt.prototype.confirm = () => Promise.resolve(false)
+  public async shouldBeAbleToCreateASlimHttpProject({ assert }: Context) {
+    Prompt.prototype.confirm = () => Promise.resolve(true)
     Prompt.prototype.list = () => Promise.resolve('REST API')
 
     await Artisan.call('new project', false)
@@ -37,8 +37,8 @@ export default class NewCommandTest extends BaseE2ETest {
   }
 
   @Test()
-  public async shouldBeAbleToCreateACliProject({ assert }: TestContext) {
-    Prompt.prototype.confirm = () => Promise.resolve(true)
+  public async shouldBeAbleToCreateACliProject({ assert }: Context) {
+    Prompt.prototype.confirm = () => Promise.resolve(false)
     Prompt.prototype.list = () => Promise.resolve('CLI')
 
     await Artisan.call('new project', false)
@@ -53,8 +53,8 @@ export default class NewCommandTest extends BaseE2ETest {
   }
 
   @Test()
-  public async shouldBeAbleToCreateASlimCliProject({ assert }: TestContext) {
-    Prompt.prototype.confirm = () => Promise.resolve(false)
+  public async shouldBeAbleToCreateASlimCliProject({ assert }: Context) {
+    Prompt.prototype.confirm = () => Promise.resolve(true)
     Prompt.prototype.list = () => Promise.resolve('CLI')
 
     await Artisan.call('new project', false)
@@ -69,8 +69,8 @@ export default class NewCommandTest extends BaseE2ETest {
   }
 
   @Test()
-  public async shouldThrowAnExceptionWhenTheProjectRootPathAlreadyExist({ assert }: TestContext) {
-    Prompt.prototype.confirm = () => Promise.resolve(true)
+  public async shouldThrowAnExceptionWhenTheProjectRootPathAlreadyExist({ assert }: Context) {
+    Prompt.prototype.confirm = () => Promise.resolve(false)
     Prompt.prototype.list = () => Promise.resolve('REST API')
 
     await Artisan.call('new project', false)
