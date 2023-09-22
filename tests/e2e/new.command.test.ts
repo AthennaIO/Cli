@@ -1,17 +1,32 @@
 import { File, Folder } from '@athenna/common'
 import { Prompt, Artisan } from '@athenna/artisan'
-import { BaseE2ETest } from '#tests/helpers/base.e2e.test'
-import { ExitFaker, Test, type Context } from '@athenna/test'
+import { BaseCliTest } from '@athenna/core/testing/BaseCliTest'
+import { Test, Mock, AfterEach, BeforeEach, type Stub, type Context } from '@athenna/test'
 
-export default class NewCommandTest extends BaseE2ETest {
+export default class NewCommandTest extends BaseCliTest {
+  public processExitMock: Stub
+
+  @BeforeEach()
+  public async beforeEach() {
+    this.processExitMock = Mock.when(process, 'exit').return(undefined)
+  }
+
+  @AfterEach()
+  public async afterEach() {
+    Mock.restoreAll()
+
+    await Folder.safeRemove(Path.storage())
+    await Folder.safeRemove(Path.pwd('project'))
+  }
+
   @Test()
   public async shouldBeAbleToCreateAHttpProject({ assert }: Context) {
-    Prompt.prototype.confirm = () => Promise.resolve(false)
-    Prompt.prototype.list = () => Promise.resolve('REST API')
+    Mock.when(Prompt.prototype, 'confirm').resolve(false)
+    Mock.when(Prompt.prototype, 'list').resolve('REST API')
 
     await Artisan.call('new project', false)
 
-    assert.isTrue(ExitFaker.faker.calledWith(0))
+    assert.isTrue(this.processExitMock.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isTrue(await File.exists(Path.pwd('project/.env')))
@@ -22,12 +37,12 @@ export default class NewCommandTest extends BaseE2ETest {
 
   @Test()
   public async shouldBeAbleToCreateASlimHttpProject({ assert }: Context) {
-    Prompt.prototype.confirm = () => Promise.resolve(true)
-    Prompt.prototype.list = () => Promise.resolve('REST API')
+    Mock.when(Prompt.prototype, 'confirm').resolve(true)
+    Mock.when(Prompt.prototype, 'list').resolve('REST API')
 
     await Artisan.call('new project', false)
 
-    assert.isTrue(ExitFaker.faker.calledWith(0))
+    assert.isTrue(this.processExitMock.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isFalse(await File.exists(Path.pwd('project/.env')))
@@ -38,12 +53,12 @@ export default class NewCommandTest extends BaseE2ETest {
 
   @Test()
   public async shouldBeAbleToCreateACliProject({ assert }: Context) {
-    Prompt.prototype.confirm = () => Promise.resolve(false)
-    Prompt.prototype.list = () => Promise.resolve('CLI')
+    Mock.when(Prompt.prototype, 'confirm').resolve(false)
+    Mock.when(Prompt.prototype, 'list').resolve('CLI')
 
     await Artisan.call('new project', false)
 
-    assert.isTrue(ExitFaker.faker.calledWith(0))
+    assert.isTrue(this.processExitMock.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isTrue(await File.exists(Path.pwd('project/.env')))
@@ -54,12 +69,12 @@ export default class NewCommandTest extends BaseE2ETest {
 
   @Test()
   public async shouldBeAbleToCreateASlimCliProject({ assert }: Context) {
-    Prompt.prototype.confirm = () => Promise.resolve(true)
-    Prompt.prototype.list = () => Promise.resolve('CLI')
+    Mock.when(Prompt.prototype, 'confirm').resolve(true)
+    Mock.when(Prompt.prototype, 'list').resolve('CLI')
 
     await Artisan.call('new project', false)
 
-    assert.isTrue(ExitFaker.faker.calledWith(0))
+    assert.isTrue(this.processExitMock.calledWith(0))
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isFalse(await File.exists(Path.pwd('project/.env')))
@@ -70,12 +85,12 @@ export default class NewCommandTest extends BaseE2ETest {
 
   @Test()
   public async shouldThrowAnExceptionWhenTheProjectRootPathAlreadyExist({ assert }: Context) {
-    Prompt.prototype.confirm = () => Promise.resolve(false)
-    Prompt.prototype.list = () => Promise.resolve('REST API')
+    Mock.when(Prompt.prototype, 'confirm').resolve(false)
+    Mock.when(Prompt.prototype, 'list').resolve('REST API')
 
     await Artisan.call('new project', false)
     await Artisan.call('new project', false)
 
-    assert.isTrue(ExitFaker.faker.calledWith(1))
+    assert.isTrue(this.processExitMock.calledWith(1))
   }
 }
