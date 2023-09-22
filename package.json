@@ -48,7 +48,7 @@
     "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "@athenna/artisan": "^4.2.0",
+    "@athenna/artisan": "^4.5.0",
     "@athenna/common": "^4.9.1",
     "@athenna/config": "^4.3.0",
     "@athenna/core": "^4.3.0",
