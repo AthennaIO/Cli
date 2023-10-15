@@ -102,16 +102,16 @@ export class NewCommand extends BaseCommand {
       `Clone scaffold project from ${this.paint.purple.bold(
         this.url,
       )} in branch ${this.paint.purple.bold(this.branch)}`,
-      () => Exec.command(cloneCommand),
+      async () => Exec.command(cloneCommand),
     )
 
-    task.addPromise('Move project to your path', () =>
+    task.addPromise('Move project to your path', async () =>
       Exec.command(moveProjectCommand),
     )
 
     task.addPromise(
       `Install dependencies using ${this.paint.yellow.bold('npm')}`,
-      () => Exec.command(runNpmInstallCommand),
+      async () => Exec.command(runNpmInstallCommand),
     )
 
     task.add('Remove unnecessary files', async task => {
