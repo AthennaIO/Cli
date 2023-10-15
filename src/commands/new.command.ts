@@ -119,6 +119,7 @@ export class NewCommand extends BaseCommand {
     )
 
     task.add('Remove unnecessary files', async task => {
+      await Folder.safeRemove(`${concretePath}/.git`)
       await Folder.safeRemove(`${concretePath}/.github`)
       await File.safeRemove(`${concretePath}/README.md`)
 

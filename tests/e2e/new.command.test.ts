@@ -15,11 +15,9 @@ export default class NewCommandTest extends BaseConsoleTest {
       path: Path.fixtures('consoles/confirm-restapi.ts'),
     })
 
-    console.log(output.output)
-
     output.assertSucceeded()
 
-    assert.isTrue(await Folder.exists(Path.pwd('project/.git')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
     assert.isTrue(await File.exists(Path.pwd('project/.env')))
@@ -36,7 +34,7 @@ export default class NewCommandTest extends BaseConsoleTest {
 
     output.assertSucceeded()
 
-    assert.isTrue(await Folder.exists(Path.pwd('project/.git')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
     assert.isFalse(await File.exists(Path.pwd('project/.env')))
@@ -53,7 +51,7 @@ export default class NewCommandTest extends BaseConsoleTest {
 
     output.assertSucceeded()
 
-    assert.isTrue(await Folder.exists(Path.pwd('project/.git')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
     assert.isTrue(await File.exists(Path.pwd('project/.env')))
@@ -70,7 +68,7 @@ export default class NewCommandTest extends BaseConsoleTest {
 
     output.assertSucceeded()
 
-    assert.isTrue(await Folder.exists(Path.pwd('project/.git')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
     assert.isFalse(await File.exists(Path.pwd('project/.env')))
