@@ -163,6 +163,19 @@
         "path": "@athenna/core/commands/ServeCommand",
         "stayAlive": true
       },
+      "build": {
+        "path": "@athenna/core/commands/BuildCommand",
+        "outDir": "build",
+        "tsconfig": "node_modules/@athenna/tsconfig/tsconfig.app-build.json",
+        "include": [
+          "package.json",
+          "package-lock.json",
+          ".npmrc",
+          "README.md",
+          "LICENSE.md",
+          "bin/.athennarc.prod.json"
+        ]
+      },
       "test": {
         "path": "@athenna/core/commands/TestCommand",
         "loadAllCommands": true,
