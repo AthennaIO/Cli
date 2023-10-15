@@ -11,7 +11,6 @@ export class NewCommand extends BaseCommand {
   private branch: string
   private isSlim: boolean
   private readonly url = 'https://github.com/AthennaIO/AthennaIO.git'
-  private readonly shellAlias = process.platform === 'win32' ? 'sh ' : './'
 
   public static signature(): string {
     return 'new'
@@ -63,7 +62,7 @@ export class NewCommand extends BaseCommand {
       .instruction()
       .head('Run following commands to get started:')
       .add(`cd ${this.name}`)
-      .add(`${this.shellAlias}node artisan`)
+      .add('node artisan')
       .render()
   }
 
@@ -76,8 +75,7 @@ export class NewCommand extends BaseCommand {
       .instruction()
       .head('Run following commands to get started:')
       .add(`cd ${this.name}`)
-      .add(`${this.shellAlias}node artisan test`)
-      .add(`${this.shellAlias}node artisan serve`)
+      .add('node artisan serve')
       .render()
   }
 
@@ -100,35 +98,25 @@ export class NewCommand extends BaseCommand {
 
     const task = this.logger.task()
 
-    task.add(
+    task.addPromise(
       `Clone scaffold project from ${this.paint.purple.bold(
         this.url,
       )} in branch ${this.paint.purple.bold(this.branch)}`,
-      async task => {
-        await Exec.command(cloneCommand)
-          .then(() => task.complete())
-          .catch(() => task.fail())
-      },
+      () => Exec.command(cloneCommand),
     )
 
-    task.add('Move project to your path', async task => {
-      await Exec.command(moveProjectCommand)
-        .then(() => task.complete())
-        .catch(() => task.fail())
-    })
+    task.addPromise('Move project to your path', () =>
+      Exec.command(moveProjectCommand),
+    )
 
-    task.add(
+    task.addPromise(
       `Install dependencies using ${this.paint.yellow.bold('npm')}`,
-      async task => {
-        await Exec.command(runNpmInstallCommand)
-          .then(() => task.complete())
-          .catch(() => task.fail())
-      },
+      () => Exec.command(runNpmInstallCommand),
     )
 
     task.add('Remove unnecessary files', async task => {
-      await Folder.safeRemove(`${concretePath}/.git`)
       await Folder.safeRemove(`${concretePath}/.github`)
+      await File.safeRemove(`${concretePath}/README.md`)
 
       await task.complete()
     })

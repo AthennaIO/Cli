@@ -121,6 +121,7 @@ out
 *.d.ts
 *.js.map
 !.github/ci.js
+!artisan.js
 !tests/Stubs/**/*.js
 !tests/Stubs/**/*.d.ts
 !tests/Stubs/**/*.js.map

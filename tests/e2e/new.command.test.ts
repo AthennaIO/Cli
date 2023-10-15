@@ -1,34 +1,25 @@
 import { File, Folder } from '@athenna/common'
-import { Prompt, Artisan } from '@athenna/artisan'
-import { BaseCliTest } from '@athenna/core/testing/BaseCliTest'
-import { Test, Mock, AfterEach, BeforeEach, type Stub, type Context } from '@athenna/test'
+import { Test, AfterEach, type Context } from '@athenna/test'
+import { BaseConsoleTest } from '@athenna/core/testing/BaseConsoleTest'
 
-export default class NewCommandTest extends BaseCliTest {
-  public processExitMock: Stub
-
-  @BeforeEach()
-  public async beforeEach() {
-    this.processExitMock = Mock.when(process, 'exit').return(undefined)
-  }
-
+export default class NewCommandTest extends BaseConsoleTest {
   @AfterEach()
   public async afterEach() {
-    Mock.restoreAll()
-
     await Folder.safeRemove(Path.storage())
     await Folder.safeRemove(Path.pwd('project'))
   }
 
   @Test()
-  public async shouldBeAbleToCreateAHttpProject({ assert }: Context) {
-    Mock.when(Prompt.prototype, 'confirm').resolve(false)
-    Mock.when(Prompt.prototype, 'list').resolve('REST API')
+  public async shouldBeAbleToCreateAHttpProject({ command, assert }: Context) {
+    const output = await command.run('new project', {
+      path: Path.fixtures('consoles/confirm-restapi.ts'),
+    })
 
-    await Artisan.call('new project', false)
+    output.assertSucceeded()
 
-    assert.isTrue(this.processExitMock.calledWith(0))
-    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
+    assert.isTrue(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
     assert.isTrue(await File.exists(Path.pwd('project/.env')))
     assert.isTrue(await File.exists(Path.pwd('project/.env.test')))
     assert.isTrue(await File.exists(Path.pwd('project/.env.example')))
@@ -36,15 +27,16 @@ export default class NewCommandTest extends BaseCliTest {
   }
 
   @Test()
-  public async shouldBeAbleToCreateASlimHttpProject({ assert }: Context) {
-    Mock.when(Prompt.prototype, 'confirm').resolve(true)
-    Mock.when(Prompt.prototype, 'list').resolve('REST API')
+  public async shouldBeAbleToCreateASlimHttpProject({ command, assert }: Context) {
+    const output = await command.run('new project', {
+      path: Path.fixtures('consoles/confirm-restapi-slim.ts'),
+    })
 
-    await Artisan.call('new project', false)
+    output.assertSucceeded()
 
-    assert.isTrue(this.processExitMock.calledWith(0))
-    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
+    assert.isTrue(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
     assert.isFalse(await File.exists(Path.pwd('project/.env')))
     assert.isFalse(await File.exists(Path.pwd('project/.env.test')))
     assert.isFalse(await File.exists(Path.pwd('project/.env.example')))
@@ -52,15 +44,16 @@ export default class NewCommandTest extends BaseCliTest {
   }
 
   @Test()
-  public async shouldBeAbleToCreateACliProject({ assert }: Context) {
-    Mock.when(Prompt.prototype, 'confirm').resolve(false)
-    Mock.when(Prompt.prototype, 'list').resolve('CLI')
+  public async shouldBeAbleToCreateACliProject({ command, assert }: Context) {
+    const output = await command.run('new project', {
+      path: Path.fixtures('consoles/confirm-cli.ts'),
+    })
 
-    await Artisan.call('new project', false)
+    output.assertSucceeded()
 
-    assert.isTrue(this.processExitMock.calledWith(0))
-    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
+    assert.isTrue(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
     assert.isTrue(await File.exists(Path.pwd('project/.env')))
     assert.isTrue(await File.exists(Path.pwd('project/.env.test')))
     assert.isTrue(await File.exists(Path.pwd('project/.env.example')))
@@ -68,15 +61,16 @@ export default class NewCommandTest extends BaseCliTest {
   }
 
   @Test()
-  public async shouldBeAbleToCreateASlimCliProject({ assert }: Context) {
-    Mock.when(Prompt.prototype, 'confirm').resolve(true)
-    Mock.when(Prompt.prototype, 'list').resolve('CLI')
+  public async shouldBeAbleToCreateASlimCliProject({ command, assert }: Context) {
+    const output = await command.run('new project', {
+      path: Path.fixtures('consoles/confirm-cli-slim.ts'),
+    })
 
-    await Artisan.call('new project', false)
+    output.assertSucceeded()
 
-    assert.isTrue(this.processExitMock.calledWith(0))
-    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
+    assert.isTrue(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
     assert.isFalse(await File.exists(Path.pwd('project/.env')))
     assert.isFalse(await File.exists(Path.pwd('project/.env.test')))
     assert.isFalse(await File.exists(Path.pwd('project/.env.example')))
@@ -84,13 +78,17 @@ export default class NewCommandTest extends BaseCliTest {
   }
 
   @Test()
-  public async shouldThrowAnExceptionWhenTheProjectRootPathAlreadyExist({ assert }: Context) {
-    Mock.when(Prompt.prototype, 'confirm').resolve(false)
-    Mock.when(Prompt.prototype, 'list').resolve('REST API')
+  public async shouldThrowAnExceptionWhenTheProjectRootPathAlreadyExist({ command }: Context) {
+    await command.run('new project', {
+      path: Path.fixtures('consoles/confirm-restapi.ts'),
+    })
 
-    await Artisan.call('new project', false)
-    await Artisan.call('new project', false)
+    const output = await command.run('new project', {
+      path: Path.fixtures('consoles/confirm-restapi.ts'),
+    })
 
-    assert.isTrue(this.processExitMock.calledWith(1))
+    output.assertFailed()
+    output.assertLogged('The directory')
+    output.assertLogged('already exists. Try another project name or delete')
   }
 }
