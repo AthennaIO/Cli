@@ -1,5 +1,0 @@
-{
-  "extends": "../tsconfig.json",
-  "include": ["../**/*", "../package.json", "./.athennarc.prod.json"],
-  "exclude": ["../build", "../tests", "../node_modules"]
-}

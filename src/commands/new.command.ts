@@ -11,7 +11,6 @@ export class NewCommand extends BaseCommand {
   private branch: string
   private isSlim: boolean
   private readonly url = 'https://github.com/AthennaIO/AthennaIO.git'
-  private readonly shellAlias = process.platform === 'win32' ? 'sh ' : './'
 
   public static signature(): string {
     return 'new'
@@ -63,7 +62,7 @@ export class NewCommand extends BaseCommand {
       .instruction()
       .head('Run following commands to get started:')
       .add(`cd ${this.name}`)
-      .add(`${this.shellAlias}node artisan`)
+      .add('node artisan')
       .render()
   }
 
@@ -76,8 +75,7 @@ export class NewCommand extends BaseCommand {
       .instruction()
       .head('Run following commands to get started:')
       .add(`cd ${this.name}`)
-      .add(`${this.shellAlias}node artisan test`)
-      .add(`${this.shellAlias}node artisan serve`)
+      .add('node artisan serve')
       .render()
   }
 
@@ -94,41 +92,36 @@ export class NewCommand extends BaseCommand {
       throw new NotEmptyFolderException(concretePath)
     }
 
-    const cloneCommand = `git clone --branch ${this.branch} ${this.url} ${projectPath}`
-    const moveProjectCommand = `mv ${projectPath} ${concretePath}`
-    const runNpmInstallCommand = `cd ${concretePath} && npm install --silent --production=false`
-
     const task = this.logger.task()
 
-    task.add(
+    task.addPromise(
       `Clone scaffold project from ${this.paint.purple.bold(
         this.url,
       )} in branch ${this.paint.purple.bold(this.branch)}`,
-      async task => {
-        await Exec.command(cloneCommand)
-          .then(() => task.complete())
-          .catch(() => task.fail())
+      async () => {
+        await Exec.command(
+          `git clone --branch ${this.branch} ${this.url} ${projectPath}`,
+        )
       },
     )
 
-    task.add('Move project to your path', async task => {
-      await Exec.command(moveProjectCommand)
-        .then(() => task.complete())
-        .catch(() => task.fail())
+    task.addPromise('Move project to your path', async () => {
+      await Exec.command(`mv ${projectPath} ${concretePath}`)
     })
 
-    task.add(
+    task.addPromise(
       `Install dependencies using ${this.paint.yellow.bold('npm')}`,
-      async task => {
-        await Exec.command(runNpmInstallCommand)
-          .then(() => task.complete())
-          .catch(() => task.fail())
+      async () => {
+        await Exec.command('npm install --silent --production=false', {
+          cwd: concretePath,
+        })
       },
     )
 
     task.add('Remove unnecessary files', async task => {
       await Folder.safeRemove(`${concretePath}/.git`)
       await Folder.safeRemove(`${concretePath}/.github`)
+      await File.safeRemove(`${concretePath}/README.md`)
 
       await task.complete()
     })
