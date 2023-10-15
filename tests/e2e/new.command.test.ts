@@ -15,6 +15,8 @@ export default class NewCommandTest extends BaseConsoleTest {
       path: Path.fixtures('consoles/confirm-restapi.ts'),
     })
 
+    console.log(output.output)
+
     output.assertSucceeded()
 
     assert.isTrue(await Folder.exists(Path.pwd('project/.git')))
