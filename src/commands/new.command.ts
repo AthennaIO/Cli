@@ -92,26 +92,30 @@ export class NewCommand extends BaseCommand {
       throw new NotEmptyFolderException(concretePath)
     }
 
-    const cloneCommand = `git clone --branch ${this.branch} ${this.url} ${projectPath}`
-    const moveProjectCommand = `mv ${projectPath} ${concretePath}`
-    const runNpmInstallCommand = `cd ${concretePath} && npm install --silent --production=false`
-
     const task = this.logger.task()
 
     task.addPromise(
       `Clone scaffold project from ${this.paint.purple.bold(
         this.url,
       )} in branch ${this.paint.purple.bold(this.branch)}`,
-      async () => Exec.command(cloneCommand),
+      async () => {
+        await Exec.command(
+          `git clone --branch ${this.branch} ${this.url} ${projectPath}`,
+        )
+      },
     )
 
-    task.addPromise('Move project to your path', async () =>
-      Exec.command(moveProjectCommand),
-    )
+    task.addPromise('Move project to your path', async () => {
+      await Exec.command(`mv ${projectPath} ${concretePath}`)
+    })
 
     task.addPromise(
       `Install dependencies using ${this.paint.yellow.bold('npm')}`,
-      async () => Exec.command(runNpmInstallCommand),
+      async () => {
+        await Exec.command('npm install --silent --production=false', {
+          cwd: concretePath,
+        })
+      },
     )
 
     task.add('Remove unnecessary files', async task => {
