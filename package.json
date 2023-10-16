@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -170,7 +170,7 @@
           "package-lock.json",
           "README.md",
           "LICENSE.md",
-          "templates",
+          "templates/*.edge",
           "bin/.athennarc.prod.json"
         ]
       },
