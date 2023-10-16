@@ -77,6 +77,41 @@ export default class NewCommandTest extends BaseConsoleTest {
   }
 
   @Test()
+  public async shouldBeAbleToCreateADifferentArtisanFileForNodeJSVersionsBellowV20({ command, assert }: Context) {
+    const output = await command.run('new project', {
+      path: Path.fixtures('consoles/confirm-restapi-bellow-v20.ts'),
+    })
+
+    output.assertSucceeded()
+
+    const artisanFile = new File(Path.pwd('project/artisan.js')).getContentAsStringSync()
+
+    assert.isTrue(artisanFile.includes('./bootstrap/artisan.js'))
+    assert.isTrue(artisanFile.includes('--loader=ts-node/esm'))
+    assert.isTrue(artisanFile.includes('--experimental-import-meta-resolve'))
+    assert.isTrue(await File.exists(Path.pwd('project/bootstrap/main.ts')))
+  }
+
+  @Test()
+  public async shouldBeAbleToCreateADifferentArtisanFileForNodeJSVersionsBellowV20ForSlimApps({
+    command,
+    assert,
+  }: Context) {
+    const output = await command.run('new project', {
+      path: Path.fixtures('consoles/confirm-restapi-slim-bellow-v20.ts'),
+    })
+
+    output.assertSucceeded()
+
+    const artisanFile = new File(Path.pwd('project/artisan.js')).getContentAsStringSync()
+
+    assert.isTrue(artisanFile.includes('./bin/artisan.js'))
+    assert.isTrue(artisanFile.includes('--loader=ts-node/esm'))
+    assert.isTrue(artisanFile.includes('--experimental-import-meta-resolve'))
+    assert.isTrue(await File.exists(Path.pwd('project/bin/main.ts')))
+  }
+
+  @Test()
   public async shouldThrowAnExceptionWhenTheProjectRootPathAlreadyExist({ command }: Context) {
     await command.run('new project', {
       path: Path.fixtures('consoles/confirm-restapi.ts'),
