@@ -5,7 +5,6 @@ import { BaseConsoleTest } from '@athenna/core/testing/BaseConsoleTest'
 export default class NewCommandTest extends BaseConsoleTest {
   @AfterEach()
   public async afterEach() {
-    await Folder.safeRemove(Path.storage())
     await Folder.safeRemove(Path.pwd('project'))
   }
 

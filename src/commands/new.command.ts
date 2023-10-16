@@ -1,6 +1,6 @@
 import { Config } from '@athenna/config'
+import { sep, isAbsolute } from 'node:path'
 import { Exec, File, Folder } from '@athenna/common'
-import { sep, basename, isAbsolute } from 'node:path'
 import { Argument, BaseCommand } from '@athenna/artisan'
 import { NotEmptyFolderException } from '#src/exceptions/not.empty.folder.exception'
 
@@ -23,9 +23,6 @@ export class NewCommand extends BaseCommand {
   public async handle(): Promise<void> {
     this.logger.rainbow('Athenna')
 
-    await Folder.safeRemove(Path.storage())
-    await new Folder(Path.storage()).load()
-
     const type = await this.prompt.list(
       'What type of application do you wish to create?',
       ['REST API', 'CLI'],
@@ -37,7 +34,14 @@ export class NewCommand extends BaseCommand {
 
     this.branch = this.getApplicationBranch(type)
 
-    await this[this.branch.replace('-slim', '')]()
+    switch (type) {
+      case 'CLI':
+        await this.cli()
+        break
+      case 'REST API':
+        await this.http()
+        break
+    }
   }
 
   public getApplicationBranch(result: string) {
@@ -80,16 +84,14 @@ export class NewCommand extends BaseCommand {
   }
 
   public async clone(): Promise<void> {
-    let projectPath = Path.storage(`projects/${this.name}`)
-    let concretePath = `${Config.get('rc.callPath')}${sep}${this.name}`
+    let projectPath = `${Config.get('rc.callPath')}${sep}${this.name}`
 
     if (isAbsolute(this.name)) {
-      projectPath = Path.storage(`projects/${basename(this.name)}`)
-      concretePath = this.name
+      projectPath = this.name
     }
 
-    if (await Folder.exists(concretePath)) {
-      throw new NotEmptyFolderException(concretePath)
+    if (await Folder.exists(projectPath)) {
+      throw new NotEmptyFolderException(projectPath)
     }
 
     const task = this.logger.task()
@@ -105,37 +107,33 @@ export class NewCommand extends BaseCommand {
       },
     )
 
-    task.addPromise('Move project to your path', async () => {
-      await Exec.command(`mv ${projectPath} ${concretePath}`)
-    })
-
     task.addPromise(
       `Install dependencies using ${this.paint.yellow.bold('npm')}`,
       async () => {
         await Exec.command('npm install --silent --production=false', {
-          cwd: concretePath,
+          cwd: projectPath,
         })
       },
     )
 
     task.add('Remove unnecessary files', async task => {
-      await Folder.safeRemove(`${concretePath}/.git`)
-      await Folder.safeRemove(`${concretePath}/.github`)
-      await File.safeRemove(`${concretePath}/README.md`)
+      await Folder.safeRemove(`${projectPath}/.git`)
+      await Folder.safeRemove(`${projectPath}/.github`)
+      await File.safeRemove(`${projectPath}/README.md`)
 
       await task.complete()
     })
 
     if (!this.isSlim) {
       task.add(`Create ${this.paint.yellow.bold('.env')} files`, async task => {
-        const file = new File(`${concretePath}/.env.example`, '')
+        const file = new File(`${projectPath}/.env.example`, '')
 
         if (!file.fileExists) {
           return task.complete()
         }
 
-        await file.copy(`${concretePath}/.env`)
-        await file.copy(`${concretePath}/.env.test`)
+        await file.copy(`${projectPath}/.env`)
+        await file.copy(`${projectPath}/.env.test`)
 
         await task.complete()
       })
