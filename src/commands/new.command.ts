@@ -44,6 +44,16 @@ export class NewCommand extends BaseCommand {
     }
   }
 
+  public isBellowV20(): boolean {
+    if (process.env.TESTING_BELLOW_V20) {
+      return true
+    }
+
+    const major = process.version.split('.')[0]
+
+    return parseInt(major) < 20
+  }
+
   public getApplicationBranch(result: string) {
     const map = {
       CLI: 'cli',
@@ -137,6 +147,26 @@ export class NewCommand extends BaseCommand {
 
         await task.complete()
       })
+    }
+
+    if (this.isBellowV20()) {
+      task.addPromise(
+        `Configure ${this.paint.yellow.bold(
+          'artisan.js',
+        )} file for Node.js versions bellow v20.x`,
+        async () => {
+          await File.safeRemove(`${projectPath}/artisan.js`)
+          await this.generator
+            .properties({
+              artisanPath: this.isSlim
+                ? './bin/artisan.js'
+                : './bootstrap/artisan.js',
+            })
+            .path(`${projectPath}/artisan.js`)
+            .template('artisan')
+            .make()
+        },
+      )
     }
 
     await task.run()

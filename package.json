@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -24,13 +24,11 @@
     "src/*.js",
     "src/*.d.ts",
     "src/**/*.js",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "templates/*.edge"
   ],
   "bin": {
     "athenna": "./bin/main.js"
-  },
-  "engines": {
-    "node": ">=20.0.0"
   },
   "scripts": {
     "start": "node artisan serve",
@@ -170,9 +168,9 @@
         "include": [
           "package.json",
           "package-lock.json",
-          ".npmrc",
           "README.md",
           "LICENSE.md",
+          "templates",
           "bin/.athennarc.prod.json"
         ]
       },
@@ -188,6 +186,7 @@
       "new": "#src/commands/new.command"
     },
     "templates": {
+      "artisan": "templates/artisan.edge",
       "exception": "node_modules/@athenna/core/templates/exception.edge",
       "facade": "node_modules/@athenna/core/templates/facade.edge",
       "provider": "node_modules/@athenna/core/templates/provider.edge",

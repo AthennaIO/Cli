@@ -5,6 +5,9 @@
   "commands": {
     "new": "#src/commands/new.command"
   },
+  "templates": {
+    "artisan": "templates/artisan.edge"
+  },
   "directories": {
     "bootstrap": "bin",
     "config": "src/config",
