@@ -49,7 +49,7 @@ export class NewCommand extends BaseCommand {
       return true
     }
 
-    const major = process.version.split('.')[0]
+    const major = process.version.split('.')[0].replace('v', '')
 
     return parseInt(major) < 20
   }
