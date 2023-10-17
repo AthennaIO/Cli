@@ -3,10 +3,5 @@
 import { Exec } from '@athenna/common'
 
 Exec.artisan('{{ artisanPath }}', {
-  nodeOptions: [
-    '--no-warnings',
-    '--enable-source-maps',
-    '--loader=ts-node/esm',
-    '--experimental-import-meta-resolve'
-  ]
+  nodeOptions: ['--no-warnings', '--loader=ts-node/esm']
 })
