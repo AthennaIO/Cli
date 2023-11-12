@@ -52,7 +52,7 @@
     "@athenna/artisan": "^4.15.0",
     "@athenna/common": "^4.18.1",
     "@athenna/config": "^4.7.0",
-    "@athenna/core": "^4.10.3",
+    "@athenna/core": "^4.13.0",
     "@athenna/ioc": "^4.7.0",
     "@athenna/logger": "^4.8.0",
     "@athenna/view": "^4.6.0",
