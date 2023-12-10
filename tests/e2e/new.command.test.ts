@@ -87,8 +87,8 @@ export default class NewCommandTest extends BaseConsoleTest {
     const artisanFile = new File(Path.pwd('project/artisan.js')).getContentAsStringSync()
 
     assert.isTrue(artisanFile.includes('./bootstrap/artisan.js'))
+    assert.isTrue(artisanFile.includes('--no-warnings'))
     assert.isTrue(artisanFile.includes('--loader=ts-node/esm'))
-    assert.isTrue(artisanFile.includes('--experimental-import-meta-resolve'))
     assert.isTrue(await File.exists(Path.pwd('project/bootstrap/main.ts')))
   }
 
@@ -106,8 +106,8 @@ export default class NewCommandTest extends BaseConsoleTest {
     const artisanFile = new File(Path.pwd('project/artisan.js')).getContentAsStringSync()
 
     assert.isTrue(artisanFile.includes('./bin/artisan.js'))
+    assert.isTrue(artisanFile.includes('--no-warnings'))
     assert.isTrue(artisanFile.includes('--loader=ts-node/esm'))
-    assert.isTrue(artisanFile.includes('--experimental-import-meta-resolve'))
     assert.isTrue(await File.exists(Path.pwd('project/bin/main.ts')))
   }
 
