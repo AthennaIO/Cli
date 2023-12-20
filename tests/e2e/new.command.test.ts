@@ -36,9 +36,9 @@ export default class NewCommandTest extends BaseConsoleTest {
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
-    assert.isFalse(await File.exists(Path.pwd('project/.env')))
-    assert.isFalse(await File.exists(Path.pwd('project/.env.test')))
-    assert.isFalse(await File.exists(Path.pwd('project/.env.example')))
+    assert.isTrue(await File.exists(Path.pwd('project/.env')))
+    assert.isTrue(await File.exists(Path.pwd('project/.env.test')))
+    assert.isTrue(await File.exists(Path.pwd('project/.env.example')))
     assert.isTrue(await File.exists(Path.pwd('project/bin/main.ts')))
   }
 
@@ -70,9 +70,9 @@ export default class NewCommandTest extends BaseConsoleTest {
     assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
     assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
     assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
-    assert.isFalse(await File.exists(Path.pwd('project/.env')))
-    assert.isFalse(await File.exists(Path.pwd('project/.env.test')))
-    assert.isFalse(await File.exists(Path.pwd('project/.env.example')))
+    assert.isTrue(await File.exists(Path.pwd('project/.env')))
+    assert.isTrue(await File.exists(Path.pwd('project/.env.test')))
+    assert.isTrue(await File.exists(Path.pwd('project/.env.example')))
     assert.isTrue(await File.exists(Path.pwd('project/bin/main.ts')))
   }
 
