@@ -134,20 +134,18 @@ export class NewCommand extends BaseCommand {
       await task.complete()
     })
 
-    if (!this.isSlim) {
-      task.add(`Create ${this.paint.yellow.bold('.env')} files`, async task => {
-        const file = new File(`${projectPath}/.env.example`, '')
+    task.add(`Create ${this.paint.yellow.bold('.env')} files`, async task => {
+      const file = new File(`${projectPath}/.env.example`, '')
 
-        if (!file.fileExists) {
-          return task.complete()
-        }
+      if (!file.fileExists) {
+        return task.complete()
+      }
 
-        await file.copy(`${projectPath}/.env`)
-        await file.copy(`${projectPath}/.env.test`)
+      await file.copy(`${projectPath}/.env`)
+      await file.copy(`${projectPath}/.env.test`)
 
-        await task.complete()
-      })
-    }
+      await task.complete()
+    })
 
     if (this.isBellowV20()) {
       task.addPromise(
