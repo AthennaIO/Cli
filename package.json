@@ -56,7 +56,7 @@
     "@athenna/ioc": "^4.11.0",
     "@athenna/logger": "^4.12.0",
     "@athenna/view": "^4.9.0",
-    "reflect-metadata": "^0.1.14",
+    "reflect-metadata": "^0.2.1",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
