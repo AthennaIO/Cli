@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "4.9.0",
+  "version": "4.10.0",
   "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -49,18 +49,18 @@
     "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "@athenna/artisan": "^4.27.0",
-    "@athenna/common": "^4.26.0",
-    "@athenna/config": "^4.11.0",
-    "@athenna/core": "^4.22.0",
-    "@athenna/ioc": "^4.12.0",
-    "@athenna/logger": "^4.13.0",
-    "@athenna/view": "^4.10.0",
+    "@athenna/artisan": "^4.28.0",
+    "@athenna/common": "^4.27.0",
+    "@athenna/config": "^4.12.0",
+    "@athenna/core": "^4.23.0",
+    "@athenna/ioc": "^4.13.0",
+    "@athenna/logger": "^4.14.0",
+    "@athenna/view": "^4.11.0",
     "reflect-metadata": "^0.2.1",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "@athenna/test": "^4.17.0",
+    "@athenna/test": "^4.18.0",
     "@athenna/tsconfig": "^4.12.0",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
