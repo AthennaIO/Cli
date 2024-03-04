@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "4.12.0",
+  "version": "4.13.0",
   "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -49,18 +49,18 @@
     "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "@athenna/artisan": "^4.32.0",
-    "@athenna/common": "^4.33.0",
-    "@athenna/config": "^4.15.0",
-    "@athenna/core": "^4.27.0",
-    "@athenna/ioc": "^4.15.0",
-    "@athenna/logger": "^4.16.0",
-    "@athenna/view": "^4.13.0",
+    "@athenna/artisan": "^4.40.0",
+    "@athenna/common": "^4.35.0",
+    "@athenna/config": "^4.19.0",
+    "@athenna/core": "^4.33.0",
+    "@athenna/ioc": "^4.18.0",
+    "@athenna/logger": "^4.18.0",
+    "@athenna/view": "^4.20.0",
     "reflect-metadata": "^0.2.1",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "@athenna/test": "^4.21.0",
+    "@athenna/test": "^4.22.0",
     "@athenna/tsconfig": "^4.12.0",
     "@typescript-eslint/eslint-plugin": "^6.7.4",
     "@typescript-eslint/parser": "^6.7.4",
@@ -112,7 +112,6 @@
     "globals": {
       "ioc": true,
       "Env": true,
-      "Path": true,
       "Config": true
     },
     "plugins": [
@@ -182,6 +181,10 @@
       "repl": {
         "path": "@athenna/core/commands/ReplCommand",
         "stayAlive": true
+      },
+      "install": {
+        "path": "@athenna/core/commands/InstallCommand",
+        "registry": "npm"
       },
       "new": "#src/commands/new.command"
     },

@@ -1,4 +1,5 @@
 import { Mock } from '@athenna/test'
+import { Path } from '@athenna/common'
 import { Ignite } from '@athenna/core'
 import { Prompt } from '@athenna/artisan'
 

@@ -1,4 +1,4 @@
-import { File, Folder } from '@athenna/common'
+import { Path, File, Folder } from '@athenna/common'
 import { Test, AfterEach, type Context } from '@athenna/test'
 import { BaseConsoleTest } from '@athenna/core/testing/BaseConsoleTest'
 
