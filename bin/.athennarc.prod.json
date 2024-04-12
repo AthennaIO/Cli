@@ -1,9 +1,8 @@
 {
-  "providers": [
-    "@athenna/core/providers/CoreProvider"
-  ],
+  "providers": ["@athenna/core/providers/CoreProvider"],
   "commands": {
-    "new": "#src/commands/new.command"
+    "new": "#src/commands/new.command",
+    "version": "#src/commands/version.command"
   },
   "templates": {
     "artisan": "templates/artisan.edge"
