@@ -43,6 +43,7 @@ export class VersionCommand extends BaseCommand {
 
   public async getTableVersionFor(...pkgs: string[]) {
     const table = this.logger.table().head('Package', 'Version')
+    let rows = []
 
     await Exec.concurrently(pkgs, async pkg => {
       if (IGNORE_REPOS.includes(pkg)) {
@@ -66,11 +67,18 @@ export class VersionCommand extends BaseCommand {
         return
       }
 
-      table.row([
+      rows.push([
         this.paint.yellow(`@athenna/${pkg.toLowerCase()}`),
         this.paint.yellow(version),
       ])
     })
+
+    rows = rows.athenna
+      .toCollection()
+      .sortBy<any>(row => row[0])
+      .all()
+
+    table.row(...rows)
 
     return table
   }
