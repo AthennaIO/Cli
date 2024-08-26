@@ -4,8 +4,9 @@ import { Exec } from '@athenna/common'
 
 Exec.artisan('./bin/artisan.js', {
   nodeOptions: [
-    '--no-warnings',
     '--enable-source-maps',
+    '--disable-warning=DEP0180',
+    '--disable-warning=DEP0040',
     '--import=@athenna/tsconfig',
   ],
 })

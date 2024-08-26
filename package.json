@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "4.22.0",
+  "version": "5.0.0",
   "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -49,19 +49,19 @@
     "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "@athenna/artisan": "^4.45.0",
-    "@athenna/common": "^4.46.0",
-    "@athenna/config": "^4.27.0",
-    "@athenna/core": "^4.45.0",
-    "@athenna/ioc": "^4.27.0",
-    "@athenna/logger": "^4.29.0",
-    "@athenna/view": "^4.33.0",
+    "@athenna/artisan": "^5.1.0",
+    "@athenna/common": "^5.0.0",
+    "@athenna/config": "^5.0.0",
+    "@athenna/core": "^5.2.0",
+    "@athenna/ioc": "^5.0.0",
+    "@athenna/logger": "^5.0.0",
+    "@athenna/view": "^5.0.0",
     "reflect-metadata": "^0.2.2",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
-    "@athenna/test": "^4.30.0",
-    "@athenna/tsconfig": "^4.19.0",
+    "@athenna/test": "^5.0.0",
+    "@athenna/tsconfig": "^5.0.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "eslint": "^8.57.0",
@@ -141,88 +141,6 @@
           "caughtErrorsIgnorePattern": "^_"
         }
       ]
-    }
-  },
-  "athenna": {
-    "providers": [
-      "@athenna/core/providers/CoreProvider"
-    ],
-    "commands": {
-      "configure": "@athenna/artisan/commands/ConfigureCommand",
-      "template:customize": "@athenna/artisan/commands/TemplateCustomizeCommand",
-      "make:exception": "@athenna/core/commands/MakeExceptionCommand",
-      "make:facade": "@athenna/core/commands/MakeFacadeCommand",
-      "make:provider": "@athenna/core/commands/MakeProviderCommand",
-      "make:service": "@athenna/core/commands/MakeServiceCommand",
-      "make:test": "@athenna/core/commands/MakeTestCommand",
-      "make:command": "@athenna/artisan/commands/MakeCommandCommand",
-      "serve": {
-        "path": "@athenna/core/commands/ServeCommand",
-        "stayAlive": true
-      },
-      "build": {
-        "path": "@athenna/core/commands/BuildCommand",
-        "outDir": "build",
-        "tsconfig": "node_modules/@athenna/tsconfig/tsconfig.app-build.json",
-        "include": [
-          "package.json",
-          "package-lock.json",
-          "README.md",
-          "LICENSE.md",
-          "templates/*.edge",
-          "bin/.athennarc.prod.json"
-        ]
-      },
-      "test": {
-        "path": "@athenna/core/commands/TestCommand",
-        "loadAllCommands": true,
-        "stayAlive": true
-      },
-      "repl": {
-        "path": "@athenna/core/commands/ReplCommand",
-        "stayAlive": true
-      },
-      "install": {
-        "path": "@athenna/core/commands/InstallCommand",
-        "registry": "npm"
-      },
-      "new": {
-        "path": "#src/commands/new.command",
-        "loadApp": true
-      },
-      "version": {
-        "path": "#src/commands/version.command",
-        "loadApp": true
-      }
-    },
-    "templates": {
-      "artisan": "templates/artisan.edge",
-      "exception": "node_modules/@athenna/core/templates/exception.edge",
-      "facade": "node_modules/@athenna/core/templates/facade.edge",
-      "provider": "node_modules/@athenna/core/templates/provider.edge",
-      "service": "node_modules/@athenna/core/templates/service.edge",
-      "test": "node_modules/@athenna/core/templates/test.edge",
-      "test-console": "node_modules/@athenna/core/templates/test-console.edge",
-      "test-fn": "node_modules/@athenna/core/templates/test-fn.edge",
-      "command": "node_modules/@athenna/artisan/templates/command.edge"
-    },
-    "directories": {
-      "bootstrap": "bin",
-      "config": "src/config",
-      "routes": "src/routes",
-      "exceptions": "src/exceptions",
-      "providers": "src/providers",
-      "facades": "src/providers/facades",
-      "services": "src/services",
-      "commands": "src/commands",
-      "repositories": "src/repositories",
-      "tests": "tests",
-      "resources": "src/resources",
-      "views": "src/resources/views",
-      "locales": "src/resources/locales",
-      "database": "src/database",
-      "seeders": "src/database/seeders",
-      "migrations": "src/database/migrations"
     }
   }
 }

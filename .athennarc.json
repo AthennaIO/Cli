@@ -1,0 +1,64 @@
+{
+  "providers": [
+    "@athenna/core/providers/CoreProvider"
+  ],
+  "commands": {
+    "configure": "@athenna/artisan/commands/ConfigureCommand",
+    "template:customize": "@athenna/artisan/commands/TemplateCustomizeCommand",
+    "make:exception": "@athenna/core/commands/MakeExceptionCommand",
+    "make:facade": "@athenna/core/commands/MakeFacadeCommand",
+    "make:provider": "@athenna/core/commands/MakeProviderCommand",
+    "make:service": "@athenna/core/commands/MakeServiceCommand",
+    "make:test": "@athenna/core/commands/MakeTestCommand",
+    "make:command": "@athenna/artisan/commands/MakeCommandCommand",
+    "serve": {
+      "path": "@athenna/core/commands/ServeCommand",
+      "stayAlive": true
+    },
+    "build": {
+      "path": "@athenna/core/commands/BuildCommand",
+      "outDir": "build",
+      "tsconfig": "node_modules/@athenna/tsconfig/tsconfig.app-build.json",
+      "include": [
+        "package.json",
+        "package-lock.json",
+        "README.md",
+        "LICENSE.md",
+        "templates/*.edge",
+        "bin/.athennarc.prod.json"
+      ]
+    },
+    "test": {
+      "path": "@athenna/core/commands/TestCommand",
+      "loadAllCommands": true,
+      "stayAlive": true
+    },
+    "repl": {
+      "path": "@athenna/core/commands/ReplCommand",
+      "stayAlive": true
+    },
+    "install": {
+      "path": "@athenna/core/commands/InstallCommand",
+      "registry": "npm"
+    },
+    "new": {
+      "path": "#src/console/commands/new.command",
+      "loadApp": true
+    },
+    "version": {
+      "path": "#src/console/commands/version.command",
+      "loadApp": true
+    }
+  },
+  "templates": {
+    "artisan": "templates/artisan.edge",
+    "exception": "node_modules/@athenna/core/templates/exception.edge",
+    "facade": "node_modules/@athenna/core/templates/facade.edge",
+    "provider": "node_modules/@athenna/core/templates/provider.edge",
+    "service": "node_modules/@athenna/core/templates/service.edge",
+    "test": "node_modules/@athenna/core/templates/test.edge",
+    "test-console": "node_modules/@athenna/core/templates/test-console.edge",
+    "test-fn": "node_modules/@athenna/core/templates/test-fn.edge",
+    "command": "node_modules/@athenna/artisan/templates/command.edge"
+  }
+}

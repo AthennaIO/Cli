@@ -9,7 +9,6 @@ export class NewCommand extends BaseCommand {
   private name: string
 
   private branch: string
-  private isSlim: boolean
   private readonly url = 'https://github.com/AthennaIO/AthennaIO.git'
 
   public static signature(): string {
@@ -25,11 +24,7 @@ export class NewCommand extends BaseCommand {
 
     const type = await this.prompt.list(
       'What type of application do you wish to create?',
-      ['REST API', 'CLI'],
-    )
-
-    this.isSlim = await this.prompt.confirm(
-      'Do you wish to create a slim project style?',
+      ['REST API', 'CLI', 'CRON'],
     )
 
     this.branch = this.getApplicationBranch(type)
@@ -37,6 +32,9 @@ export class NewCommand extends BaseCommand {
     switch (type) {
       case 'CLI':
         await this.cli()
+        break
+      case 'CRON':
+        await this.cron()
         break
       case 'REST API':
         await this.http()
@@ -57,11 +55,8 @@ export class NewCommand extends BaseCommand {
   public getApplicationBranch(result: string) {
     const map = {
       CLI: 'cli',
+      CRON: 'cron',
       'REST API': 'http',
-    }
-
-    if (this.isSlim) {
-      return map[result].concat('-slim')
     }
 
     return map[result]
@@ -77,6 +72,19 @@ export class NewCommand extends BaseCommand {
       .head('Run following commands to get started:')
       .add(`cd ${this.name}`)
       .add('node artisan')
+      .render()
+  }
+
+  public async cron(): Promise<void> {
+    this.logger.simple('\n({bold,green} [ GENERATING CRON ])\n')
+
+    await this.clone()
+
+    this.logger
+      .instruction()
+      .head('Run following commands to get started:')
+      .add(`cd ${this.name}`)
+      .add('node artisan serve')
       .render()
   }
 
@@ -156,9 +164,7 @@ export class NewCommand extends BaseCommand {
           await File.safeRemove(`${projectPath}/artisan.js`)
           await this.generator
             .properties({
-              artisanPath: this.isSlim
-                ? './bin/artisan.js'
-                : './bootstrap/artisan.js',
+              artisanPath: './bin/artisan.js',
             })
             .path(`${projectPath}/artisan.js`)
             .template('artisan')
