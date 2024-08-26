@@ -9,7 +9,7 @@ sourceMapSupport.install({ handleUncaughtExceptions: false })
 
 const ignite = await new Ignite().load(import.meta.url, {
   bootLogs: false,
-  athennaRcPath: 'bin/.athennarc.prod.json',
+  athennaRcPath: '.athennarc.prod.json',
 })
 
 Config.set('app.version', `Athenna CLI v${process.env.APP_VERSION}`)

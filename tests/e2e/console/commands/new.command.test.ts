@@ -22,23 +22,6 @@ export default class NewCommandTest extends BaseConsoleTest {
     assert.isTrue(await File.exists(Path.pwd('project/.env')))
     assert.isTrue(await File.exists(Path.pwd('project/.env.test')))
     assert.isTrue(await File.exists(Path.pwd('project/.env.example')))
-    assert.isTrue(await File.exists(Path.pwd('project/bootstrap/main.ts')))
-  }
-
-  @Test()
-  public async shouldBeAbleToCreateASlimHttpProject({ command, assert }: Context) {
-    const output = await command.run('new project', {
-      path: Path.fixtures('consoles/confirm-restapi-slim.ts'),
-    })
-
-    output.assertSucceeded()
-
-    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
-    assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
-    assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
-    assert.isTrue(await File.exists(Path.pwd('project/.env')))
-    assert.isTrue(await File.exists(Path.pwd('project/.env.test')))
-    assert.isTrue(await File.exists(Path.pwd('project/.env.example')))
     assert.isTrue(await File.exists(Path.pwd('project/bin/main.ts')))
   }
 
@@ -56,13 +39,13 @@ export default class NewCommandTest extends BaseConsoleTest {
     assert.isTrue(await File.exists(Path.pwd('project/.env')))
     assert.isTrue(await File.exists(Path.pwd('project/.env.test')))
     assert.isTrue(await File.exists(Path.pwd('project/.env.example')))
-    assert.isTrue(await File.exists(Path.pwd('project/bootstrap/main.ts')))
+    assert.isTrue(await File.exists(Path.pwd('project/bin/main.ts')))
   }
 
   @Test()
-  public async shouldBeAbleToCreateASlimCliProject({ command, assert }: Context) {
+  public async shouldBeAbleToCreateACronProject({ command, assert }: Context) {
     const output = await command.run('new project', {
-      path: Path.fixtures('consoles/confirm-cli-slim.ts'),
+      path: Path.fixtures('consoles/confirm-cron.ts'),
     })
 
     output.assertSucceeded()
@@ -80,25 +63,6 @@ export default class NewCommandTest extends BaseConsoleTest {
   public async shouldBeAbleToCreateADifferentArtisanFileForNodeJSVersionsBellowV20({ command, assert }: Context) {
     const output = await command.run('new project', {
       path: Path.fixtures('consoles/confirm-restapi-bellow-v20.ts'),
-    })
-
-    output.assertSucceeded()
-
-    const artisanFile = new File(Path.pwd('project/artisan.js')).getContentAsStringSync()
-
-    assert.isTrue(artisanFile.includes('./bootstrap/artisan.js'))
-    assert.isTrue(artisanFile.includes('--no-warnings'))
-    assert.isTrue(artisanFile.includes('--loader=ts-node/esm'))
-    assert.isTrue(await File.exists(Path.pwd('project/bootstrap/main.ts')))
-  }
-
-  @Test()
-  public async shouldBeAbleToCreateADifferentArtisanFileForNodeJSVersionsBellowV20ForSlimApps({
-    command,
-    assert,
-  }: Context) {
-    const output = await command.run('new project', {
-      path: Path.fixtures('consoles/confirm-restapi-slim-bellow-v20.ts'),
     })
 
     output.assertSucceeded()
