@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -20,7 +20,7 @@
     "bin/*.d.ts",
     "bin/**/*.js",
     "bin/**/*.d.ts",
-    "bin/.athennarc.prod.json",
+    ".athennarc.prod.json",
     "src/*.js",
     "src/*.d.ts",
     "src/**/*.js",
