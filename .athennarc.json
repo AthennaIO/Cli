@@ -25,7 +25,7 @@
         "README.md",
         "LICENSE.md",
         "templates/*.edge",
-        "bin/.athennarc.prod.json"
+        ".athennarc.prod.json"
       ]
     },
     "test": {
