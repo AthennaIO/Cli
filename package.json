@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@athenna/artisan": "^5.1.0",
-    "@athenna/common": "^5.0.0",
+    "@athenna/common": "^5.0.3",
     "@athenna/config": "^5.0.0",
     "@athenna/core": "^5.2.0",
     "@athenna/ioc": "^5.0.0",
