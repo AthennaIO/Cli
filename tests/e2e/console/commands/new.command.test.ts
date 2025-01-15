@@ -96,6 +96,24 @@ export default class NewCommandTest extends BaseConsoleTest {
   }
 
   @Test()
+  public async shouldBeAbleToCreateAWebReactSsrProject({ command, assert }: Context) {
+    const output = await command.run('new project', {
+      path: Path.fixtures('consoles/confirm-web-react-ssr.ts'),
+    })
+
+    output.assertSucceeded()
+
+    assert.isFalse(await Folder.exists(Path.pwd('project/.git')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/.github')))
+    assert.isFalse(await Folder.exists(Path.pwd('project/README.md')))
+    assert.isTrue(await File.exists(Path.pwd('project/.env')))
+    assert.isTrue(await File.exists(Path.pwd('project/.env.test')))
+    assert.isTrue(await File.exists(Path.pwd('project/.env.example')))
+    assert.isTrue(await File.exists(Path.pwd('project/bin/main.ts')))
+    assert.isTrue(await File.exists(Path.pwd('project/vite.config.ts')))
+  }
+
+  @Test()
   public async shouldBeAbleToCreateADifferentArtisanFileForNodeJSVersionsBellowV20({ command, assert }: Context) {
     const output = await command.run('new project', {
       path: Path.fixtures('consoles/confirm-restapi-bellow-v20.ts'),

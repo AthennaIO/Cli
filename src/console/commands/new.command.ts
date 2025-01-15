@@ -24,7 +24,7 @@ export class NewCommand extends BaseCommand {
 
     const type = await this.prompt.list(
       'What type of application do you wish to create?',
-      ['REST API', 'CLI', 'CRON', 'WEB EDGE', 'WEB REACT'],
+      ['REST API', 'CLI', 'CRON', 'WEB EDGE', 'WEB REACT', 'WEB REACT SSR'],
     )
 
     this.branch = this.getApplicationBranch(type)
@@ -44,6 +44,9 @@ export class NewCommand extends BaseCommand {
         break
       case 'WEB REACT':
         await this.webReact()
+        break
+      case 'WEB REACT SSR':
+        await this.webReactSsr()
         break
     }
   }
@@ -65,6 +68,7 @@ export class NewCommand extends BaseCommand {
       'REST API': 'http',
       'WEB EDGE': 'web-edge',
       'WEB REACT': 'web-react',
+      'WEB REACT SSR': 'web-react-ssr',
     }
 
     return map[result]
@@ -125,6 +129,20 @@ export class NewCommand extends BaseCommand {
 
   public async webReact(): Promise<void> {
     this.logger.simple('\n({bold,green} [ GENERATING WEB REACT ])\n')
+
+    await this.clone()
+
+    this.logger
+      .instruction()
+      .head('Run following commands to get started:')
+      .add(`cd ${this.name}`)
+      .add('cp .env.example .env')
+      .add('node artisan serve')
+      .render()
+  }
+
+  public async webReactSsr(): Promise<void> {
+    this.logger.simple('\n({bold,green} [ GENERATING WEB REACT SSR ])\n')
 
     await this.clone()
 
