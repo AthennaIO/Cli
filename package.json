@@ -1,6 +1,6 @@
 {
   "name": "@athenna/cli",
-  "version": "5.5.0",
+  "version": "5.6.0",
   "description": "Athenna CLI to create new Athenna projects.",
   "license": "MIT",
   "author": "João Lenon <lenon@athenna.io>",
@@ -49,10 +49,10 @@
     "#tests": "./tests/index.js"
   },
   "dependencies": {
-    "@athenna/artisan": "^5.3.0",
+    "@athenna/artisan": "^5.4.0",
     "@athenna/common": "^5.5.0",
     "@athenna/config": "^5.1.0",
-    "@athenna/core": "^5.11.0",
+    "@athenna/core": "^5.12.0",
     "@athenna/ioc": "^5.0.0",
     "@athenna/logger": "^5.1.0",
     "@athenna/view": "^5.1.0",

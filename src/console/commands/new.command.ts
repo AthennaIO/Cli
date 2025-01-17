@@ -1,3 +1,12 @@
+/**
+ * @athenna/cli
+ *
+ * (c) Victor Tesoura Júnior <txsoura@athenna.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 import { Config } from '@athenna/config'
 import { sep, isAbsolute } from 'node:path'
 import { Exec, File, Folder } from '@athenna/common'
@@ -23,7 +32,7 @@ export class NewCommand extends BaseCommand {
     this.logger.rainbow('Athenna')
 
     const type = await this.prompt.list(
-      'What type of application do you wish to create?',
+      'What application type do you want to create? 🚀',
       ['REST API', 'CLI', 'CRON', 'WEB EDGE', 'WEB REACT', 'WEB REACT SSR'],
     )
 

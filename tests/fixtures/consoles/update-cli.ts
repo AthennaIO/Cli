@@ -8,12 +8,11 @@
  */
 
 import { Mock } from '@athenna/test'
-import { Path } from '@athenna/common'
+import { Npm } from '@athenna/artisan'
 import { Ignite } from '@athenna/core'
-import { Prompt } from '@athenna/artisan'
+import { Path } from '@athenna/common'
 
-Mock.when(Prompt.prototype, 'confirm').resolve(false)
-Mock.when(Prompt.prototype, 'list').resolve('CLI')
+Mock.when(Npm.prototype, 'install').resolve(true)
 
 const ignite = await new Ignite().load(Path.toHref(Path.bin('artisan.ts')), { bootLogs: false })
 

@@ -48,7 +48,8 @@
     "version": {
       "path": "#src/console/commands/version.command",
       "loadApp": true
-    }
+    },
+    "update": "#src/console/commands/update.command"
   },
   "templates": {
     "artisan": "templates/artisan.edge",

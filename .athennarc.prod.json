@@ -2,6 +2,7 @@
   "providers": ["@athenna/core/providers/CoreProvider"],
   "commands": {
     "new": "#src/console/commands/new.command",
+    "update": "#src/console/commands/update.command",
     "version": "#src/console/commands/version.command"
   },
   "templates": {
