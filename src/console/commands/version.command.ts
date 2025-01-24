@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-import { Exec, HttpClient } from '@athenna/common'
+import { HttpClient } from '@athenna/common'
 import { Argument, BaseCommand } from '@athenna/artisan'
 import { IGNORE_REPOS } from '#src/constants/ignorerepos'
 
@@ -54,7 +54,7 @@ export class VersionCommand extends BaseCommand {
     const table = this.logger.table().head('Package', 'Version')
     let rows = []
 
-    await Exec.concurrently(pkgs, async pkg => {
+    await pkgs.athenna.concurrently(async pkg => {
       if (IGNORE_REPOS.includes(pkg)) {
         return
       }
