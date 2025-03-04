@@ -20,7 +20,7 @@ export class UpdateCommand extends BaseCommand {
   }
 
   public async handle(): Promise<void> {
-    this.logger.simple('({bold,green}) [ UPDATING CLI ]\n')
+    this.logger.simple('[ UPDATING CLI ]\n')
 
     const task = this.logger.task()
 
