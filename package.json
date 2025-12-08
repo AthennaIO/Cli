@@ -51,7 +51,7 @@
   "dependencies": {
     "@athenna/artisan": "^5.7.0",
     "@athenna/common": "^5.14.0",
-    "@athenna/config": "^5.4.0",
+    "@athenna/config": "^5.5.0",
     "@athenna/core": "^5.16.0",
     "@athenna/ioc": "^5.2.0",
     "@athenna/logger": "^5.7.0",
